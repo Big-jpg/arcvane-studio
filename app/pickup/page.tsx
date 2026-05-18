@@ -6,7 +6,7 @@ import { CalendarCheck, Clock, MailCheck, MapPin, MessageSquare } from "lucide-r
 export const metadata: Metadata = {
   title: "Local Pickup",
   description:
-    "Local pickup instructions for Lumenform Studio orders, including appointment flow and current pickup-only fulfilment status.",
+    "Local pickup instructions for ArcVane Studio orders, including appointment flow and current pickup-only fulfilment status.",
 };
 
 const pickupSteps = [
@@ -36,7 +36,7 @@ export default function PickupPage() {
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber">Fulfilment</p>
           <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Local Pickup</h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-ivory/70">
-            Lumenform currently operates as a local pickup-only studio. Each order is produced to
+            ArcVane currently operates as a local pickup-only studio. Each order is produced to
             order and collected by appointment once it is ready.
           </p>
         </div>

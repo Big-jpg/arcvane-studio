@@ -6,7 +6,7 @@ import { Layers, Lightbulb, Palette, Sparkles } from "lucide-react";
 export const metadata: Metadata = {
   title: "Materials",
   description:
-    "Customer guide to Lumenform Studio materials, finishes, translucency, and expected variation in 3D printed lampshades.",
+    "Customer guide to ArcVane Studio materials, finishes, translucency, and expected variation in 3D printed lampshades.",
 };
 
 const materials = [
@@ -60,7 +60,7 @@ export default function MaterialsPage() {
           </p>
           <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Materials</h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-ivory/70">
-            Lumenform shades are produced as small-batch 3D printed objects. Material choice affects
+            ArcVane shades are produced as small-batch 3D printed objects. Material choice affects
             translucency, finish, shadow behaviour, durability, and the amount of visible print
             texture.
           </p>
@@ -115,7 +115,7 @@ export default function MaterialsPage() {
             <h2 className="text-xl font-semibold text-charcoal">Variation between pieces</h2>
             <div className="mt-4 space-y-4 text-sm leading-relaxed text-charcoal/70">
               <p>
-                Lumenform operates as a small-batch design studio, not a mass-production retailer.
+                ArcVane operates as a small-batch design studio, not a mass-production retailer.
                 Each shade is produced individually, so minor differences in layer texture, surface
                 finish, translucency, geometry, and colour tone are expected.
               </p>

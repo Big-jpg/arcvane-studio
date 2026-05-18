@@ -1,6 +1,6 @@
-# Lumenform Studio
+# ArcVane Studio
 
-**Lumenform Studio** is a Next.js App Router storefront for custom 3D printed lampshades designed for the lights customers already own. The application combines a product catalogue, adapter-aware product detail pages, cart validation, Stripe Checkout, custom design requests, Auth.js authentication, and a protected admin area.
+**ArcVane Studio** is a Next.js App Router storefront for custom 3D printed lampshades designed for the lights customers already own. The application combines a product catalogue, adapter-aware product detail pages, cart validation, Stripe Checkout, custom design requests, Auth.js authentication, and a protected admin area.
 
 The implementation intentionally keeps core system behavior explicit. Database access uses raw SQL and stored procedures rather than an ORM, checkout is validated server-side before Stripe session creation, and operational setup is documented as a sequence of controlled release actions rather than implicit build-time automation.
 
@@ -23,7 +23,7 @@ This README reflects the Phase 10 handoff state: testing, deployment preparation
 ## Repository structure
 
 ```text
-lumenform/
+ArcVane/
 ├── app/                         # Next.js App Router routes, metadata, sitemap, robots, boundaries
 ├── components/                  # Shared React components and client-side UI flows
 ├── db/                          # SQL migrations and stored procedures
@@ -43,7 +43,7 @@ lumenform/
 | --------------------- | ---------------------- | --------------------------------------------------------------------------- |
 | Application framework | Next.js                | App Router, route handlers, dynamic metadata, sitemap and robots generation |
 | Language              | TypeScript             | TS/TSX across application and tests                                         |
-| UI                    | React and Tailwind CSS | Mobile-first storefront with existing Lumenform brand styling preserved     |
+| UI                    | React and Tailwind CSS | Mobile-first storefront with existing ArcVane brand styling preserved     |
 | Database              | PostgreSQL             | Raw SQL and stored procedures only                                          |
 | Catalogue             | Shopify Storefront API | Product data is fetched from Shopify when configured                        |
 | Payments              | Stripe Checkout        | Session creation occurs server-side after validation                        |

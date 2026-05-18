@@ -55,7 +55,7 @@ export default function CustomPage() {
           <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Custom Design</h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-ivory/70">
             For spaces that need a particular proportion, fitting, colour, or light behaviour,
-            Lumenform can adapt a parametric lighting object around your requirements.
+            ArcVane can adapt a parametric lighting object around your requirements.
           </p>
         </div>
       </section>

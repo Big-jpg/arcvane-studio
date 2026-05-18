@@ -6,7 +6,7 @@ import { PackageX, Truck, Wrench } from "lucide-react";
 export const metadata: Metadata = {
   title: "Shipping",
   description:
-    "Current shipping status for Lumenform Studio orders. Shipping is stubbed and local pickup is currently required.",
+    "Current shipping status for ArcVane Studio orders. Shipping is stubbed and local pickup is currently required.",
 };
 
 export default function ShippingPage() {
@@ -19,7 +19,7 @@ export default function ShippingPage() {
           </p>
           <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Shipping</h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-ivory/70">
-            Shipping is not currently available. Lumenform is operating as a local pickup-only
+            Shipping is not currently available. ArcVane is operating as a local pickup-only
             studio while packaging, carrier, returns, and fulfilment processes remain under review.
           </p>
         </div>

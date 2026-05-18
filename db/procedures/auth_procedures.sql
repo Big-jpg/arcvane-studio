@@ -1,5 +1,5 @@
 -- db/procedures/auth_procedures.sql
--- Lumenform Studio — Auth-related stored procedures/functions
+-- ArcVane Studio — Auth-related stored procedures/functions
 -- Compatible with Auth.js / NextAuth PostgreSQL adapter pattern.
 -- Run after 001_initial_schema.sql:
 --   psql $DATABASE_URL -f db/procedures/auth_procedures.sql

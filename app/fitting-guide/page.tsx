@@ -6,7 +6,7 @@ import { AlertTriangle, Camera, CheckCircle2, HelpCircle } from "lucide-react";
 export const metadata: Metadata = {
   title: "Fitting Guide",
   description:
-    "Plain-language guide to choosing B22, E27, Clipsal No. 530, or Other / not sure fitting adapters for Lumenform Studio shades.",
+    "Plain-language guide to choosing B22, E27, Clipsal No. 530, or Other / not sure fitting adapters for ArcVane Studio shades.",
 };
 
 const adapterCards = [
@@ -62,7 +62,7 @@ export default function FittingGuidePage() {
           </p>
           <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Fitting Guide</h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-ivory/70">
-            Every Lumenform shade includes one mechanical fitting adapter. You do not need technical
+            Every ArcVane shade includes one mechanical fitting adapter. You do not need technical
             lighting knowledge to choose it: identify how your bulb connects, then select the
             matching option before adding the shade to cart.
           </p>
@@ -163,7 +163,7 @@ export default function FittingGuidePage() {
               <div>
                 <h2 className="text-lg font-semibold text-charcoal">LED bulb safety note</h2>
                 <p className="mt-2 text-sm leading-relaxed text-charcoal/70">
-                  Lumenform shades are designed for modern LED bulbs only. Do not use incandescent,
+                  ArcVane shades are designed for modern LED bulbs only. Do not use incandescent,
                   halogen, heat lamp, or other high-temperature bulbs. Unsafe bulb selection can
                   deform material and create a safety hazard.
                 </p>

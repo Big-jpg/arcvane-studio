@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions",
-  description: "Terms and conditions for Lumenform Studio.",
+  description: "Terms and conditions for ArcVane Studio.",
 };
 
 export default function TermsPage() {
@@ -16,7 +16,7 @@ export default function TermsPage() {
           </h1>
 
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-ivory/70">
-            Terms relating to orders, fittings, collection, and the use of Lumenform Studio
+            Terms relating to orders, fittings, collection, and the use of ArcVane Studio
             products.
           </p>
         </div>
@@ -27,7 +27,7 @@ export default function TermsPage() {
           <div className="space-y-8 text-sm leading-relaxed text-charcoal/70">
             <div className="prose prose-charcoal max-w-none text-charcoal/80">
               <p className="text-lg leading-relaxed">
-                Lumenform operates as a small-batch design studio rather than a mass-production
+                ArcVane operates as a small-batch design studio rather than a mass-production
                 retailer. Each piece is prepared individually, often to order, and small variations
                 between pieces are considered part of the character of the object rather than
                 manufacturing defects.
@@ -38,7 +38,7 @@ export default function TermsPage() {
               <h2 className="text-lg font-semibold text-charcoal">Products and variations</h2>
 
               <p className="mt-3">
-                Lumenform products are contemporary lighting objects produced using digitally driven
+                ArcVane products are contemporary lighting objects produced using digitally driven
                 fabrication methods. Product photography, renders, and mockups are intended as
                 representative references, however minor differences in surface finish,
                 translucency, geometry, colour tone, and material appearance may occur between
@@ -86,7 +86,7 @@ export default function TermsPage() {
               </p>
 
               <p className="mt-3">
-                Lumenform Studio reserves the right to decline or modify orders if a fitting
+                ArcVane Studio reserves the right to decline or modify orders if a fitting
                 arrangement appears unsafe, incompatible, or unsuitable for the intended
                 installation environment.
               </p>
@@ -96,14 +96,14 @@ export default function TermsPage() {
               <h2 className="text-lg font-semibold text-charcoal">LED bulbs only</h2>
 
               <p className="mt-3">
-                All Lumenform shades are designed exclusively for use with modern LED lighting.
+                All ArcVane shades are designed exclusively for use with modern LED lighting.
                 Incandescent, halogen, heat lamp, or other high-temperature bulbs must not be used
                 under any circumstance.
               </p>
 
               <p className="mt-3">
                 Use with incompatible lighting may deform materials, reduce product lifespan, or
-                create a safety hazard. Lumenform Studio accepts no responsibility for damage
+                create a safety hazard. ArcVane Studio accepts no responsibility for damage
                 resulting from unsuitable bulb selection or misuse.
               </p>
             </div>
@@ -112,7 +112,7 @@ export default function TermsPage() {
               <h2 className="text-lg font-semibold text-charcoal">Collection and fulfilment</h2>
 
               <p className="mt-3">
-                Lumenform currently operates primarily through local collection. Collection
+                ArcVane currently operates primarily through local collection. Collection
                 instructions and appointment details are provided after production is complete.
               </p>
 
@@ -138,7 +138,7 @@ export default function TermsPage() {
               </p>
 
               <p className="mt-3">
-                Customers should contact Lumenform Studio within 14 days of receiving or collecting
+                Customers should contact ArcVane Studio within 14 days of receiving or collecting
                 an order if a problem is identified. Supporting photographs or installation details
                 may be requested to help assess the issue.
               </p>
@@ -153,7 +153,7 @@ export default function TermsPage() {
               <h2 className="text-lg font-semibold text-charcoal">Installation and use</h2>
 
               <p className="mt-3">
-                Lumenform products are decorative lighting accessories intended for indoor domestic
+                ArcVane products are decorative lighting accessories intended for indoor domestic
                 use unless otherwise stated. Customers are responsible for ensuring safe
                 installation and suitability for their specific environment.
               </p>
@@ -175,7 +175,7 @@ export default function TermsPage() {
               </h2>
 
               <p className="mt-3">
-                Lumenform uses email-based authentication methods, including magic links, to
+                ArcVane uses email-based authentication methods, including magic links, to
                 minimise friction during checkout and reduce the amount of personal information
                 required to access orders.
               </p>
@@ -191,7 +191,7 @@ export default function TermsPage() {
               <h2 className="text-lg font-semibold text-charcoal">Limitation of liability</h2>
 
               <p className="mt-3">
-                To the maximum extent permitted by law, Lumenform Studio is not liable for indirect,
+                To the maximum extent permitted by law, ArcVane Studio is not liable for indirect,
                 incidental, or consequential damages arising from misuse, improper installation,
                 incompatible fittings, unauthorised modifications, environmental exposure, or
                 failure to follow product guidance.

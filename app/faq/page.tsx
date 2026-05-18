@@ -5,7 +5,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "FAQ",
   description:
-    "Frequently asked questions about fittings, adapters, LED bulb safety, local pickup, production timing, shipping status, and customisation at Lumenform Studio.",
+    "Frequently asked questions about fittings, adapters, LED bulb safety, local pickup, production timing, shipping status, and customisation at ArcVane Studio.",
 };
 
 const faqs = [
@@ -32,7 +32,7 @@ const faqs = [
   {
     question: "What bulbs are safe?",
     answer:
-      "Use modern LED bulbs only. The bulb must also remain within the wattage and temperature limits of your existing fitting. LED-only use applies to every Lumenform shade, material, colour, and finish.",
+      "Use modern LED bulbs only. The bulb must also remain within the wattage and temperature limits of your existing fitting. LED-only use applies to every ArcVane shade, material, colour, and finish.",
   },
   {
     question: "Can I use incandescent or halogen bulbs?",
@@ -42,7 +42,7 @@ const faqs = [
   {
     question: "Is shipping available?",
     answer:
-      "No. Lumenform is currently local pickup only. Shipping remains stubbed in the site model and is not available at checkout. If shipping is introduced later, additional delivery terms, costs, and packaging requirements will need to be confirmed first.",
+      "No. ArcVane is currently local pickup only. Shipping remains stubbed in the site model and is not available at checkout. If shipping is introduced later, additional delivery terms, costs, and packaging requirements will need to be confirmed first.",
   },
   {
     question: "How long does production take?",

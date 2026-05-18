@@ -5,7 +5,7 @@ import { LoginForm } from "@/components/login-form";
 
 export const metadata: Metadata = {
   title: "Sign In",
-  description: "Sign in to your Lumenform Studio account to view orders and manage your profile.",
+  description: "Sign in to your ArcVane Studio account to view orders and manage your profile.",
 };
 
 export default function LoginPage() {

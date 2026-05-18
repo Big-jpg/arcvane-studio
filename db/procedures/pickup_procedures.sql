@@ -1,5 +1,5 @@
 -- db/procedures/pickup_procedures.sql
--- Lumenform Studio — Pickup-related stored procedures/functions
+-- ArcVane Studio — Pickup-related stored procedures/functions
 -- Run after 001_initial_schema.sql:
 --   psql $DATABASE_URL -f db/procedures/pickup_procedures.sql
 

@@ -1,13 +1,13 @@
-# Database — Lumenform Studio
+# Database — ArcVane Studio
 
 ## Overview
 
-Lumenform uses PostgreSQL with versioned SQL migrations and stored procedures/functions. There is no ORM. Application code interacts with the database exclusively through the typed contracts layer (`server/db/contracts.ts`), which calls stored procedures.
+ArcVane uses PostgreSQL with versioned SQL migrations and stored procedures/functions. There is no ORM. Application code interacts with the database exclusively through the typed contracts layer (`server/db/contracts.ts`), which calls stored procedures.
 
 ## Prerequisites
 
 - PostgreSQL 13+ (required for `gen_random_uuid()`)
-- A database created for the project (e.g. `lumenform`)
+- A database created for the project (e.g. `ArcVane`)
 - `DATABASE_URL` environment variable set (see `.env.example`)
 
 ## Running Migrations
@@ -34,7 +34,7 @@ To re-run procedures (e.g. after editing): all functions use `CREATE OR REPLACE 
 ## Full Setup (single command)
 
 ```bash
-export DATABASE_URL="postgresql://user:password@localhost:5432/lumenform"
+export DATABASE_URL="postgresql://user:password@localhost:5432/ArcVane"
 
 psql $DATABASE_URL -f db/migrations/001_initial_schema.sql \
   && psql $DATABASE_URL -f db/procedures/order_procedures.sql \

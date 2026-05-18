@@ -1,12 +1,12 @@
 # Production Environment Checklist
 
-This checklist is the final Phase 10 operational gate for **Lumenform Studio**. It is written for a controlled production release where storefront functionality, checkout validation, authentication, and database persistence must remain inspectable and reversible.
+This checklist is the final Phase 10 operational gate for **ArcVane Studio**. It is written for a controlled production release where storefront functionality, checkout validation, authentication, and database persistence must remain inspectable and reversible.
 
 ## Release identity
 
 | Item                   | Required value                             |
 | ---------------------- | ------------------------------------------ |
-| Repository             | `Big-jpg/lumenform`                        |
+| Repository             | `Big-jpg/ArcVane`                        |
 | Phase 10 branch        | `phase-10-testing-deployment`              |
 | Base branch            | `origin/phase-9-fitting-guide-and-trust`   |
 | Framework              | Next.js App Router with TypeScript/TSX     |

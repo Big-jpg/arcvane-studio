@@ -55,7 +55,7 @@ async function expectCheckoutValidationError(
   );
 }
 
-test.describe("Lumenform smoke coverage", () => {
+test.describe("ArcVane smoke coverage", () => {
   test.beforeEach(async ({ page }) => {
     await page.addInitScript(() => window.localStorage.clear());
   });

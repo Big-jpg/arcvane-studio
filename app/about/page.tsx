@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "About Lumenform Studio; the maker, the process, and the philosophy.",
+  description: "About ArcVane Studio; the maker, the process, and the philosophy.",
 };
 
 export default function AboutPage() {
@@ -14,7 +14,7 @@ export default function AboutPage() {
       <section className="bg-warm-black py-16 text-warm-white sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-            About Lumenform Studio
+            About ArcVane Studio
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-ivory/70">
             Contemporary lighting objects, designed and made locally.
@@ -26,7 +26,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <div className="prose prose-charcoal max-w-none space-y-6 text-charcoal/80">
             <p className="text-lg leading-relaxed">
-              Lumenform Studio is a small-batch lighting design practice focused on sculptural
+              ArcVane Studio is a small-batch lighting design practice focused on sculptural
               lampshades and contemporary lighting objects. Each piece is developed and produced
               locally using digitally driven fabrication methods that allow for precision,
               flexibility, and highly individual forms.
@@ -35,7 +35,7 @@ export default function AboutPage() {
             <h2 className="text-xl font-semibold text-charcoal">The Maker</h2>
             <p className="leading-relaxed">
               Founded by a designer-maker with a background in computational design, systems
-              engineering, and industrial fabrication, Lumenform exists at the intersection of
+              engineering, and industrial fabrication, ArcVane exists at the intersection of
               mathematics, material, and light. The studio operates from a dedicated workshop in
               Western Australia where every object is produced, assembled, and refined in-house.
             </p>
@@ -58,9 +58,9 @@ export default function AboutPage() {
 
             <h2 className="text-xl font-semibold text-charcoal">The Philosophy</h2>
             <p className="leading-relaxed">
-              Lumenform was founded on the belief that contemporary manufacturing should be local,
+              ArcVane was founded on the belief that contemporary manufacturing should be local,
               adaptable, and transparent. Traditional homewares production often relies on offshore
-              tooling, large inventory commitments, and long supply chains. Lumenform instead
+              tooling, large inventory commitments, and long supply chains. ArcVane instead
               embraces responsive, small-batch production where objects can evolve over time rather
               than remain fixed.
             </p>
@@ -75,7 +75,7 @@ export default function AboutPage() {
             <h2 className="text-xl font-semibold text-charcoal">Safety and Compatibility</h2>
 
             <p className="leading-relaxed">
-              All Lumenform shades are designed exclusively for LED bulbs. Every piece is checked
+              All ArcVane shades are designed exclusively for LED bulbs. Every piece is checked
               for compatibility with low-heat lighting applications and is supplied with the
               required fitting adapter included in the purchase price, supporting B22, E27, and
               Clipsal No. 530 fittings.

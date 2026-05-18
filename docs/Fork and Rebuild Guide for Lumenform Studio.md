@@ -1,8 +1,8 @@
-# Fork and Rebuild Guide for Lumenform Studio
+# Fork and Rebuild Guide for ArcVane Studio
 
-**Audience:** developers, technical founders, and operators who want to fork `Big-jpg/lumenform` and rebuild it as a small e-commerce storefront with different branding, product content, and operational accounts while preserving the same architecture.
+**Audience:** developers, technical founders, and operators who want to fork `Big-jpg/ArcVane` and rebuild it as a small e-commerce storefront with different branding, product content, and operational accounts while preserving the same architecture.
 
-**Verified against:** the cloned `Big-jpg/lumenform` repository source, including the database migrations and procedures, Auth.js configuration, Stripe checkout route, Stripe webhook handler, Vercel deployment runbook, catalogue modules, Shopify integration, global CSS tokens, admin pages, and production checklist.[1] [2] [3] [4]
+**Verified against:** the cloned `Big-jpg/ArcVane` repository source, including the database migrations and procedures, Auth.js configuration, Stripe checkout route, Stripe webhook handler, Vercel deployment runbook, catalogue modules, Shopify integration, global CSS tokens, admin pages, and production checklist.[1] [2] [3] [4]
 
 > **Operating principle:** this project is intentionally simple at the infrastructure layer. It uses **Next.js on Vercel**, **PostgreSQL on Neon or another managed Postgres host**, **Stripe Checkout**, **Auth.js magic-link login**, **SMTP email**, and an optional **Shopify Storefront API catalogue**. The database write path is **raw SQL plus stored PostgreSQL functions**, not an ORM.[2] [5]
 
@@ -10,7 +10,7 @@
 
 ## 1. Architecture Overview
 
-Lumenform Studio is a Next.js App Router storefront built as an “e-commerce lite” system. It is not a full Shopify theme and it is not a large custom commerce platform. The storefront owns the customer experience, cart validation, checkout initiation, authentication, admin-lite views, and order persistence. Stripe owns payment collection. PostgreSQL owns durable application state. Shopify is optional and only supplies live product data when configured; otherwise the app can render from a local mock catalogue.[2] [6]
+ArcVane Studio is a Next.js App Router storefront built as an “e-commerce lite” system. It is not a full Shopify theme and it is not a large custom commerce platform. The storefront owns the customer experience, cart validation, checkout initiation, authentication, admin-lite views, and order persistence. Stripe owns payment collection. PostgreSQL owns durable application state. Shopify is optional and only supplies live product data when configured; otherwise the app can render from a local mock catalogue.[2] [6]
 
 ### 1.1 Stack summary
 
@@ -48,7 +48,7 @@ Before forking and deploying the project, create the external accounts listed be
 
 | Account or tool | URL | Required for | Notes |
 | --- | --- | --- | --- |
-| GitHub | <https://github.com> | Forking and version control | Fork `https://github.com/Big-jpg/lumenform`, then clone your fork. |
+| GitHub | <https://github.com> | Forking and version control | Fork `https://github.com/Big-jpg/ArcVane`, then clone your fork. |
 | Vercel | <https://vercel.com> | Hosting and deployments | Use the **Add New → Project** import flow. Select the forked repository. |
 | Neon | <https://neon.com> | Managed PostgreSQL | Any PostgreSQL host can work, but this guide uses Neon because it has a simple free tier and Vercel-friendly connection strings.[8] |
 | Stripe | <https://dashboard.stripe.com> | Payments and webhooks | Use test mode first. Do not put live keys in Preview deployments. |
@@ -60,11 +60,11 @@ Before forking and deploying the project, create the external accounts listed be
 
 ### 2.1 Fork and clone
 
-Open <https://github.com/Big-jpg/lumenform>, click **Fork**, choose your GitHub account or organization, then clone your fork.
+Open <https://github.com/Big-jpg/ArcVane>, click **Fork**, choose your GitHub account or organization, then clone your fork.
 
 ```bash
-git clone https://github.com/YOUR_GITHUB_USER/lumenform.git
-cd lumenform
+git clone https://github.com/YOUR_GITHUB_USER/ArcVane.git
+cd ArcVane
 pnpm install --frozen-lockfile
 cp .env.example .env.local
 ```
@@ -94,7 +94,7 @@ Go to <https://console.neon.tech>, sign in, then use the following path.
 | 1 | Click **New Project**. |
 | 2 | Choose a project name such as `your-store-production`. |
 | 3 | Choose a region close to your Vercel region and customer base. |
-| 4 | Create the project with the default database, or name it `lumenform` / `store` if prompted. |
+| 4 | Create the project with the default database, or name it `ArcVane` / `store` if prompted. |
 | 5 | Open the project dashboard and click **Connect** or **Connection Details**. |
 | 6 | Select the database and role you want the app to use. |
 | 7 | Copy the pooled or serverless-compatible PostgreSQL connection string. |
@@ -255,7 +255,7 @@ The checkout route attaches metadata to Stripe product data and session metadata
 
 | Metadata key | Scope | Source/purpose |
 | --- | --- | --- |
-| `source` | Checkout session | Currently `lumenform_studio`. Change this for your fork if you want analytics separation. |
+| `source` | Checkout session | Currently `ArcVane_studio`. Change this for your fork if you want analytics separation. |
 | `checkout_payload_version` | Checkout session | Currently `phase_6_v1`; useful for future migrations. |
 | `item_count` | Checkout session | Number of verified items. |
 | `selected_adapters`, `materials`, `colours` | Checkout session | Aggregated values from cart items. |
@@ -440,14 +440,14 @@ Start with these files.
 | --- | --- | --- |
 | Global color tokens | `app/globals.css` | The `:root` and `@theme inline` blocks define `--color-charcoal`, `--color-warm-black`, `--color-ivory`, `--color-warm-white`, `--color-amber`, `--color-frosted-blue`, `--color-filament-beige`, `--color-copper`, and related tokens. |
 | Layout-level metadata and site shell | `app/layout.tsx` | Change global metadata, canonical assumptions, and site-wide wrappers. |
-| Header/navigation branding | Header/nav components under `components/` and layout files | Search for `Lumenform`, `Studio`, and the current nav labels. |
+| Header/navigation branding | Header/nav components under `components/` and layout files | Search for `ArcVane`, `Studio`, and the current nav labels. |
 | Footer copy | Footer component under `components/` or layout shell | Replace production claims such as delivery/fulfilment language only if your operation supports them. |
 | Open Graph placeholders | `app/og-default.svg`, `app/og-product-placeholder.svg` if present | Replace with branded social preview assets. |
 
 Use search before editing branding strings.
 
 ```bash
-grep -R "Lumenform\|lumenform\|Studio" -n app components lib docs --exclude-dir=node_modules
+grep -R "ArcVane\|ArcVane\|Studio" -n app components lib docs --exclude-dir=node_modules
 ```
 
 The current global CSS tokens are intentionally plain CSS variables rather than a heavily abstracted theme system. A clean fork can often rebrand by replacing the color values in `app/globals.css`, updating logo/site text in layout/navigation components, and replacing product imagery.[25]
@@ -553,7 +553,7 @@ find app -maxdepth 3 -type f \( -name 'page.tsx' -o -name 'layout.tsx' -o -name 
 Then search for legacy brand terms.
 
 ```bash
-grep -R "Lumenform\|lampshade\|adapter\|pickup\|LED" -n app components lib --exclude-dir=node_modules
+grep -R "ArcVane\|lampshade\|adapter\|pickup\|LED" -n app components lib --exclude-dir=node_modules
 ```
 
 When changing content, keep transactional claims accurate. If your fork does not support local pickup, remove or update local-pickup copy, but also update the fulfilment assumptions in the webhook/database/admin flow. The current webhook persists `fulfilment_method: "local_pickup"`.[13]
@@ -652,8 +652,8 @@ The migration creates indexes for common lookup paths: order lookup by Stripe ch
 Use this sequence for a clean local start.
 
 ```bash
-git clone https://github.com/YOUR_GITHUB_USER/lumenform.git
-cd lumenform
+git clone https://github.com/YOUR_GITHUB_USER/ArcVane.git
+cd ArcVane
 pnpm install --frozen-lockfile
 cp .env.example .env.local
 ```
@@ -834,30 +834,30 @@ Yes, but it is not just copy. The webhook currently persists `fulfilment_method:
 
 ## References
 
-[1]: https://github.com/Big-jpg/lumenform "Big-jpg/lumenform repository"
-[2]: https://github.com/Big-jpg/lumenform/blob/main/package.json "Lumenform package.json"
-[3]: https://github.com/Big-jpg/lumenform/blob/main/docs/vercel-deployment.md "Lumenform Vercel deployment runbook"
-[4]: https://github.com/Big-jpg/lumenform/blob/main/.env.example "Lumenform environment template"
-[5]: https://github.com/Big-jpg/lumenform/blob/main/server/db/client.ts "Lumenform PostgreSQL client helper"
-[6]: https://github.com/Big-jpg/lumenform/blob/main/lib/catalogue.ts "Lumenform catalogue module"
+[1]: https://github.com/Big-jpg/ArcVane "Big-jpg/ArcVane repository"
+[2]: https://github.com/Big-jpg/ArcVane/blob/main/package.json "ArcVane package.json"
+[3]: https://github.com/Big-jpg/ArcVane/blob/main/docs/vercel-deployment.md "ArcVane Vercel deployment runbook"
+[4]: https://github.com/Big-jpg/ArcVane/blob/main/.env.example "ArcVane environment template"
+[5]: https://github.com/Big-jpg/ArcVane/blob/main/server/db/client.ts "ArcVane PostgreSQL client helper"
+[6]: https://github.com/Big-jpg/ArcVane/blob/main/lib/catalogue.ts "ArcVane catalogue module"
 [7]: https://vercel.com/pricing "Vercel pricing"
 [8]: https://neon.com/pricing "Neon pricing"
 [9]: https://stripe.com/pricing "Stripe pricing"
 [10]: https://resend.com/pricing "Resend pricing"
 [11]: https://resend.com/docs/send-with-smtp "Resend SMTP documentation"
-[12]: https://github.com/Big-jpg/lumenform/blob/main/app/api/checkout/create-session/route.ts "Lumenform Stripe checkout session route"
-[13]: https://github.com/Big-jpg/lumenform/blob/main/app/api/webhooks/stripe/route.ts "Lumenform Stripe webhook route"
-[14]: https://github.com/Big-jpg/lumenform/blob/main/auth.ts "Lumenform Auth.js configuration"
-[15]: https://github.com/Big-jpg/lumenform/blob/main/server/hooks/buyer-events.ts "Lumenform buyer event hooks"
-[16]: https://github.com/Big-jpg/lumenform/blob/main/db/migrations/001_initial_schema.sql "Lumenform initial PostgreSQL schema"
-[17]: https://github.com/Big-jpg/lumenform/tree/main/db/procedures "Lumenform stored procedures"
-[18]: https://github.com/Big-jpg/lumenform/blob/main/server/db/contracts.ts "Lumenform database contract layer"
-[19]: https://github.com/Big-jpg/lumenform/blob/main/server/stripe/client.ts "Lumenform Stripe client helper"
+[12]: https://github.com/Big-jpg/ArcVane/blob/main/app/api/checkout/create-session/route.ts "ArcVane Stripe checkout session route"
+[13]: https://github.com/Big-jpg/ArcVane/blob/main/app/api/webhooks/stripe/route.ts "ArcVane Stripe webhook route"
+[14]: https://github.com/Big-jpg/ArcVane/blob/main/auth.ts "ArcVane Auth.js configuration"
+[15]: https://github.com/Big-jpg/ArcVane/blob/main/server/hooks/buyer-events.ts "ArcVane buyer event hooks"
+[16]: https://github.com/Big-jpg/ArcVane/blob/main/db/migrations/001_initial_schema.sql "ArcVane initial PostgreSQL schema"
+[17]: https://github.com/Big-jpg/ArcVane/tree/main/db/procedures "ArcVane stored procedures"
+[18]: https://github.com/Big-jpg/ArcVane/blob/main/server/db/contracts.ts "ArcVane database contract layer"
+[19]: https://github.com/Big-jpg/ArcVane/blob/main/server/stripe/client.ts "ArcVane Stripe client helper"
 [20]: https://docs.stripe.com/webhooks "Stripe webhook documentation"
 [21]: https://docs.stripe.com/testing "Stripe testing documentation"
 [22]: https://authjs.dev/getting-started/deployment "Auth.js deployment documentation"
-[23]: https://github.com/Big-jpg/lumenform/blob/main/middleware.ts "Lumenform protected-route middleware"
-[24]: https://github.com/Big-jpg/lumenform/blob/main/docs/production-environment-checklist.md "Lumenform production environment checklist"
-[25]: https://github.com/Big-jpg/lumenform/blob/main/app/globals.css "Lumenform global CSS brand tokens"
+[23]: https://github.com/Big-jpg/ArcVane/blob/main/middleware.ts "ArcVane protected-route middleware"
+[24]: https://github.com/Big-jpg/ArcVane/blob/main/docs/production-environment-checklist.md "ArcVane production environment checklist"
+[25]: https://github.com/Big-jpg/ArcVane/blob/main/app/globals.css "ArcVane global CSS brand tokens"
 [26]: https://shopify.dev/docs/api/usage/versioning "Shopify API versioning"
-[27]: https://github.com/Big-jpg/lumenform/blob/main/docs/SHOPIFY_PRODUCT_STRUCTURE.md "Lumenform Shopify product structure"
+[27]: https://github.com/Big-jpg/ArcVane/blob/main/docs/SHOPIFY_PRODUCT_STRUCTURE.md "ArcVane Shopify product structure"

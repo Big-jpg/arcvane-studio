@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Privacy policy for Lumenform Studio.",
+  description: "Privacy policy for ArcVane Studio.",
 };
 
 export default function PrivacyPage() {
@@ -13,7 +13,7 @@ export default function PrivacyPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Privacy Policy</h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-ivory/70">
-            Lumenform Studio collects only the information needed to prepare, confirm, and complete
+            ArcVane Studio collects only the information needed to prepare, confirm, and complete
             your order.
           </p>
         </div>
@@ -24,7 +24,7 @@ export default function PrivacyPage() {
           <div className="space-y-8 text-sm leading-relaxed text-charcoal/70">
             <div className="prose prose-charcoal max-w-none text-charcoal/80">
               <p className="text-lg leading-relaxed">
-                Lumenform is designed to be a simple, low-friction studio store. You should not need
+                ArcVane is designed to be a simple, low-friction studio store. You should not need
                 to create another password, connect a social account, or hand over unnecessary
                 personal information just to buy a lighting object.
               </p>
@@ -33,7 +33,7 @@ export default function PrivacyPage() {
             <div>
               <h2 className="text-lg font-semibold text-charcoal">Overview</h2>
               <p className="mt-3">
-                This policy explains how Lumenform Studio collects, uses, and protects personal
+                This policy explains how ArcVane Studio collects, uses, and protects personal
                 information when you browse the website, make an enquiry, or place an order. The
                 guiding principle is simple: we only ask for information that is required to
                 complete the transaction and support the product after purchase.
@@ -43,7 +43,7 @@ export default function PrivacyPage() {
             <div>
               <h2 className="text-lg font-semibold text-charcoal">Email-first authentication</h2>
               <p className="mt-3">
-                Lumenform uses email-based authentication, including magic links, rather than
+                ArcVane uses email-based authentication, including magic links, rather than
                 requiring customers to manage another username and password. A magic link allows you
                 to sign in securely through your email address without connecting a Facebook,
                 Google, Apple, or other third-party social account.
@@ -66,7 +66,7 @@ export default function PrivacyPage() {
                 provide.
               </p>
               <p className="mt-3">
-                Payment processing is handled securely through Stripe. Lumenform Studio does not
+                Payment processing is handled securely through Stripe. ArcVane Studio does not
                 store your full card number or payment credentials.
               </p>
             </div>
@@ -92,7 +92,7 @@ export default function PrivacyPage() {
                 Local collection and order coordination
               </h2>
               <p className="mt-3">
-                Because Lumenform currently operates as a local studio practice, email is the
+                Because ArcVane currently operates as a local studio practice, email is the
                 primary contact point for order confirmation, collection arrangements, fitting
                 questions, and any follow-up support. Where local pickup applies, collection details
                 are shared only after an order has been confirmed.
@@ -111,7 +111,7 @@ export default function PrivacyPage() {
                 store works correctly across pages and devices.
               </p>
               <p className="mt-3">
-                Lumenform does not currently use tracking cookies or third-party advertising
+                ArcVane does not currently use tracking cookies or third-party advertising
                 analytics.
               </p>
             </div>
@@ -125,7 +125,7 @@ export default function PrivacyPage() {
               </p>
               <p className="mt-3">
                 You may request access to, correction of, or deletion of your personal information
-                by contacting Lumenform Studio. Some records may need to be retained where required
+                by contacting ArcVane Studio. Some records may need to be retained where required
                 by law or legitimate business obligations.
               </p>
             </div>
@@ -133,7 +133,7 @@ export default function PrivacyPage() {
             <div>
               <h2 className="text-lg font-semibold text-charcoal">Third-party services</h2>
               <p className="mt-3">
-                Lumenform may rely on trusted service providers for payment processing, website
+                ArcVane may rely on trusted service providers for payment processing, website
                 hosting, email delivery, authentication, and order fulfilment. These providers
                 receive only the information required to perform their role.
               </p>
@@ -142,7 +142,7 @@ export default function PrivacyPage() {
             <div>
               <h2 className="text-lg font-semibold text-charcoal">Contact</h2>
               <p className="mt-3">
-                For privacy-related enquiries, contact Lumenform Studio using the contact details
+                For privacy-related enquiries, contact ArcVane Studio using the contact details
                 provided on the website.
               </p>
             </div>

@@ -1,6 +1,6 @@
 # Vercel Deployment Instructions
 
-This document describes the production deployment path for **Lumenform Studio**, a Next.js App Router storefront using raw SQL, Shopify Storefront API catalogue access, Stripe Checkout, and Auth.js. It assumes deployment to [Vercel](https://vercel.com) with PostgreSQL hosted externally, such as Neon, Supabase, Railway, or another managed PostgreSQL provider.
+This document describes the production deployment path for **ArcVane Studio**, a Next.js App Router storefront using raw SQL, Shopify Storefront API catalogue access, Stripe Checkout, and Auth.js. It assumes deployment to [Vercel](https://vercel.com) with PostgreSQL hosted externally, such as Neon, Supabase, Railway, or another managed PostgreSQL provider.
 
 ## Deployment model
 
@@ -22,7 +22,7 @@ The application is Vercel-compatible and should be deployed as a standard Next.j
 
 ## Initial Vercel setup
 
-Create a new Vercel project from the `Big-jpg/lumenform` repository and select the production branch according to the release process. For Phase 10 review, use the `phase-10-testing-deployment` branch as a preview deployment source only; do not merge or promote it without review approval.
+Create a new Vercel project from the `Big-jpg/ArcVane` repository and select the production branch according to the release process. For Phase 10 review, use the `phase-10-testing-deployment` branch as a preview deployment source only; do not merge or promote it without review approval.
 
 Configure the project with the following settings.
 
@@ -41,7 +41,7 @@ Set the following variables in Vercel under **Project Settings → Environment V
 
 | Variable                             | Required                         | Scope                                                      | Notes                                                                                                    |
 | ------------------------------------ | -------------------------------- | ---------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_SITE_URL`               | Yes                              | Production and Preview                                     | Public canonical origin, for example `https://lumenform.studio`. Preview may use the Vercel preview URL. |
+| `NEXT_PUBLIC_SITE_URL`               | Yes                              | Production and Preview                                     | Public canonical origin, for example `https://ArcVane.studio`. Preview may use the Vercel preview URL. |
 | `DATABASE_URL`                       | Yes                              | Production and Preview if database-backed flows are tested | PostgreSQL connection string. Use a least-privilege app role if available.                               |
 | `SHOPIFY_STORE_DOMAIN`               | Yes for live catalogue           | Production and Preview                                     | Shopify store domain, for example `example.myshopify.com`.                                               |
 | `SHOPIFY_STOREFRONT_ACCESS_TOKEN`    | Yes for live catalogue           | Production and Preview                                     | Storefront API token.                                                                                    |
@@ -55,7 +55,7 @@ Set the following variables in Vercel under **Project Settings → Environment V
 | `EMAIL_SERVER_PORT`                  | Yes for production email login   | Production                                                 | Typically `465` or `587`.                                                                                |
 | `EMAIL_SERVER_USER`                  | Yes for production email login   | Production                                                 | SMTP username.                                                                                           |
 | `EMAIL_SERVER_PASSWORD`              | Yes for production email login   | Production                                                 | SMTP password or API key.                                                                                |
-| `EMAIL_FROM`                         | Yes for production email login   | Production                                                 | Sender identity, for example `Lumenform Studio <noreply@lumenform.studio>`.                              |
+| `EMAIL_FROM`                         | Yes for production email login   | Production                                                 | Sender identity, for example `ArcVane Studio <noreply@ArcVane.studio>`.                              |
 | `ADMIN_EMAILS`                       | Yes for admin access             | Production and Preview                                     | Comma-separated allowlist of admin email addresses.                                                      |
 
 ## Database deployment

@@ -26,7 +26,7 @@ export function SiteHeader() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <span className="text-lg font-semibold tracking-tight text-charcoal">
-            Lumenform Studio
+            ArcVane Studio
           </span>
         </Link>
 

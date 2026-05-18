@@ -41,7 +41,7 @@ export function SiteFooter() {
           {/* Brand column */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold tracking-tight text-warm-white">
-              Lumenform Studio
+              ArcVane Studio
             </h3>
             <p className="text-sm leading-relaxed text-ivory/70">
               Custom 3D printed lampshades designed for the lights you already own. Parametric
@@ -73,7 +73,7 @@ export function SiteFooter() {
 
         <div className="mt-12 border-t border-ivory/10 pt-8">
           <p className="text-center text-xs text-ivory/50">
-            &copy; {new Date().getFullYear()} Lumenform Studio. All rights reserved. LED bulbs only.
+            &copy; {new Date().getFullYear()} ArcVane Studio. All rights reserved. LED bulbs only.
           </p>
         </div>
       </div>

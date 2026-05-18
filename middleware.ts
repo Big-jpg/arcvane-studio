@@ -1,5 +1,5 @@
 // middleware.ts
-// Lumenform Studio — Next.js middleware for route protection.
+// ArcVane Studio — Next.js middleware for route protection.
 // Protects /account/* and /admin/* routes by redirecting unauthenticated users to /login.
 // Admin email allowlist enforcement happens server-side via Auth.js session checks.
 // Guest checkout (/cart, /checkout/*) is NOT protected.

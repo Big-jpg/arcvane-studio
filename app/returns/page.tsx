@@ -6,7 +6,7 @@ import { AlertCircle, Camera, FileText, RotateCcw } from "lucide-react";
 export const metadata: Metadata = {
   title: "Returns & Refunds",
   description:
-    "Returns and refunds placeholder guidance for made-to-order Lumenform Studio lighting objects.",
+    "Returns and refunds placeholder guidance for made-to-order ArcVane Studio lighting objects.",
 };
 
 const assessmentItems = [
@@ -48,7 +48,7 @@ export default function ReturnsPage() {
             <h2 className="mt-4 text-xl font-semibold text-charcoal">Made-to-order context</h2>
             <div className="mt-4 space-y-4 text-sm leading-relaxed text-charcoal/70">
               <p>
-                Lumenform products are generally prepared individually after order confirmation.
+                ArcVane products are generally prepared individually after order confirmation.
                 Custom size, colour, fitting, or design requests may begin production shortly after
                 the order is reviewed.
               </p>

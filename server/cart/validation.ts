@@ -1,5 +1,5 @@
 // server/cart/validation.ts
-// Lumenform Studio — Shared server-side cart validation for checkout.
+// ArcVane Studio — Shared server-side cart validation for checkout.
 
 import "server-only";
 

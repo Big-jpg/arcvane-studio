@@ -6,7 +6,7 @@ import { AlertTriangle, CheckCircle2, ShieldCheck, ThermometerSun } from "lucide
 export const metadata: Metadata = {
   title: "LED Bulb Safety",
   description:
-    "Safety guidance for Lumenform Studio lampshades, including LED-only bulb requirements and fitting adapter limitations.",
+    "Safety guidance for ArcVane Studio lampshades, including LED-only bulb requirements and fitting adapter limitations.",
 };
 
 const safeUse = [
@@ -35,7 +35,7 @@ export default function SafetyPage() {
             LED Bulb Safety Note
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-ivory/70">
-            Lumenform shades are decorative lighting accessories designed for low-heat LED bulbs.
+            ArcVane shades are decorative lighting accessories designed for low-heat LED bulbs.
             The bulb limitation is part of the product, not an optional recommendation.
           </p>
         </div>
@@ -49,7 +49,7 @@ export default function SafetyPage() {
               <div>
                 <h2 className="text-xl font-semibold text-charcoal">Use LED bulbs only</h2>
                 <p className="mt-3 text-sm leading-relaxed text-charcoal/75">
-                  All Lumenform shades must be used with LED bulbs only. Incandescent, halogen, heat
+                  All ArcVane shades must be used with LED bulbs only. Incandescent, halogen, heat
                   lamp, appliance, or other high-temperature bulbs must not be used under any
                   circumstance. High heat can deform printed materials, shorten product life, and
                   create an unsafe installation condition.

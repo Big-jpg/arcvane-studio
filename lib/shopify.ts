@@ -97,21 +97,21 @@ const PRODUCT_FRAGMENT = /* GraphQL */ `
     }
     metafields(
       identifiers: [
-        { namespace: "lumenform", key: "category" }
-        { namespace: "lumenform", key: "design_family" }
-        { namespace: "lumenform", key: "material" }
-        { namespace: "lumenform", key: "dimensions" }
-        { namespace: "lumenform", key: "colours" }
-        { namespace: "lumenform", key: "compatible_adapters" }
-        { namespace: "lumenform", key: "production_notes" }
-        { namespace: "lumenform", key: "market_event_id" }
-        { namespace: "lumenform", key: "market_source" }
-        { namespace: "lumenform", key: "qr_campaign" }
-        { namespace: "lumenform", key: "display_sample_id" }
-        { namespace: "lumenform", key: "production_queue_status" }
-        { namespace: "lumenform", key: "filament_material" }
-        { namespace: "lumenform", key: "filament_colour" }
-        { namespace: "lumenform", key: "print_profile" }
+        { namespace: "ArcVane", key: "category" }
+        { namespace: "ArcVane", key: "design_family" }
+        { namespace: "ArcVane", key: "material" }
+        { namespace: "ArcVane", key: "dimensions" }
+        { namespace: "ArcVane", key: "colours" }
+        { namespace: "ArcVane", key: "compatible_adapters" }
+        { namespace: "ArcVane", key: "production_notes" }
+        { namespace: "ArcVane", key: "market_event_id" }
+        { namespace: "ArcVane", key: "market_source" }
+        { namespace: "ArcVane", key: "qr_campaign" }
+        { namespace: "ArcVane", key: "display_sample_id" }
+        { namespace: "ArcVane", key: "production_queue_status" }
+        { namespace: "ArcVane", key: "filament_material" }
+        { namespace: "ArcVane", key: "filament_colour" }
+        { namespace: "ArcVane", key: "print_profile" }
       ]
     )
   }

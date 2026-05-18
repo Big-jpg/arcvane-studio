@@ -1,5 +1,5 @@
 -- db/migrations/001_initial_schema.sql
--- Lumenform Studio — Initial PostgreSQL Schema
+-- ArcVane Studio — Initial PostgreSQL Schema
 -- Run against a fresh database: psql $DATABASE_URL -f db/migrations/001_initial_schema.sql
 -- Requires PostgreSQL 13+ (gen_random_uuid())
 

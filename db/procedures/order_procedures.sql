@@ -1,5 +1,5 @@
 -- db/procedures/order_procedures.sql
--- Lumenform Studio — Order-related stored procedures/functions
+-- ArcVane Studio — Order-related stored procedures/functions
 -- Run after 001_initial_schema.sql:
 --   psql $DATABASE_URL -f db/procedures/order_procedures.sql
 

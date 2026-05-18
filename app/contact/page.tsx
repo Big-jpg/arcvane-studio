@@ -4,7 +4,7 @@ import { Mail, MessageSquare } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Get in touch with Lumenform Studio.",
+  description: "Get in touch with ArcVane Studio.",
 };
 
 export default function ContactPage() {
@@ -26,7 +26,7 @@ export default function ContactPage() {
           <div className="space-y-10">
             <div className="prose prose-charcoal max-w-none text-charcoal/80">
               <p className="text-lg leading-relaxed">
-                Lumenform operates as a small studio, so enquiries are handled directly. For fitting
+                ArcVane operates as a small studio, so enquiries are handled directly. For fitting
                 questions, custom work, or order support, clear photos and practical measurements
                 are often the most useful starting point.
               </p>
@@ -38,7 +38,7 @@ export default function ContactPage() {
 
                 <h3 className="mt-3 text-base font-semibold text-charcoal">Email</h3>
 
-                <p className="mt-2 text-sm text-charcoal/60">hello@lumenform.studio</p>
+                <p className="mt-2 text-sm text-charcoal/60">rossfarrell7@gmail.com</p>
 
                 <p className="mt-2 text-xs leading-relaxed text-charcoal/40">
                   Most enquiries are answered within 1-2 business days.
@@ -103,7 +103,7 @@ export default function ContactPage() {
                 </button>
 
                 <p className="text-center text-xs leading-relaxed text-charcoal/40">
-                  Form is not yet functional. Contact Lumenform directly in the meantime.
+                  Form is not yet functional. Contact ArcVane directly in the meantime.
                 </p>
               </form>
             </div>

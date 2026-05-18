@@ -75,7 +75,7 @@ function lineItemTitle(lineItem: Stripe.LineItem): string {
     return product.name;
   }
 
-  return "Lumenform lampshade";
+  return "ArcVane lampshade";
 }
 
 function checkoutEmail(session: Stripe.Checkout.Session): string | null {

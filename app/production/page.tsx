@@ -6,7 +6,7 @@ import { Clock, MailCheck, PackageCheck, PauseCircle, Printer } from "lucide-rea
 export const metadata: Metadata = {
   title: "Production & Turnaround",
   description:
-    "How Lumenform Studio produces made-to-order shades, confirms fitting details, and prepares local pickup orders.",
+    "How ArcVane Studio produces made-to-order shades, confirms fitting details, and prepares local pickup orders.",
 };
 
 const processSteps = [
@@ -47,7 +47,7 @@ export default function ProductionPage() {
             Production &amp; Turnaround
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-ivory/70">
-            Most Lumenform pieces are made after an order is placed. The process is intentionally
+            Most ArcVane pieces are made after an order is placed. The process is intentionally
             small-batch so fitting, material, and local pickup details can be handled correctly.
           </p>
         </div>
@@ -63,7 +63,7 @@ export default function ProductionPage() {
               </h2>
               <div className="mt-4 space-y-4 text-sm leading-relaxed text-charcoal/70">
                 <p>
-                  Lumenform operates as a small studio practice. Rather than holding large
+                  ArcVane operates as a small studio practice. Rather than holding large
                   quantities of finished inventory, shades are generally prepared after purchase so
                   the selected adapter, finish, and any customer notes are applied to that specific
                   order.

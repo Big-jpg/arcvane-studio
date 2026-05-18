@@ -15,21 +15,21 @@ const inter = Inter({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://lumenform.studio";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://arcvane-studio.com";
 const siteDescription =
   "Custom 3D printed lampshades designed for the lights you already own. Parametric lighting objects with included B22, E27, and Clipsal-compatible adapters.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Lumenform Studio",
-    template: "%s | Lumenform Studio",
+    default: "ArcVane Studio",
+    template: "%s | ArcVane Studio",
   },
   description: siteDescription,
-  applicationName: "Lumenform Studio",
-  authors: [{ name: "Lumenform Studio" }],
-  creator: "Lumenform Studio",
-  publisher: "Lumenform Studio",
+  applicationName: "ArcVane Studio",
+  authors: [{ name: "ArcVane Studio" }],
+  creator: "ArcVane Studio",
+  publisher: "ArcVane Studio",
   category: "lighting design",
   keywords: [
     "3D printed lampshades",
@@ -47,21 +47,21 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_AU",
     url: "/",
-    siteName: "Lumenform Studio",
-    title: "Lumenform Studio",
+    siteName: "ArcVane Studio",
+    title: "ArcVane Studio",
     description: siteDescription,
     images: [
       {
         url: "/og-default.svg",
         width: 1200,
         height: 630,
-        alt: "Lumenform Studio warm ivory Open Graph placeholder",
+        alt: "ArcVane Studio warm ivory Open Graph placeholder",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Lumenform Studio",
+    title: "ArcVane Studio",
     description: siteDescription,
     images: ["/og-default.svg"],
   },

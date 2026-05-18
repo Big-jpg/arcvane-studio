@@ -1,12 +1,12 @@
-# Shopify Product Structure — Lumenform Studio
+# Shopify Product Structure — ArcVane Studio
 
-This document describes the expected Shopify product configuration for the Lumenform Studio storefront to correctly normalise Shopify catalogue data into the application's internal Product DTO.
+This document describes the expected Shopify product configuration for the ArcVane Studio storefront to correctly normalise Shopify catalogue data into the application's internal Product DTO.
 
 ---
 
 ## Overview
 
-The application reads products from the **Shopify Storefront API** (GraphQL) and normalises them into a unified `Product` type defined in `/lib/types.ts`. Product metadata that cannot be expressed through standard Shopify fields is stored in **metafields** under the `lumenform` namespace.
+The application reads products from the **Shopify Storefront API** (GraphQL) and normalises them into a unified `Product` type defined in `/lib/types.ts`. Product metadata that cannot be expressed through standard Shopify fields is stored in **metafields** under the `ArcVane` namespace.
 
 ---
 
@@ -18,7 +18,7 @@ The application reads products from the **Shopify Storefront API** (GraphQL) and
 | `handle`                     | `Product.handle`                         | URL-safe slug used for routing                       |
 | `title`                      | `Product.title`                          | Product display name                                 |
 | `description`                | `Product.description`                    | Plain text product description                       |
-| `productType`                | `Product.category` (fallback)            | Used if `lumenform.category` metafield is not set    |
+| `productType`                | `Product.category` (fallback)            | Used if `ArcVane.category` metafield is not set    |
 | `tags`                       | —                                        | Reserved for future filtering; not currently mapped  |
 | `availableForSale`           | `Product.inStock`                        | Boolean stock availability                           |
 | `priceRange.minVariantPrice` | `Product.price`, `Product.currency`      | Fallback if no variant is present                    |
@@ -28,9 +28,9 @@ The application reads products from the **Shopify Storefront API** (GraphQL) and
 
 ---
 
-## Metafields (namespace: `lumenform`)
+## Metafields (namespace: `ArcVane`)
 
-All metafields use the `lumenform` namespace. Create them in Shopify Admin under **Settings > Custom data > Products**.
+All metafields use the `ArcVane` namespace. Create them in Shopify Admin under **Settings > Custom data > Products**.
 
 ### Required Metafields
 
@@ -55,7 +55,7 @@ All metafields use the `lumenform` namespace. Create them in Shopify Admin under
 | `production_queue_status` | `single_line_text_field` | Current production status                          | `queued`                                  |
 | `filament_material`       | `single_line_text_field` | Specific filament material used                    | `Polymaker PolyLite PLA`                  |
 | `filament_colour`         | `single_line_text_field` | Specific filament colour code                      | `Warm White #F5F0E8`                      |
-| `print_profile`           | `single_line_text_field` | Slicer print profile reference                     | `lumenform-standard-0.2`                  |
+| `print_profile`           | `single_line_text_field` | Slicer print profile reference                     | `ArcVane-standard-0.2`                  |
 
 ---
 
@@ -110,7 +110,7 @@ If multiple variants exist (e.g. for colour), only the first variant's ID and pr
 
 | Variable                          | Description                                     | Example                   |
 | --------------------------------- | ----------------------------------------------- | ------------------------- |
-| `SHOPIFY_STORE_DOMAIN`            | Your `.myshopify.com` domain                    | `lumenform.myshopify.com` |
+| `SHOPIFY_STORE_DOMAIN`            | Your `.myshopify.com` domain                    | `ArcVane.myshopify.com` |
 | `SHOPIFY_STOREFRONT_ACCESS_TOKEN` | Storefront API access token (public, read-only) | `shpat_xxxxx`             |
 | `SHOPIFY_API_VERSION`             | API version string                              | `2024-10`                 |
 
@@ -133,7 +133,7 @@ When these variables are not set, the application automatically falls back to th
 
 1. Go to **Settings > Custom data > Products**.
 2. Click **Add definition** for each metafield listed above.
-3. Set the namespace to `lumenform` and the key as specified.
+3. Set the namespace to `ArcVane` and the key as specified.
 4. Choose the appropriate type (`single_line_text_field`, `multi_line_text_field`, or `json`).
 5. Populate values on each product.
 

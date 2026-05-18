@@ -7,12 +7,12 @@ import { getProducts, getCategories } from "@/lib/catalogue";
 export const metadata: Metadata = {
   title: "Shop",
   description:
-    "Browse the Lumenform Studio collection of contemporary lighting objects for B22, E27, and Clipsal fittings.",
+    "Browse the ArcVane Studio collection of contemporary lighting objects for B22, E27, and Clipsal fittings.",
   alternates: {
     canonical: "/products",
   },
   openGraph: {
-    title: "Shop Lumenform Studio Lighting Objects",
+    title: "Shop ArcVane Studio Lighting Objects",
     description:
       "Browse made-to-order 3D printed lampshades supplied with B22, E27, and Clipsal-compatible fitting adapters.",
     url: "/products",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
         url: "/og-product-placeholder.svg",
         width: 1200,
         height: 630,
-        alt: "Lumenform Studio catalogue Open Graph placeholder",
+        alt: "ArcVane Studio catalogue Open Graph placeholder",
       },
     ],
   },

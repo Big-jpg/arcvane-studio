@@ -92,7 +92,7 @@ export function CustomDesignRequestForm() {
       setRequestId(payload.requestId ?? null);
       setForm(INITIAL_FORM_STATE);
       setFormMessage(
-        "Your custom design request has been recorded. Lumenform will review the fitting, dimensions, and design direction before replying.",
+        "Your custom design request has been recorded. ArcVane will review the fitting, dimensions, and design direction before replying.",
       );
     } catch {
       setSubmitState("error");

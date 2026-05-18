@@ -1,6 +1,6 @@
 // lib/cart-types.ts
 //
-// Cart item shape and related types for the Lumenform Studio storefront.
+// Cart item shape and related types for the ArcVane Studio storefront.
 // Cart is client-side only (localStorage) — no backend persistence yet.
 
 import type { AdapterType } from "./types";
@@ -61,4 +61,4 @@ export const EMPTY_CART: CartState = {
   ledAcknowledged: false,
 };
 
-export const CART_STORAGE_KEY = "lumenform_cart_v1";
+export const CART_STORAGE_KEY = "ArcVane_cart_v1";

@@ -2,7 +2,7 @@
 import type { MetadataRoute } from "next";
 import { getProducts } from "@/lib/catalogue";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://lumenform.studio";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://arcvane-studio.com";
 
 const publicRoutes: Array<{
   path: string;

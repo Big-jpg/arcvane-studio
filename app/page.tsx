@@ -7,7 +7,7 @@ import { ArrowRight, Box, Lightbulb, MapPin, Repeat, Ruler, Sparkles } from "luc
 import { getProducts } from "@/lib/catalogue";
 
 export const metadata: Metadata = {
-  title: "Lumenform Studio",
+  title: "ArcVane Studio",
   description:
     "Contemporary lighting objects designed and produced locally. Parametric forms for B22, E27, and Clipsal fittings.",
 };
@@ -26,7 +26,7 @@ export default async function HomePage() {
         <div className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8 lg:py-40">
           <div className="max-w-3xl">
             <p className="text-sm font-medium uppercase tracking-[0.2em] text-amber">
-              Lumenform Studio
+              ArcVane Studio
             </p>
 
             <h1 className="mt-6 text-4xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
@@ -207,7 +207,7 @@ export default async function HomePage() {
             </h2>
 
             <p className="mt-4 text-base leading-relaxed text-ivory/70">
-              Lumenform is built around localised, responsive production rather than mass inventory
+              ArcVane is built around localised, responsive production rather than mass inventory
               and offshore tooling.
             </p>
           </div>
