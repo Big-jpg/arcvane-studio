@@ -9,7 +9,7 @@ import { getProducts } from "@/lib/catalogue";
 export const metadata: Metadata = {
   title: "ArcVane Studio",
   description:
-    "Contemporary lighting objects designed and produced locally. Parametric forms for B22, E27, and Clipsal fittings.",
+    "Contemporary lighting objects designed and produced locally with compatible fittings for domestic interiors.",
 };
 
 export default async function HomePage() {
