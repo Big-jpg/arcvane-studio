@@ -1,11 +1,12 @@
 // lib/catalogue.ts
 //
 // Product data source abstraction.
-// Checks for Shopify credentials at runtime:
+// Checks data sources at runtime:
 //   - If SHOPIFY_STORE_DOMAIN and SHOPIFY_STOREFRONT_ACCESS_TOKEN are set → Shopify Storefront API
+//   - Else if admin_products exists and contains rows → database catalogue
 //   - Otherwise → local mock catalogue
 //
-// All exports are async to support both code paths uniformly.
+// All exports are async where source selection requires I/O.
 
 import type { Product, ProductCategory } from "./types";
 
@@ -33,11 +34,21 @@ function isShopifyConfigured(): boolean {
 }
 
 // ---------------------------------------------------------------------------
-// Mock data imports (lazy, only loaded when Shopify is not configured)
+// Lazy data source imports
 // ---------------------------------------------------------------------------
 
 async function getMockModule() {
   return await import("./mock-products");
+}
+
+async function getDatabaseProducts(): Promise<Product[] | null> {
+  try {
+    const { listAdminProducts } = await import("@/server/db/product-contracts");
+    const products = await listAdminProducts();
+    return products.length > 0 ? products : null;
+  } catch {
+    return null;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -53,6 +64,12 @@ export async function getProducts(): Promise<Product[]> {
     const { shopifyGetProducts } = await import("./shopify");
     return shopifyGetProducts();
   }
+
+  const databaseProducts = await getDatabaseProducts();
+  if (databaseProducts) {
+    return databaseProducts;
+  }
+
   const mock = await getMockModule();
   return mock.products;
 }
@@ -66,13 +83,19 @@ export async function getProductByHandle(handle: string): Promise<Product | null
     const { shopifyGetProductByHandle } = await import("./shopify");
     return shopifyGetProductByHandle(handle);
   }
+
+  const databaseProducts = await getDatabaseProducts();
+  if (databaseProducts) {
+    return databaseProducts.find((product) => product.handle === handle) ?? null;
+  }
+
   const mock = await getMockModule();
   return mock.getProductByHandle(handle) ?? null;
 }
 
 /**
  * Returns the list of product categories.
- * Categories are static and shared between both data sources.
+ * Categories are static and shared between all data sources.
  */
 export function getCategories(): ProductCategory[] {
   return [
@@ -88,6 +111,10 @@ export function getCategories(): ProductCategory[] {
 /**
  * Returns the current catalogue data source name for diagnostics.
  */
-export function getCatalogueSource(): "shopify" | "mock" {
-  return isShopifyConfigured() ? "shopify" : "mock";
+export async function getCatalogueSource(): Promise<"shopify" | "database" | "mock"> {
+  if (isShopifyConfigured()) {
+    return "shopify";
+  }
+
+  return (await getDatabaseProducts()) ? "database" : "mock";
 }
