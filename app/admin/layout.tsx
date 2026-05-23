@@ -16,6 +16,7 @@ const adminLinks = [
   { href: "/admin/orders", label: "Orders" },
   { href: "/admin/custom-requests", label: "Custom Requests" },
   { href: "/admin/products", label: "Products" },
+  { href: "/admin-lite/boms", label: "BOMs" },
 ];
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
