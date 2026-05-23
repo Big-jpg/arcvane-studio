@@ -1,19 +1,24 @@
 // lib/bom-types.ts
 
-export type ComponentCategory =
-  | "Printed part"
-  | "Filament"
-  | "Electrical"
-  | "Adapter"
-  | "Fastener"
-  | "Bearing"
-  | "Packaging"
-  | "Consumable"
-  | "Labour"
-  | "Machine time"
-  | "Finish / paint";
+export const COMPONENT_CATEGORIES = [
+  "Printed part",
+  "Filament",
+  "Electrical",
+  "Adapter",
+  "Fastener",
+  "Bearing",
+  "Packaging",
+  "Consumable",
+  "Labour",
+  "Machine time",
+  "Finish / paint",
+] as const;
 
-export type BomLineType = "material" | "labour" | "machine" | "packaging" | "overhead";
+export type ComponentCategory = (typeof COMPONENT_CATEGORIES)[number];
+
+export const BOM_LINE_TYPES = ["material", "labour", "machine", "packaging", "overhead"] as const;
+
+export type BomLineType = (typeof BOM_LINE_TYPES)[number];
 
 export interface BomComponent {
   id: string;

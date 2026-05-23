@@ -1,22 +1,42 @@
 // app/admin-lite/boms/page.tsx
-// Phase 1 read-only BOM visibility. No product or BOM persistence is performed here.
+// Phase 2 BOM admin: database-backed CRUD with mock seed fallback when persisted data is absent.
 
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BomLineManager, ComponentRegistryManager } from "@/components/admin-lite/bom-crud-controls";
 import { calculateBomLineCost, calculateBomTotal, calculateGrossMargin } from "@/lib/bom-calculations";
-import { products } from "@/lib/mock-products";
-import { getBomComponent, getBomLinesForProduct } from "@/lib/mock-bom";
+import type { BomComponent, ProductBomLine } from "@/lib/bom-types";
 import { requireAdmin } from "@/lib/admin-auth";
+import { bomComponents, getBomComponent, getBomLinesForProduct } from "@/lib/mock-bom";
+import { products } from "@/lib/mock-products";
+import { getProductBom, listBomComponents } from "@/server/db/bom-contracts";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "BOMs | Admin-Lite | ArcVane Studio",
-  description: "Read-only product bill of materials visibility for ArcVane Studio.",
+  description: "Database-backed product bill of materials management for ArcVane Studio.",
 };
 
 type AdminLiteBomsPageProps = {
   searchParams: Promise<{ productId?: string }>;
+};
+
+type DataSource = "database" | "mock";
+
+type DisplayBomLine = ProductBomLine & {
+  componentName?: string;
+  componentCategory?: BomComponent["category"];
+  componentSupplier?: string | null;
+  componentNotes?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+type ProductBomState = {
+  productId: string;
+  lines: DisplayBomLine[];
+  dataSource: DataSource;
 };
 
 function formatCurrency(amount: number, currency: string): string {
@@ -41,14 +61,73 @@ function formatQuantity(value: number): string {
   }).format(value);
 }
 
+async function loadBomStates(): Promise<{
+  databaseAvailable: boolean;
+  databaseComponents: BomComponent[];
+  productBomStates: ProductBomState[];
+}> {
+  let databaseComponents: BomComponent[] = [];
+  let databaseLinesByProduct = new Map<string, DisplayBomLine[]>();
+  let databaseAvailable = true;
+
+  try {
+    databaseComponents = await listBomComponents();
+    const databaseLineEntries = await Promise.all(
+      products.map(async (product) => [product.id, await getProductBom(product.id)] as const),
+    );
+    databaseLinesByProduct = new Map(databaseLineEntries);
+  } catch {
+    databaseAvailable = false;
+  }
+
+  const productBomStates = products.map<ProductBomState>((product) => {
+    const databaseLines = databaseAvailable ? databaseLinesByProduct.get(product.id) ?? [] : [];
+
+    if (databaseLines.length > 0) {
+      return {
+        productId: product.id,
+        lines: databaseLines,
+        dataSource: "database",
+      };
+    }
+
+    return {
+      productId: product.id,
+      lines: getBomLinesForProduct(product.id),
+      dataSource: "mock",
+    };
+  });
+
+  return { databaseAvailable, databaseComponents, productBomStates };
+}
+
+function resolveComponent(line: DisplayBomLine): Pick<BomComponent, "name" | "category"> | null {
+  if (line.componentName && line.componentCategory) {
+    return {
+      name: line.componentName,
+      category: line.componentCategory,
+    };
+  }
+
+  const mockComponent = getBomComponent(line.componentId);
+
+  if (!mockComponent) return null;
+
+  return {
+    name: mockComponent.name,
+    category: mockComponent.category,
+  };
+}
+
 export default async function AdminLiteBomsPage({ searchParams }: AdminLiteBomsPageProps) {
   const admin = await requireAdmin();
   const { productId } = await searchParams;
+  const { databaseAvailable, databaseComponents, productBomStates } = await loadBomStates();
 
-  const productsWithBom = products.filter((product) => getBomLinesForProduct(product.id).length > 0);
+  const stateByProduct = new Map(productBomStates.map((state) => [state.productId, state]));
+  const productsWithBom = products.filter((product) => (stateByProduct.get(product.id)?.lines.length ?? 0) > 0);
   const fallbackProduct = productsWithBom[0] ?? products[0] ?? null;
-  const selectedProduct =
-    products.find((product) => product.id === productId) ?? fallbackProduct;
+  const selectedProduct = products.find((product) => product.id === productId) ?? fallbackProduct;
 
   if (!selectedProduct) {
     return (
@@ -63,12 +142,17 @@ export default async function AdminLiteBomsPage({ searchParams }: AdminLiteBomsP
     );
   }
 
-  const bomLines = getBomLinesForProduct(selectedProduct.id);
+  const selectedBomState = stateByProduct.get(selectedProduct.id) ?? {
+    productId: selectedProduct.id,
+    lines: [],
+    dataSource: "mock" as const,
+  };
+  const bomLines = selectedBomState.lines;
   const totalCost = calculateBomTotal(bomLines);
   const grossProfit = selectedProduct.price - totalCost;
   const grossMarginPercent = calculateGrossMargin(selectedProduct.price, totalCost);
-
   const selectedProductHasBom = bomLines.length > 0;
+  const registryForDisplay = databaseAvailable ? databaseComponents : bomComponents;
 
   return (
     <main className="min-h-screen bg-ivory text-charcoal">
@@ -79,8 +163,8 @@ export default async function AdminLiteBomsPage({ searchParams }: AdminLiteBomsP
             <div>
               <h1 className="font-serif text-4xl font-semibold">Product BOM foundation</h1>
               <p className="mt-2 max-w-3xl text-sm leading-6 text-warm-white/70">
-                Read-only bill of materials visibility backed by local TypeScript seed data. This
-                phase does not write to the catalogue, Shopify, or the database.
+                Database-backed component and product BOM management. Persisted BOM data takes priority;
+                seeded TypeScript mock data remains available as read-only fallback.
               </p>
             </div>
             <p className="text-sm text-warm-white/60">Signed in as {admin.email}</p>
@@ -104,6 +188,12 @@ export default async function AdminLiteBomsPage({ searchParams }: AdminLiteBomsP
             >
               BOMs
             </Link>
+            <Link
+              href="/admin-lite/components"
+              className="rounded-full border border-warm-white/15 px-4 py-2 text-sm font-medium text-warm-white/80 transition hover:border-amber hover:text-amber"
+            >
+              Components
+            </Link>
           </nav>
         </div>
       </section>
@@ -113,13 +203,18 @@ export default async function AdminLiteBomsPage({ searchParams }: AdminLiteBomsP
           <div>
             <h2 className="font-serif text-3xl font-semibold text-charcoal">BOMs</h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-charcoal/60">
-              Select a local mock product to inspect its seeded component lines, calculated BOM cost,
-              and gross margin using the catalogue price. This is intentionally read-only for Phase 1.
+              Select a product to inspect its effective BOM. The selected view is labelled as database or
+              mock so cost outputs remain traceable during migration.
             </p>
           </div>
-          <p className="text-sm text-charcoal/50">
-            {productsWithBom.length} of {products.length} products have seeded BOMs
-          </p>
+          <div className="text-sm text-charcoal/50 sm:text-right">
+            <p>
+              {productsWithBom.length} of {products.length} products have effective BOM data
+            </p>
+            <p className="mt-1">
+              Database: {databaseAvailable ? `${databaseComponents.length} components loaded` : "unavailable"}
+            </p>
+          </div>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
@@ -130,8 +225,10 @@ export default async function AdminLiteBomsPage({ searchParams }: AdminLiteBomsP
               </h3>
               <div className="mt-4 space-y-2">
                 {products.map((product) => {
-                  const lineCount = getBomLinesForProduct(product.id).length;
+                  const productState = stateByProduct.get(product.id);
+                  const lineCount = productState?.lines.length ?? 0;
                   const isSelected = product.id === selectedProduct.id;
+                  const sourceLabel = productState?.dataSource === "database" ? "DB" : "mock";
 
                   return (
                     <Link
@@ -149,7 +246,7 @@ export default async function AdminLiteBomsPage({ searchParams }: AdminLiteBomsP
                           isSelected ? "text-warm-white/65" : "text-charcoal/50"
                         }`}
                       >
-                        {product.id} · {lineCount > 0 ? `${lineCount} BOM lines` : "No seeded BOM"}
+                        {product.id} · {lineCount > 0 ? `${lineCount} ${sourceLabel} lines` : "No BOM data"}
                       </span>
                     </Link>
                   );
@@ -183,7 +280,9 @@ export default async function AdminLiteBomsPage({ searchParams }: AdminLiteBomsP
                 <p className="mt-2 text-lg font-semibold text-charcoal">
                   {formatCurrency(totalCost, selectedProduct.currency)}
                 </p>
-                <p className="mt-1 text-xs text-charcoal/50">Calculated from seeded lines</p>
+                <p className="mt-1 text-xs text-charcoal/50">
+                  Calculated from {selectedBomState.dataSource === "database" ? "database" : "mock"} lines
+                </p>
               </div>
               <div className="rounded-2xl border border-charcoal/10 bg-white p-5 shadow-sm">
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-charcoal/45">
@@ -198,11 +297,29 @@ export default async function AdminLiteBomsPage({ searchParams }: AdminLiteBomsP
               </div>
             </section>
 
+            <div
+              className={`rounded-2xl border px-5 py-4 text-sm ${
+                selectedBomState.dataSource === "database"
+                  ? "border-emerald-900/15 bg-emerald-50 text-emerald-950"
+                  : "border-amber/30 bg-amber/10 text-charcoal"
+              }`}
+            >
+              <p className="font-semibold">
+                Data source: {selectedBomState.dataSource === "database" ? "database" : "mock fallback"}
+              </p>
+              <p className="mt-1 leading-6 opacity-75">
+                {selectedBomState.dataSource === "database"
+                  ? "Persisted BOM lines exist for this product and override seeded mock data."
+                  : "No persisted BOM lines exist for this product, so the Phase 1 mock seed remains in use."}
+              </p>
+            </div>
+
             <section className="overflow-hidden rounded-2xl border border-charcoal/10 bg-white shadow-sm">
               <div className="border-b border-charcoal/10 px-5 py-4">
                 <h3 className="font-serif text-2xl font-semibold text-charcoal">BOM lines</h3>
                 <p className="mt-1 text-sm text-charcoal/60">
-                  Component registry data is joined in-memory from local TypeScript seed files.
+                  Component data is resolved from the database when persisted lines are present, otherwise
+                  from the local TypeScript seed registry.
                 </p>
               </div>
               <div className="overflow-x-auto">
@@ -222,12 +339,12 @@ export default async function AdminLiteBomsPage({ searchParams }: AdminLiteBomsP
                     {!selectedProductHasBom ? (
                       <tr>
                         <td className="px-4 py-8 text-center text-charcoal/60" colSpan={7}>
-                          No seeded BOM exists for this product yet.
+                          No BOM exists for this product yet.
                         </td>
                       </tr>
                     ) : (
                       bomLines.map((line) => {
-                        const component = getBomComponent(line.componentId);
+                        const component = resolveComponent(line);
                         const extendedCost = calculateBomLineCost(
                           line.unitCost,
                           line.quantity,
@@ -283,6 +400,20 @@ export default async function AdminLiteBomsPage({ searchParams }: AdminLiteBomsP
                 </table>
               </div>
             </section>
+
+            <BomLineManager
+              productId={selectedProduct.id}
+              components={databaseComponents}
+              bomLines={bomLines}
+              dataSource={selectedBomState.dataSource}
+              databaseAvailable={databaseAvailable}
+            />
+
+            <ComponentRegistryManager
+              components={registryForDisplay}
+              databaseAvailable={databaseAvailable}
+              compact
+            />
           </div>
         </div>
       </section>
