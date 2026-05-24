@@ -1,96 +1,103 @@
 // app/about/page.tsx
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { MapPin, Shell, Waves } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "About ArcVane Studio; the maker, the process, and the philosophy.",
+  description:
+    "ArcVane Studio is a small Western Australian design studio producing coastal E27 lighting objects in clear and matte PLA.",
 };
+
+const principles = [
+  {
+    icon: Waves,
+    title: "Western Australian coastal light",
+    text: "The collection draws from limestone edges, shell striation, dune ribs, tidepools, washed timber, and the softened blue-grey horizon of the coast.",
+  },
+  {
+    icon: MapPin,
+    title: "Small studio, local production",
+    text: "Objects are designed, produced, finished, and checked through a local small-batch workflow rather than separated from the studio that defines them.",
+  },
+  {
+    icon: Shell,
+    title: "PLA as material language",
+    text: "Clear PLA and matte PLA are used intentionally: for glow, opacity, touch, layer rhythm, and the quiet surface character that belongs to the ArcVane system.",
+  },
+];
 
 export default function AboutPage() {
   return (
     <>
-      <section className="bg-warm-black py-16 text-warm-white sm:py-20">
+      <section className="bg-shell py-20 text-charcoal sm:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-            About ArcVane Studio
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-warm-amber">
+            About ArcVane
+          </p>
+          <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-charcoal sm:text-6xl">
+            Coastal lighting objects from a small Western Australian studio.
           </h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-ivory/70">
-            Contemporary lighting objects, designed and made locally.
+          <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
+            ArcVane Studio designs compact E27 lighting objects shaped by coastal forms, clear PLA
+            diffusion, and local small-batch production. The work is quiet, tactile, and restrained.
           </p>
         </div>
       </section>
 
-      <section className="bg-warm-white py-12 sm:py-16">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-          <div className="prose prose-charcoal max-w-none space-y-6 text-charcoal/80">
-            <p className="text-lg leading-relaxed">
-              ArcVane Studio is a small-batch lighting design practice focused on sculptural
-              lampshades and contemporary lighting objects. Each piece is developed and produced
-              locally using digitally driven fabrication methods that allow for precision,
-              flexibility, and highly individual forms.
-            </p>
-
-            <h2 className="text-xl font-semibold text-charcoal">The Maker</h2>
-            <p className="leading-relaxed">
-              Founded by a designer-maker with a background in computational design, systems
-              engineering, and industrial fabrication, ArcVane exists at the intersection of
-              mathematics, material, and light. The studio operates from a dedicated workshop in
-              Western Australia where every object is produced, assembled, and refined in-house.
-            </p>
-
-            <h2 className="text-xl font-semibold text-charcoal">The Process</h2>
-            <p className="leading-relaxed">
-              Each piece begins as a parametric model — a living design system governed by geometry,
-              proportion, curvature, density, and light diffusion. Rather than creating a single
-              static form, these systems allow subtle variations and adaptations to emerge naturally
-              while preserving the intent of the original design.
-            </p>
-
-            <p className="leading-relaxed">
-              Materials are selected for both optical behaviour and tactile quality, producing
-              surfaces that interact with light in ways traditional shade construction often cannot.
-              The resulting forms possess a softness, translucency, and geometric complexity that
-              would be difficult or prohibitively expensive to manufacture through conventional
-              methods.
-            </p>
-
-            <h2 className="text-xl font-semibold text-charcoal">The Philosophy</h2>
-            <p className="leading-relaxed">
-              ArcVane was founded on the belief that contemporary manufacturing should be local,
-              adaptable, and transparent. Traditional homewares production often relies on offshore
-              tooling, large inventory commitments, and long supply chains. ArcVane instead
-              embraces responsive, small-batch production where objects can evolve over time rather
-              than remain fixed.
-            </p>
-
-            <p className="leading-relaxed">
-              This approach allows designs to be refined, customised, and replaced without the waste
-              and inertia associated with mass production. The goal is not to imitate glass, fabric,
-              or metal, but to explore an emerging design language shaped by computation, light, and
-              modern fabrication techniques.
-            </p>
-
-            <h2 className="text-xl font-semibold text-charcoal">Safety and Compatibility</h2>
-
-            <p className="leading-relaxed">
-              All ArcVane shades are designed exclusively for LED bulbs. Every piece is checked
-              for compatibility with low-heat lighting applications and is supplied with the
-              required fitting adapter included in the purchase price, supporting B22, E27, and
-              Clipsal No. 530 fittings.
-            </p>
+      <section className="bg-off-white py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {principles.map((principle) => {
+              const Icon = principle.icon;
+              return (
+                <article
+                  key={principle.title}
+                  className="rounded-[1.75rem] border border-charcoal/10 bg-shell/65 p-6 shadow-sm shadow-charcoal/5 sm:p-8"
+                >
+                  <Icon className="h-6 w-6 text-weathered-post" />
+                  <h2 className="mt-6 text-2xl font-semibold tracking-tight text-charcoal">
+                    {principle.title}
+                  </h2>
+                  <p className="mt-4 text-sm leading-7 text-deep-brown/70">{principle.text}</p>
+                </article>
+              );
+            })}
           </div>
 
-          <div className="mt-12 border-t border-charcoal/10 pt-8">
-            <Link
-              href="/custom"
-              className="inline-flex items-center gap-2 rounded-lg bg-charcoal px-6 py-3 text-sm font-semibold text-warm-white transition-colors hover:bg-charcoal/90"
-            >
-              Request a custom design
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
+          <section className="mt-12 rounded-[2rem] border border-charcoal/10 bg-horizon-blue/20 p-6 sm:p-10">
+            <div className="max-w-3xl space-y-5 text-sm leading-7 text-deep-brown/72">
+              <p>
+                ArcVane is not built around parametric novelty for its own sake. The design language
+                starts with coastal references and works backward into forms that can hold warm LED
+                light, show material texture, and sit calmly in domestic rooms.
+              </p>
+              <p>
+                The studio uses PLA because it suits the intended objects. Clear PLA can glow with a
+                shell-like softness; matte PLA can give bases and stands a weathered, handled quality;
+                visible layer lines can read as striation rather than manufacturing apology.
+              </p>
+              <p>
+                The current collection is deliberately compact: finished objects, shade packs, and
+                accessories designed around the shared E27 system. Custom design is no longer the main
+                offer; the focus is a clearer, more coherent studio collection.
+              </p>
+            </div>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/products"
+                className="rounded-full bg-charcoal px-5 py-3 text-center text-sm font-semibold text-off-white transition-colors hover:bg-deep-brown"
+              >
+                View the collection
+              </Link>
+              <Link
+                href="/materials"
+                className="rounded-full border border-charcoal/15 px-5 py-3 text-center text-sm font-semibold text-charcoal transition-colors hover:border-charcoal/35"
+              >
+                Read material story
+              </Link>
+            </div>
+          </section>
         </div>
       </section>
     </>

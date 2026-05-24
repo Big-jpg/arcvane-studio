@@ -5,106 +5,108 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "FAQ",
   description:
-    "Frequently asked questions about fittings, adapters, LED bulb safety, local pickup, production timing, shipping status, and customisation at ArcVane Studio.",
+    "ArcVane Studio FAQ covering E27 fittings, LED-only use, clear PLA and matte PLA materials, small-batch production, shipping, and returns.",
 };
 
 const faqs = [
   {
-    question: "What fitting do I need?",
+    question: "What fitting system do ArcVane products use?",
     answer:
-      "Choose B22 if your bulb has two side pins and pushes in before twisting. Choose E27 if the bulb screws in with a threaded base. Choose Clipsal No. 530 if your light is a round batten holder fixed directly to the ceiling. If none of those descriptions feel certain, select Other / not sure.",
-  },
-  {
-    question: "What if I do not know my fixture type?",
-    answer:
-      "Select Other / not sure during product configuration and add a short fixture note. A clear photo of the socket or ceiling holder can be used to confirm compatibility before production. Do not dismantle wiring or fixed electrical parts to identify the fitting.",
-  },
-  {
-    question: "Are adapters included?",
-    answer:
-      "Yes. One selected mechanical fitting adapter is included with each standard shade at no extra cost. The adapter supports the shade on the selected fitting type; it does not alter wiring, electrical contacts, or the certified fixture already installed in the home.",
-  },
-  {
-    question: "Can I request a custom size?",
-    answer:
-      "Yes. Custom size, colour, material, and form requests can be submitted through the custom design process. The request is reviewed for scale, material suitability, fitting compatibility, and production practicality before the final price and timing are confirmed.",
-  },
-  {
-    question: "What bulbs are safe?",
-    answer:
-      "Use modern LED bulbs only. The bulb must also remain within the wattage and temperature limits of your existing fitting. LED-only use applies to every ArcVane shade, material, colour, and finish.",
+      "The current ArcVane collection is built around E27 as the primary lighting system. Product pages keep adapter selection deliberately simple because the new model is designed around one clear hardware assumption.",
   },
   {
     question: "Can I use incandescent or halogen bulbs?",
     answer:
-      "No. Incandescent, halogen, heat lamp, appliance, or other high-temperature bulbs must not be used. High heat can deform printed materials, reduce product lifespan, and create an unsafe condition.",
+      "No. ArcVane products are LED-only. Use compatible low-power LED bulbs and do not use incandescent, halogen, heat lamp, appliance, or other high-temperature bulbs with PLA lighting objects.",
   },
   {
-    question: "Is shipping available?",
+    question: "Why use PLA for lighting objects?",
     answer:
-      "No. ArcVane is currently local pickup only. Shipping remains stubbed in the site model and is not available at checkout. If shipping is introduced later, additional delivery terms, costs, and packaging requirements will need to be confirmed first.",
+      "PLA is used intentionally for its diffusion, layer texture, and tactile finish. Clear PLA can behave like shell, sea glass, or frosted mineral under warm LED light, while matte PLA gives stands and tripods a soft coastal surface.",
   },
   {
-    question: "How long does production take?",
+    question: "Are layer lines or small finish variations defects?",
     answer:
-      "Standard catalogue shades are typically ready within 3–5 business days. Custom work commonly takes 5–10 business days after the design, fitting, and price are confirmed. Unclear fixture details can pause production until compatibility is reviewed.",
+      "Fine FDM layer lines, subtle colour shifts, and variable opacity are expected. They are part of the small-batch material language unless they materially affect fit, safety, or the listed product description.",
   },
   {
-    question: "What happens after I order?",
+    question: "Are the products made to order?",
     answer:
-      "The order is reviewed for adapter choice, product details, LED-only acknowledgement, and any fixture or customisation notes. The shade is then produced and prepared in the studio. When complete, you receive an email with local pickup instructions and available collection times.",
+      "Most pieces are made or finished after ordering inside a small Western Australian studio workflow. This supports low stock, careful checking, and limited collection runs rather than mass inventory.",
+  },
+  {
+    question: "How long does dispatch take?",
+    answer:
+      "Allow 5–7 business days for production, finishing, quality checking, packing, and carrier hand-off. Carrier transit time begins after dispatch and varies by destination.",
+  },
+  {
+    question: "How are products packed?",
+    answer:
+      "The current collection is designed around compact 300×300×300mm cube packaging wherever the order composition allows. Multiple items or unusual combinations may require different packing for safety.",
+  },
+  {
+    question: "Do you still offer custom design work?",
+    answer:
+      "Custom design is no longer presented as the core product offering. The studio enquiry route remains available for practical questions, collaborations, or order clarification, but the primary offer is the curated collection.",
+  },
+  {
+    question: "Can I return an item?",
+    answer:
+      "Returns and remedies are handled according to the returns policy and Australian consumer law. Expected small-batch texture and colour variation is normal; damage, incorrect items, or material defects should be raised with the studio promptly.",
   },
 ];
 
-export default function FaqPage() {
+export default function FAQPage() {
   return (
     <>
-      <section className="bg-warm-black py-16 text-warm-white sm:py-20">
+      <section className="bg-shell py-20 text-charcoal sm:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber">
-            Customer support
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-warm-amber">
+            FAQ
           </p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">FAQ</h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-ivory/70">
-            Practical answers about fitting adapters, safe bulbs, custom requests, production
-            timing, and the current local pickup-only model.
+          <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-charcoal sm:text-6xl">
+            Straight answers for a simpler lighting system.
+          </h1>
+          <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
+            The current ArcVane model is intentionally narrow: E27 fittings, low-power LED bulbs,
+            clear and matte PLA, compact production, and small-batch coastal objects.
           </p>
         </div>
       </section>
 
-      <section className="bg-warm-white py-12 sm:py-16">
+      <section className="bg-off-white py-16 sm:py-24">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <div className="space-y-4">
-            {faqs.map((faq) => (
-              <article
-                key={faq.question}
-                className="rounded-2xl border border-charcoal/10 bg-ivory/35 p-6"
-              >
-                <h2 className="text-lg font-semibold text-charcoal">{faq.question}</h2>
-                <p className="mt-3 text-sm leading-relaxed text-charcoal/70">{faq.answer}</p>
+          <div className="divide-y divide-charcoal/10 rounded-[2rem] border border-charcoal/10 bg-shell/60">
+            {faqs.map((item) => (
+              <article key={item.question} className="p-6 sm:p-8">
+                <h2 className="text-xl font-semibold tracking-tight text-charcoal">
+                  {item.question}
+                </h2>
+                <p className="mt-4 text-sm leading-7 text-deep-brown/70">{item.answer}</p>
               </article>
             ))}
           </div>
 
-          <section className="mt-10 rounded-2xl border border-amber/30 bg-amber/5 p-6 sm:p-8">
-            <h2 className="text-xl font-semibold text-charcoal">Still unsure?</h2>
-            <p className="mt-3 text-sm leading-relaxed text-charcoal/70">
-              If the fitting, size, safety requirement, or pickup process is unclear, contact the
-              studio before ordering or select Other / not sure when configuring the shade.
-              Compatibility can be confirmed before production starts.
+          <section className="mt-12 rounded-[2rem] border border-warm-amber/25 bg-warm-amber/5 p-6 sm:p-8">
+            <h2 className="text-2xl font-semibold tracking-tight text-charcoal">
+              Need something more specific?
+            </h2>
+            <p className="mt-4 text-sm leading-7 text-deep-brown/70">
+              For product fit, finish, pickup, shipping, or order-specific questions, contact the
+              studio before ordering. For safety assumptions, read the LED-only safety note first.
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <Link
-                href="/fitting-guide"
-                className="inline-flex justify-center rounded-lg bg-charcoal px-6 py-3 text-sm font-semibold text-warm-white transition-colors hover:bg-charcoal/90"
-              >
-                View fitting guide
-              </Link>
-              <Link
                 href="/contact"
-                className="inline-flex justify-center rounded-lg border border-charcoal/15 px-6 py-3 text-sm font-semibold text-charcoal transition-colors hover:border-charcoal/30"
+                className="rounded-full bg-charcoal px-5 py-3 text-center text-sm font-semibold text-off-white transition-colors hover:bg-deep-brown"
               >
                 Contact the studio
+              </Link>
+              <Link
+                href="/safety"
+                className="rounded-full border border-charcoal/15 px-5 py-3 text-center text-sm font-semibold text-charcoal transition-colors hover:border-charcoal/35"
+              >
+                LED safety note
               </Link>
             </div>
           </section>

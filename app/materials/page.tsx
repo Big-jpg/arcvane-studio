@@ -1,148 +1,142 @@
 // app/materials/page.tsx
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Layers, Lightbulb, Palette, Sparkles } from "lucide-react";
+import { Layers, Lightbulb, Palette, Shell, Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Materials",
   description:
-    "Customer guide to ArcVane Studio materials, finishes, translucency, and expected variation in 3D printed lampshades.",
+    "The ArcVane Studio material story: clear PLA diffusion, matte PLA stands, intentional layer texture, small-batch finishing, and LED-only use.",
 };
 
-const materials = [
+const materialStories = [
   {
-    name: "PLA",
-    subtitle: "Matte, silk, and textured shade forms",
-    description:
-      "PLA is used for many opaque and softly diffusing forms where surface detail, crisp geometry, and warm interior colour are the priority.",
-    bestFor: "Pleated, floral, perforated, and textured designs with defined surface geometry.",
+    icon: Shell,
+    title: "Clear PLA as optical diffusion",
+    kicker: "Frosted shell, sea glass, translucent mineral",
+    text: "Clear PLA is used for its softness under light rather than for glass-like transparency. Thin areas brighten and edges glow; thicker ribs hold a milky opacity that reads like shell, sea glass, or a translucent mineral surface.",
   },
   {
-    name: "PETG",
-    subtitle: "Translucent, gloss, and satin diffuser forms",
-    description:
-      "PETG is used where translucency, durability, and a more luminous body are desired. It can carry frosted, smoke, amber, blue, or clear-tinted effects depending on the product.",
-    bestFor:
-      "Faceted, diffuser, and experimental designs where light transmission through the shade is part of the visual effect.",
+    icon: Palette,
+    title: "Matte PLA for stands and tripods",
+    kicker: "Weathered posts, coastal railings, quiet touch",
+    text: "Matte PLA gives table-lamp bases and tripod stands a soft-touch character. The reference is practical coastal material: sun-faded beach posts, limestone paths, muted railings, and timber that has been handled by weather rather than polished for gloss.",
+  },
+  {
+    icon: Layers,
+    title: "Layer lines as natural texture",
+    kicker: "Shell striation, sediment, coral growth, timber grain",
+    text: "FDM layer lines are treated as part of the surface language. They are not hidden as defects; they carry the object’s rhythm in the same way shells, dunes, coral, limestone, and wind-carved timber hold visible growth or sediment lines.",
   },
 ];
 
 const finishNotes = [
   {
-    icon: Palette,
-    title: "Colour",
-    text: "Colour names describe the intended appearance, but exact tone can vary slightly between material batches, lighting conditions, and product photography.",
+    title: "Variable opacity",
+    text: "Clear and translucent shades shift between frosted, cloudy, and edge-lit depending on wall thickness, rib spacing, LED warmth, and surrounding room light.",
   },
   {
-    icon: Layers,
-    title: "Layer texture",
-    text: "FDM printing creates fine layer lines. They are part of the fabrication method and may be more visible on glossy or translucent pieces.",
+    title: "Internal glow",
+    text: "The material is intended to soften the source and let light accumulate inside the object before releasing it as a warm domestic glow.",
   },
   {
-    icon: Sparkles,
-    title: "Finish",
-    text: "Matte, silk, textured, satin, and gloss finishes behave differently under light. Silk and gloss surfaces can show stronger highlights; matte surfaces appear softer.",
+    title: "Small-batch variation",
+    text: "Fine differences in colour, surface sheen, layer texture, and diffusion are expected between batches and are part of the studio character.",
   },
   {
-    icon: Lightbulb,
-    title: "Light behaviour",
-    text: "Opaque shades shape and direct light; translucent shades also glow through the material. Always use LED bulbs only, regardless of material.",
+    title: "Low-heat LED use",
+    text: "PLA is used only within the intended low-power LED lighting model. Incandescent, halogen, heat lamp, or other high-temperature bulbs are not supported.",
   },
 ];
 
 export default function MaterialsPage() {
   return (
     <>
-      <section className="bg-warm-black py-16 text-warm-white sm:py-20">
+      <section className="bg-shell py-20 text-charcoal sm:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber">
-            Product information
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-warm-amber">
+            Material story
           </p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Materials</h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-ivory/70">
-            ArcVane shades are produced as small-batch 3D printed objects. Material choice affects
-            translucency, finish, shadow behaviour, durability, and the amount of visible print
-            texture.
+          <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-charcoal sm:text-6xl">
+            PLA treated as a coastal material, not a cheap substitute.
+          </h1>
+          <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
+            ArcVane uses clear PLA, matte PLA, and visible FDM texture as deliberate parts of the
+            object: shell-like diffusion, soft stand finishes, and tactile striation that belongs to
+            the form.
           </p>
         </div>
       </section>
 
-      <section className="bg-warm-white py-12 sm:py-16">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {materials.map((material) => (
-              <article
-                key={material.name}
-                className="rounded-2xl border border-charcoal/10 bg-ivory/40 p-6 sm:p-8"
-              >
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-charcoal/40">
-                  Material
-                </p>
-                <h2 className="mt-3 text-2xl font-semibold text-charcoal">{material.name}</h2>
-                <p className="mt-1 text-sm font-medium text-charcoal/50">{material.subtitle}</p>
-                <p className="mt-5 text-sm leading-relaxed text-charcoal/70">
-                  {material.description}
-                </p>
-                <p className="mt-5 rounded-xl border border-charcoal/10 bg-warm-white p-4 text-sm leading-relaxed text-charcoal/70">
-                  <strong className="text-charcoal">Common use:</strong> {material.bestFor}
-                </p>
-              </article>
-            ))}
+      <section className="bg-off-white py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+            {materialStories.map((story) => {
+              const Icon = story.icon;
+              return (
+                <article
+                  key={story.title}
+                  className="rounded-[1.75rem] border border-charcoal/10 bg-shell/65 p-6 shadow-sm shadow-charcoal/5 sm:p-8"
+                >
+                  <Icon className="h-6 w-6 text-weathered-post" />
+                  <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-warm-amber">
+                    {story.kicker}
+                  </p>
+                  <h2 className="mt-3 text-2xl font-semibold tracking-tight text-charcoal">
+                    {story.title}
+                  </h2>
+                  <p className="mt-5 text-sm leading-7 text-deep-brown/70">{story.text}</p>
+                </article>
+              );
+            })}
           </div>
 
-          <section className="mt-10 rounded-2xl border border-charcoal/10 bg-warm-white p-6 sm:p-8">
-            <h2 className="text-xl font-semibold text-charcoal">
-              What to expect from printed shades
-            </h2>
-            <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
-              {finishNotes.map((note) => {
-                const Icon = note.icon;
-                return (
-                  <div
-                    key={note.title}
-                    className="rounded-xl border border-charcoal/10 bg-ivory/30 p-5"
-                  >
-                    <Icon className="h-5 w-5 text-charcoal/50" />
-                    <h3 className="mt-4 text-base font-semibold text-charcoal">{note.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-charcoal/70">{note.text}</p>
+          <section className="mt-12 rounded-[2rem] border border-charcoal/10 bg-horizon-blue/20 p-6 sm:p-10">
+            <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+              <div>
+                <Sparkles className="h-7 w-7 text-weathered-post" />
+                <h2 className="mt-5 text-3xl font-semibold tracking-tight text-charcoal">
+                  Finishing is small-batch by design.
+                </h2>
+                <p className="mt-5 text-sm leading-7 text-deep-brown/70">
+                  The aim is not factory sameness. The aim is controlled variation: surfaces that
+                  show their making, diffusers that behave differently under light, and tones that sit
+                  inside a calm coastal palette without pretending to be injection-moulded plastic.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {finishNotes.map((note) => (
+                  <div key={note.title} className="rounded-2xl border border-charcoal/10 bg-off-white/80 p-5">
+                    <h3 className="text-base font-semibold text-charcoal">{note.title}</h3>
+                    <p className="mt-2 text-sm leading-7 text-deep-brown/68">{note.text}</p>
                   </div>
-                );
-              })}
+                ))}
+              </div>
             </div>
           </section>
 
-          <section className="mt-10 rounded-2xl border border-charcoal/10 bg-ivory/40 p-6 sm:p-8">
-            <h2 className="text-xl font-semibold text-charcoal">Variation between pieces</h2>
-            <div className="mt-4 space-y-4 text-sm leading-relaxed text-charcoal/70">
-              <p>
-                ArcVane operates as a small-batch design studio, not a mass-production retailer.
-                Each shade is produced individually, so minor differences in layer texture, surface
-                finish, translucency, geometry, and colour tone are expected.
-              </p>
-              <p>
-                These variations are usually cosmetic and are considered part of the character of
-                the object. If a product is materially defective, damaged before collection, or
-                substantially inconsistent with the listed description, it is handled through the
-                returns and refunds process.
-              </p>
+          <section className="mt-12 rounded-[2rem] border border-warm-amber/25 bg-warm-amber/5 p-6 sm:p-10">
+            <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+              <Lightbulb className="h-7 w-7 shrink-0 text-warm-amber" />
+              <div>
+                <h2 className="text-2xl font-semibold tracking-tight text-charcoal">
+                  LED safety is part of the material specification.
+                </h2>
+                <p className="mt-4 text-sm leading-7 text-deep-brown/70">
+                  ArcVane products are designed for low-power LED bulbs only. Within that intended
+                  use, LED operating temperatures are low enough for the PLA lighting model. Heat
+                  concerns arise when customers use incandescent, halogen, heat lamp, appliance, or
+                  other high-temperature bulbs, which are not compatible with ArcVane products.
+                </p>
+                <Link
+                  href="/safety"
+                  className="mt-5 inline-flex rounded-full bg-charcoal px-5 py-3 text-sm font-semibold text-off-white transition-colors hover:bg-deep-brown"
+                >
+                  Read the LED safety note
+                </Link>
+              </div>
             </div>
-          </section>
-
-          <section className="mt-10 rounded-2xl border border-amber/30 bg-amber/5 p-6 sm:p-8">
-            <h2 className="text-xl font-semibold text-charcoal">
-              Heat limitation applies to every material
-            </h2>
-            <p className="mt-4 text-sm leading-relaxed text-charcoal/70">
-              PLA and PETG are suitable for the intended low-heat LED use case. They are not
-              suitable for incandescent or halogen bulbs. The LED-only limitation applies to every
-              shade, material, colour, and finish.
-            </p>
-            <Link
-              href="/safety"
-              className="mt-4 inline-flex text-sm font-semibold text-charcoal underline underline-offset-4"
-            >
-              Read the LED safety note
-            </Link>
           </section>
         </div>
       </section>

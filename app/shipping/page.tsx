@@ -1,75 +1,119 @@
 // app/shipping/page.tsx
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PackageX, Truck, Wrench } from "lucide-react";
+import { MapPin, Package, Truck } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Shipping",
   description:
-    "Current shipping status for ArcVane Studio orders. Shipping is stubbed and local pickup is currently required.",
+    "ArcVane Studio shipping information: 5–7 business day dispatch, compact 300mm cube packaging, Australia-wide delivery, and local pickup where available.",
 };
+
+const shippingNotes = [
+  {
+    icon: Package,
+    title: "Compact 300mm cube packaging",
+    text: "The current collection is designed to fit efficient 300×300×300mm cube packaging wherever the order composition allows. This keeps delivery practical without oversizing the objects.",
+  },
+  {
+    icon: Truck,
+    title: "5–7 business day dispatch",
+    text: "Most orders are made, finished, checked, and dispatched within 5–7 business days. Tracking is provided after the parcel is handed to the carrier.",
+  },
+  {
+    icon: MapPin,
+    title: "Australia-wide delivery",
+    text: "ArcVane ships within Australia from Western Australia. Local pickup may be available when arranged through the studio route.",
+  },
+];
+
+const expectations = [
+  ["Packaging model", "Single pieces and compact sets are packed around the 300×300×300mm cube target where practical."],
+  ["Dispatch timing", "Allow 5–7 business days for production, finishing, checking, packing, and carrier hand-off."],
+  ["Multiple items", "Larger or mixed orders may require more than one parcel or a larger box if the cube target is not safe."],
+  ["Delivery estimates", "Carrier transit time starts after dispatch and varies by destination, service level, and seasonal load."],
+];
 
 export default function ShippingPage() {
   return (
     <>
-      <section className="bg-warm-black py-16 text-warm-white sm:py-20">
+      <section className="bg-shell py-20 text-charcoal sm:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber">
-            Fulfilment status
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-warm-amber">
+            Shipping
           </p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Shipping</h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-ivory/70">
-            Shipping is not currently available. ArcVane is operating as a local pickup-only
-            studio while packaging, carrier, returns, and fulfilment processes remain under review.
+          <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-charcoal sm:text-6xl">
+            Compact delivery for small-batch coastal lighting.
+          </h1>
+          <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
+            ArcVane products are designed as compact domestic objects. The shipping model supports
+            made-after-order production, safe packing, and efficient Australia-wide delivery.
           </p>
         </div>
       </section>
 
-      <section className="bg-warm-white py-12 sm:py-16">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-2xl border border-amber/30 bg-amber/5 p-6 sm:p-8">
-            <PackageX className="h-7 w-7 text-amber" />
-            <h2 className="mt-4 text-xl font-semibold text-charcoal">Shipping remains stubbed</h2>
-            <p className="mt-4 text-sm leading-relaxed text-charcoal/70">
-              The checkout flow currently treats fulfilment as local pickup only. Shipping costs,
-              delivery timeframes, carrier selection, transit cover, and shipped-return handling are
-              not live customer options.
-            </p>
-            <p className="mt-4 text-sm leading-relaxed text-charcoal/70">
-              If shipping is introduced in a later phase, this page should be replaced with
-              confirmed packaging standards, carrier terms, delivery pricing, damage-in-transit
-              handling, and return shipping rules.
-            </p>
+      <section className="bg-off-white py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {shippingNotes.map((note) => {
+              const Icon = note.icon;
+              return (
+                <article key={note.title} className="rounded-[1.75rem] border border-charcoal/10 bg-shell/65 p-6 shadow-sm shadow-charcoal/5 sm:p-8">
+                  <Icon className="h-6 w-6 text-weathered-post" />
+                  <h2 className="mt-6 text-2xl font-semibold tracking-tight text-charcoal">
+                    {note.title}
+                  </h2>
+                  <p className="mt-4 text-sm leading-7 text-deep-brown/70">{note.text}</p>
+                </article>
+              );
+            })}
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
-            <section className="rounded-2xl border border-charcoal/10 bg-ivory/40 p-6">
-              <Truck className="h-6 w-6 text-charcoal/50" />
-              <h2 className="mt-4 text-lg font-semibold text-charcoal">Current fulfilment</h2>
-              <p className="mt-3 text-sm leading-relaxed text-charcoal/70">
-                Orders are produced locally and collected by appointment once ready. Collection
-                details are provided after the order has been completed in the studio.
-              </p>
+          <section className="mt-12 rounded-[2rem] border border-charcoal/10 bg-horizon-blue/20 p-6 sm:p-10">
+            <h2 className="text-3xl font-semibold tracking-tight text-charcoal">
+              What the shipping window includes
+            </h2>
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-deep-brown/70">
+              Dispatch time is not only packing time. Because pieces are made or finished in a small
+              studio workflow, the shipping window includes production, fit checking, LED-only safety
+              review, and protective packing.
+            </p>
+            <dl className="mt-8 divide-y divide-charcoal/10 rounded-2xl border border-charcoal/10 bg-off-white/80">
+              {expectations.map(([label, value]) => (
+                <div key={label} className="grid grid-cols-1 gap-2 px-5 py-5 sm:grid-cols-[170px_1fr]">
+                  <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-weathered-post">
+                    {label}
+                  </dt>
+                  <dd className="text-sm leading-7 text-deep-brown/70">{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+
+          <section className="mt-12 rounded-[2rem] border border-charcoal/10 bg-shell/70 p-6 sm:p-10">
+            <h2 className="text-3xl font-semibold tracking-tight text-charcoal">
+              Need pickup or order-specific delivery advice?
+            </h2>
+            <p className="mt-5 max-w-3xl text-sm leading-7 text-deep-brown/70">
+              If the order is time-sensitive, includes several pieces, or requires local pickup,
+              contact the studio before ordering so the packing and dispatch assumptions can be
+              confirmed.
+            </p>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/contact"
+                className="rounded-full bg-charcoal px-5 py-3 text-center text-sm font-semibold text-off-white transition-colors hover:bg-deep-brown"
+              >
+                Contact the studio
+              </Link>
               <Link
                 href="/pickup"
-                className="mt-4 inline-flex text-sm font-semibold text-charcoal underline underline-offset-4"
+                className="rounded-full border border-charcoal/15 px-5 py-3 text-center text-sm font-semibold text-charcoal transition-colors hover:border-charcoal/35"
               >
-                View local pickup instructions
+                Local pickup details
               </Link>
-            </section>
-
-            <section className="rounded-2xl border border-charcoal/10 bg-warm-white p-6">
-              <Wrench className="h-6 w-6 text-charcoal/50" />
-              <h2 className="mt-4 text-lg font-semibold text-charcoal">
-                Future shipping requirements
-              </h2>
-              <p className="mt-3 text-sm leading-relaxed text-charcoal/70">
-                Before shipping becomes available, the studio should confirm packaging by product
-                size, damage reporting, carrier liability, address validation, shipped returns, and
-                whether any custom or oversized designs are excluded.
-              </p>
-            </section>
-          </div>
+            </div>
+          </section>
         </div>
       </section>
     </>
