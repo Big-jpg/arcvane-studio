@@ -1,9 +1,21 @@
 @import "tailwindcss";
 
-/* ArcVane Studio — Brand Palette */
+/* ArcVane Studio — Coastal Palette */
 :root {
-  --background: #faf8f5;
-  --foreground: #1c1c1c;
+  --color-shell: #f4efe6;
+  --color-sand: #d8c7aa;
+  --color-limestone: #b9ad98;
+  --color-weathered-post: #7b7568;
+  --color-dune-grass: #7f8a67;
+  --color-coastal-blue: #9eb8bd;
+  --color-horizon-blue: #c7d8d9;
+  --color-warm-amber: #b9824b;
+  --color-deep-brown: #3d3028;
+  --color-charcoal: #20201d;
+  --color-off-white: #faf7f0;
+
+  --background: var(--color-shell);
+  --foreground: var(--color-charcoal);
 }
 
 @theme inline {
@@ -11,24 +23,29 @@
   --color-foreground: var(--foreground);
   --font-sans: "Inter", system-ui, sans-serif;
 
-  /* Brand colours */
-  --color-charcoal: #1c1c1c;
-  --color-warm-black: #0f0f0f;
-  --color-ivory: #f5f0e8;
-  --color-warm-white: #faf8f5;
-  --color-amber: #c9943e;
-  --color-frosted-blue: #8ab4c7;
-  --color-filament-beige: #d4c5a9;
-  --color-copper: #b87333;
-  --color-muted-charcoal: #2a2a2a;
-  --color-soft-gray: #3a3a3a;
-}
+  /* Coastal brand colours */
+  --color-shell: var(--color-shell);
+  --color-sand: var(--color-sand);
+  --color-limestone: var(--color-limestone);
+  --color-weathered-post: var(--color-weathered-post);
+  --color-dune-grass: var(--color-dune-grass);
+  --color-coastal-blue: var(--color-coastal-blue);
+  --color-horizon-blue: var(--color-horizon-blue);
+  --color-warm-amber: var(--color-warm-amber);
+  --color-deep-brown: var(--color-deep-brown);
+  --color-charcoal: var(--color-charcoal);
+  --color-off-white: var(--color-off-white);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0f0f0f;
-    --foreground: #f5f0e8;
-  }
+  /* Transitional aliases for existing surfaces outside Phase A1 scope. */
+  --color-warm-black: var(--color-charcoal);
+  --color-ivory: var(--color-shell);
+  --color-warm-white: var(--color-off-white);
+  --color-amber: var(--color-warm-amber);
+  --color-frosted-blue: var(--color-coastal-blue);
+  --color-filament-beige: var(--color-sand);
+  --color-copper: var(--color-warm-amber);
+  --color-muted-charcoal: var(--color-deep-brown);
+  --color-soft-gray: var(--color-weathered-post);
 }
 
 body {
@@ -44,6 +61,6 @@ html {
 
 /* Selection colour */
 ::selection {
-  background-color: #c9943e33;
-  color: #1c1c1c;
+  background-color: color-mix(in srgb, var(--color-warm-amber) 24%, transparent);
+  color: var(--color-charcoal);
 }

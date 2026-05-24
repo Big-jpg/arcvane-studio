@@ -5,62 +5,63 @@ const footerSections = [
   {
     title: "Shop",
     links: [
-      { href: "/products", label: "All Products" },
-      { href: "/custom", label: "Custom Design" },
-      { href: "/fitting-guide", label: "Fitting Guide" },
+      { href: "/products", label: "Current Collection" },
+      { href: "/products?category=shade-sets", label: "Shade Sets" },
+      { href: "/products?category=single-shades", label: "Single Shades" },
+      { href: "/products?category=accessories", label: "Accessories" },
+    ],
+  },
+  {
+    title: "Studio",
+    links: [
       { href: "/materials", label: "Materials" },
-    ],
-  },
-  {
-    title: "Information",
-    links: [
+      { href: "/production", label: "Production" },
+      { href: "/safety", label: "Safety" },
       { href: "/about", label: "About" },
-      { href: "/production", label: "Production & Turnaround" },
-      { href: "/pickup", label: "Local Pickup" },
-      { href: "/shipping", label: "Shipping" },
-      { href: "/faq", label: "FAQ" },
-      { href: "/contact", label: "Contact" },
     ],
   },
   {
-    title: "Legal",
+    title: "Support",
     links: [
-      { href: "/privacy", label: "Privacy Policy" },
-      { href: "/terms", label: "Terms & Conditions" },
-      { href: "/returns", label: "Returns & Refunds" },
-      { href: "/safety", label: "LED Bulb Safety" },
+      { href: "/shipping", label: "Shipping" },
+      { href: "/returns", label: "Returns" },
+      { href: "/contact", label: "Contact" },
+      { href: "/terms", label: "Terms / Privacy" },
     ],
   },
 ];
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-charcoal/10 bg-charcoal text-ivory">
+    <footer className="border-t border-limestone/35 bg-deep-brown text-shell">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand column */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold tracking-tight text-warm-white">
-              ArcVane Studio
-            </h3>
-            <p className="text-sm leading-relaxed text-ivory/70">
-              Custom 3D printed lampshades designed for the lights you already own. Parametric
-              lighting objects, locally made.
+            <Link href="/" className="inline-flex items-center gap-2" aria-label="ArcVane Studio home">
+              <span className="h-2 w-2 rounded-full bg-warm-amber" />
+              <span className="text-lg font-semibold tracking-tight text-off-white">
+                ArcVane Studio
+              </span>
+            </Link>
+            <p className="max-w-sm text-sm leading-relaxed text-shell/75">
+              Small-batch coastal lighting objects made from translucent PLA, matte-finished stands,
+              and warm LED hardware. Designed and produced in Western Australia.
             </p>
           </div>
 
           {/* Link columns */}
           {footerSections.map((section) => (
             <div key={section.title} className="space-y-4">
-              <h4 className="text-sm font-semibold uppercase tracking-wider text-ivory/50">
+              <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-horizon-blue/75">
                 {section.title}
               </h4>
-              <ul className="space-y-2">
+              <ul className="space-y-2.5">
                 {section.links.map((link) => (
-                  <li key={link.href}>
+                  <li key={`${section.title}-${link.label}`}>
                     <Link
                       href={link.href}
-                      className="text-sm text-ivory/70 transition-colors hover:text-warm-white"
+                      className="text-sm text-shell/75 transition-colors hover:text-off-white focus:outline-none focus-visible:text-off-white focus-visible:ring-2 focus-visible:ring-warm-amber/35 focus-visible:ring-offset-4 focus-visible:ring-offset-deep-brown"
                     >
                       {link.label}
                     </Link>
@@ -71,8 +72,8 @@ export function SiteFooter() {
           ))}
         </div>
 
-        <div className="mt-12 border-t border-ivory/10 pt-8">
-          <p className="text-center text-xs text-ivory/50">
+        <div className="mt-12 border-t border-shell/10 pt-8">
+          <p className="text-center text-xs text-shell/50">
             &copy; {new Date().getFullYear()} ArcVane Studio. All rights reserved. LED bulbs only.
           </p>
         </div>
