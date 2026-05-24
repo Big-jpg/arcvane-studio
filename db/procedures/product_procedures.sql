@@ -212,9 +212,9 @@ BEGIN
     COALESCE(p_description, ''),
     COALESCE(p_material, ''),
     COALESCE(p_dimensions, ''),
-    COALESCE(p_colours, '{}'),
-    COALESCE(p_images, '{}'),
-    COALESCE(p_adapters, '{}'),
+    COALESCE(p_colours, ARRAY[]::TEXT[]),
+    COALESCE(p_images, ARRAY[]::TEXT[]),
+    COALESCE(p_adapters, ARRAY[]::TEXT[]),
     COALESCE(p_in_stock, true),
     NULLIF(btrim(COALESCE(p_design_family, '')), '')
   )
@@ -250,6 +250,66 @@ BEGIN
     admin_products.design_family,
     admin_products.created_at,
     admin_products.updated_at;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION append_admin_product_image(p_id TEXT, p_image TEXT)
+RETURNS TABLE (
+  id TEXT,
+  handle TEXT,
+  title TEXT,
+  price NUMERIC(10,2),
+  currency TEXT,
+  category TEXT,
+  description TEXT,
+  material TEXT,
+  dimensions TEXT,
+  colours TEXT[],
+  images TEXT[],
+  adapters TEXT[],
+  in_stock BOOLEAN,
+  design_family TEXT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+  normalised_image TEXT := NULLIF(btrim(COALESCE(p_image, '')), '');
+BEGIN
+  IF p_id IS NULL OR btrim(p_id) = '' THEN
+    RAISE EXCEPTION 'Product id is required.' USING ERRCODE = 'P0001';
+  END IF;
+
+  IF normalised_image IS NULL THEN
+    RAISE EXCEPTION 'Product image URL or path is required.' USING ERRCODE = 'P0001';
+  END IF;
+
+  RETURN QUERY
+  UPDATE admin_products p
+  SET images = CASE
+        WHEN COALESCE(p.images, ARRAY[]::TEXT[]) @> ARRAY[normalised_image]::TEXT[] THEN COALESCE(p.images, ARRAY[]::TEXT[])
+        ELSE array_append(COALESCE(p.images, ARRAY[]::TEXT[]), normalised_image)
+      END,
+      updated_at = now()
+  WHERE p.id = btrim(p_id)
+  RETURNING
+    p.id,
+    p.handle,
+    p.title,
+    p.price,
+    p.currency,
+    p.category,
+    p.description,
+    p.material,
+    p.dimensions,
+    p.colours,
+    p.images,
+    p.adapters,
+    p.in_stock,
+    p.design_family,
+    p.created_at,
+    p.updated_at;
 END;
 $$;
 

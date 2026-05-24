@@ -38,6 +38,12 @@ type ProductApiResponse = {
   error?: string;
 };
 
+type ImageUploadApiResponse = ProductApiResponse & {
+  url?: string;
+  path?: string;
+  limitation?: string;
+};
+
 const emptyProductForm: ProductFormState = {
   id: "",
   handle: "",
@@ -270,22 +276,35 @@ export function ProductCatalogueManager({
 
     startTransition(async () => {
       try {
-        const payload = await parseJsonResponse<{ ok: boolean; path?: string; limitation?: string; error?: string }>(
+        const payload = await parseJsonResponse<ImageUploadApiResponse>(
           await fetch(`/api/admin/products/${encodeURIComponent(form.id)}/image`, {
             method: "POST",
             body,
           }),
         );
 
-        if (!payload.path) {
-          throw new Error("Image upload did not return a path.");
+        const uploadedUrl = payload.url ?? payload.path;
+
+        if (!uploadedUrl) {
+          throw new Error("Image upload succeeded but did not return an image URL.");
         }
 
-        setForm((current) => ({
-          ...current,
-          images: commaJoin([...commaSplit(current.images), payload.path as string]),
-        }));
-        setMessage(payload.limitation ?? "Image uploaded. Save the product to persist the image list.");
+        if (payload.product) {
+          setForm(productToForm(payload.product));
+          setHandleManuallyEdited(true);
+        } else {
+          setForm((current) => ({
+            ...current,
+            images: commaJoin([...commaSplit(current.images), uploadedUrl]),
+          }));
+        }
+
+        setMessage(
+          payload.limitation
+            ? `Image uploaded and saved. ${payload.limitation}`
+            : "Image uploaded and saved to the product image list.",
+        );
+        router.refresh();
       } catch (error) {
         setMessage(error instanceof Error ? error.message : "Image upload failed.");
       }
@@ -412,7 +431,7 @@ export function ProductCatalogueManager({
               {form.id ? "Edit product" : "Add product"}
             </h3>
             <p className="mt-1 text-sm leading-6 text-charcoal/60">
-              Handles are URL slugs and must be unique. The primary image is the first image path.
+              Handles are URL slugs and must be unique. Images are optional; when present, the first URL is used as primary.
             </p>
           </div>
           {form.id ? (
@@ -609,13 +628,13 @@ export function ProductCatalogueManager({
           </label>
 
           <label className="block text-sm font-semibold text-charcoal">
-            Image paths / URLs
+            Image paths / URLs <span className="font-normal text-charcoal/40">(optional)</span>
             <textarea
               value={form.images}
               onChange={(event) => setForm((current) => ({ ...current, images: event.target.value }))}
               disabled={!databaseAvailable || isPending}
               className="mt-1 min-h-20 w-full rounded-lg border border-charcoal/15 bg-white px-3 py-2 text-sm font-normal text-charcoal outline-none transition focus:border-amber disabled:opacity-60"
-              placeholder="/products/product-01.png, https://..."
+              placeholder="/products/product-01.png, https://example.com/image.webp, https://...public.blob.vercel-storage.com/..."
             />
           </label>
 
@@ -634,10 +653,10 @@ export function ProductCatalogueManager({
               </label>
             </div>
             {!form.id ? (
-              <p className="mt-2 text-xs text-charcoal/50">Save the product before uploading image files.</p>
+              <p className="mt-2 text-xs text-charcoal/50">Save the product before uploading image files. Products can be saved with no images.</p>
             ) : null}
             {images.length === 0 ? (
-              <p className="mt-3 text-sm text-charcoal/50">No images configured.</p>
+              <p className="mt-3 text-sm text-charcoal/50">No images configured. You can save the product now and add uploaded or pasted image URLs later.</p>
             ) : (
               <div className="mt-3 grid gap-3 sm:grid-cols-2">
                 {images.map((image, index) => (

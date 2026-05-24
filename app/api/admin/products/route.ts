@@ -68,7 +68,27 @@ function stringArrayField(record: Record<string, unknown>, key: string): string[
   }
 
   if (typeof value === "string") {
-    return value
+    const trimmed = value.trim();
+
+    if (trimmed === "" || trimmed === "{}" || trimmed === "[]") {
+      return [];
+    }
+
+    if (trimmed.startsWith("[") && trimmed.endsWith("]")) {
+      try {
+        const parsed = JSON.parse(trimmed) as unknown;
+        if (Array.isArray(parsed)) {
+          return parsed
+            .filter((item): item is string => typeof item === "string")
+            .map((item) => item.trim())
+            .filter(Boolean);
+        }
+      } catch {
+        // Fall back to comma-separated parsing below.
+      }
+    }
+
+    return trimmed
       .split(",")
       .map((item) => item.trim())
       .filter(Boolean);

@@ -100,7 +100,22 @@ export async function upsertAdminProduct(
   params: UpsertAdminProductParams,
 ): Promise<AdminProductRecord | null> {
   const row = await queryOne<AdminProductRow>(
-    `SELECT * FROM upsert_admin_product($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`,
+    `SELECT * FROM upsert_admin_product(
+      $1::text,
+      $2::text,
+      $3::text,
+      $4::numeric,
+      $5::text,
+      $6::text,
+      $7::text,
+      $8::text,
+      $9::text,
+      $10::text[],
+      $11::text[],
+      $12::text[],
+      $13::boolean,
+      $14::text
+    )`,
     [
       params.id,
       params.handle,
@@ -117,6 +132,18 @@ export async function upsertAdminProduct(
       params.inStock,
       params.designFamily ?? null,
     ],
+  );
+
+  return row ? mapAdminProduct(row) : null;
+}
+
+export async function appendAdminProductImage(
+  id: string,
+  imageUrl: string,
+): Promise<AdminProductRecord | null> {
+  const row = await queryOne<AdminProductRow>(
+    `SELECT * FROM append_admin_product_image($1::text, $2::text)`,
+    [id, imageUrl],
   );
 
   return row ? mapAdminProduct(row) : null;
