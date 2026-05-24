@@ -50,7 +50,7 @@ const emptyProductForm: ProductFormState = {
   title: "",
   price: "0",
   currency: "AUD",
-  category: "Pleated shades",
+  category: PRODUCT_CATEGORIES[0],
   description: "",
   material: "",
   dimensions: "",

@@ -4,7 +4,8 @@
 // All calls use the Storefront API (public, read-only) via server-side fetch.
 // No private credentials are exposed to the client bundle.
 
-import type { Product, ProductCategory, AdapterType, ProductMetadata } from "./types";
+import { ADAPTER_OPTIONS, PRODUCT_CATEGORIES } from "./product-options";
+import type { Product, ProductCategory, ProductMetadata, AdapterType } from "./types";
 
 // ---------------------------------------------------------------------------
 // Configuration
@@ -190,16 +191,8 @@ interface ShopifyProduct {
 // Normalisation helpers
 // ---------------------------------------------------------------------------
 
-const VALID_CATEGORIES: ProductCategory[] = [
-  "Pleated shades",
-  "Faceted / geometric shades",
-  "Floral / petal shades",
-  "Textured diffuser shades",
-  "Starfield / perforated shades",
-  "Experimental prototypes",
-];
-
-const VALID_ADAPTERS: AdapterType[] = ["B22", "E27", "Clipsal No. 530", "Other / not sure"];
+const VALID_CATEGORIES: ProductCategory[] = PRODUCT_CATEGORIES;
+const VALID_ADAPTERS: AdapterType[] = ADAPTER_OPTIONS;
 
 function getMetafieldValue(metafields: (ShopifyMetafield | null)[], key: string): string | null {
   const mf = metafields.find((m) => m !== null && m.key === key);
@@ -230,13 +223,13 @@ function normaliseCategory(raw: string | null, productType: string): ProductCate
     const match = VALID_CATEGORIES.find((c) => c.toLowerCase() === trimmed.toLowerCase());
     if (match) return match;
   }
-  return "Experimental prototypes";
+  return "Experimental Drops";
 }
 
 function normaliseAdapters(raw: string[]): AdapterType[] {
   if (raw.length === 0) {
-    // Default: all adapters available
-    return [...VALID_ADAPTERS];
+    // Default: E27 is the primary shared hardware system.
+    return ["E27"];
   }
   const mapped = raw
     .map((r) => {
@@ -244,7 +237,7 @@ function normaliseAdapters(raw: string[]): AdapterType[] {
       return VALID_ADAPTERS.find((a) => a.toLowerCase() === trimmed.toLowerCase()) ?? null;
     })
     .filter((a): a is AdapterType => a !== null);
-  return mapped.length > 0 ? mapped : [...VALID_ADAPTERS];
+  return mapped.length > 0 ? mapped : ["E27"];
 }
 
 function normaliseProduct(shopifyProduct: ShopifyProduct): Product {

@@ -1,14 +1,14 @@
 // lib/types.ts
 
-export type AdapterType = "B22" | "E27" | "Clipsal No. 530" | "Other / not sure";
+export type AdapterType = "E27" | "B22" | "Other / not sure";
 
 export type ProductCategory =
-  | "Pleated shades"
-  | "Faceted / geometric shades"
-  | "Floral / petal shades"
-  | "Textured diffuser shades"
-  | "Starfield / perforated shades"
-  | "Experimental prototypes";
+  | "Table Lamps"
+  | "Shade Sets"
+  | "Single Shades"
+  | "Coastal Forms"
+  | "Experimental Drops"
+  | "Accessories";
 
 /**
  * Future-ready metadata fields from the branding doc.
@@ -39,7 +39,7 @@ export interface Product {
   dimensions: string;
   colours: string[];
   images: string[];
-  /** Compatible adapter types for this product. */
+  /** Compatible adapter types for this product. E27 is the primary/default system. */
   adapters: AdapterType[];
   inStock: boolean;
 
@@ -52,7 +52,7 @@ export interface Product {
 
   // --- Extended catalogue fields ---
 
-  /** Design family grouping, e.g. "Meridian", "Cobalt". */
+  /** Design family grouping, e.g. "Shell Fan", "Coral Veil". */
   designFamily?: string | null;
   /** Compatible adapters as raw strings from Shopify (before normalisation). */
   compatibleAdapters?: string[] | null;

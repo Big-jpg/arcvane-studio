@@ -8,6 +8,7 @@
 //
 // All exports are async where source selection requires I/O.
 
+import { PRODUCT_CATEGORIES } from "./product-options";
 import type { Product, ProductCategory } from "./types";
 
 // ---------------------------------------------------------------------------
@@ -98,14 +99,7 @@ export async function getProductByHandle(handle: string): Promise<Product | null
  * Categories are static and shared between all data sources.
  */
 export function getCategories(): ProductCategory[] {
-  return [
-    "Pleated shades",
-    "Faceted / geometric shades",
-    "Floral / petal shades",
-    "Textured diffuser shades",
-    "Starfield / perforated shades",
-    "Experimental prototypes",
-  ];
+  return [...PRODUCT_CATEGORIES];
 }
 
 /**
