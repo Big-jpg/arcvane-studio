@@ -132,7 +132,12 @@ function databaseErrorResponse(error: unknown): NextResponse<ProductsResponse> {
     );
   }
 
-  return NextResponse.json({ ok: false, error: "Product catalogue operation failed." }, { status: 500 });
+  // Include error detail since this is an admin-only endpoint.
+  const detail = error instanceof Error ? error.message : String(error);
+  return NextResponse.json(
+    { ok: false, error: `Product catalogue operation failed: ${detail}` },
+    { status: 500 },
+  );
 }
 
 export async function GET(): Promise<NextResponse<ProductsResponse>> {
@@ -146,6 +151,7 @@ export async function GET(): Promise<NextResponse<ProductsResponse>> {
     const products = await listAdminProducts();
     return NextResponse.json({ ok: true, products });
   } catch (error) {
+    console.error("[admin/products] list error:", error);
     return databaseErrorResponse(error);
   }
 }
@@ -234,6 +240,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ProductsR
 
     return NextResponse.json({ ok: true, product }, { status: requestedId ? 200 : 201 });
   } catch (error) {
+    console.error("[admin/products] upsert error:", error);
     return databaseErrorResponse(error);
   }
 }
