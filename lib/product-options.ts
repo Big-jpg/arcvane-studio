@@ -4,15 +4,27 @@
 import type { AdapterType, ProductCategory } from "./types";
 
 export const PRODUCT_CATEGORIES: ProductCategory[] = [
-  "Pleated shades",
-  "Faceted / geometric shades",
-  "Floral / petal shades",
-  "Textured diffuser shades",
-  "Starfield / perforated shades",
-  "Experimental prototypes",
+  "Table Lamps",
+  "Shade Sets",
+  "Single Shades",
+  "Coastal Forms",
+  "Experimental Drops",
+  "Accessories",
 ];
 
-export const ADAPTER_TYPES: AdapterType[] = ["B22", "E27", "Clipsal No. 530", "Other / not sure"];
+export const COLOUR_OPTIONS = [
+  "Shell",
+  "Sand",
+  "Limestone",
+  "Coastal Blue",
+  "Clear PLA",
+  "Warm Amber",
+] as const;
+
+export const ADAPTER_OPTIONS: AdapterType[] = ["E27", "B22", "Other / not sure"];
+
+// Backwards-compatible export used by admin-lite and server validation code.
+export const ADAPTER_TYPES = ADAPTER_OPTIONS;
 
 export function slugifyProductHandle(value: string): string {
   return value

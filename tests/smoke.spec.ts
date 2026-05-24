@@ -12,22 +12,22 @@ type CheckoutErrorResponse = {
   details?: CheckoutErrorDetail[];
 };
 
-const meridianBloomItem = {
+const shellFanItem = {
   productId: "prod-01",
   variantId: null,
-  handle: "meridian-bloom",
-  title: "Meridian Bloom",
+  handle: "shell-fan",
+  title: "Shell Fan",
   variantTitle: null,
   imageUrl: "/products/product-01.png",
-  unitPrice: 1,
+  unitPrice: 90,
   currency: "AUD",
   quantity: 1,
-  selectedAdapter: "B22",
+  selectedAdapter: "E27",
   bulbTypeConfirmed: true,
   fixtureNotes: null,
   customisationNotes: null,
-  material: "PLA (polylactic acid), matte finish",
-  colour: "Warm White",
+  material: "Clear PLA, translucent shell-diffusion finish",
+  colour: "Clear PLA",
   metadata: {},
 };
 
@@ -75,19 +75,19 @@ test.describe("ArcVane smoke coverage", () => {
     await page.goto("/products");
 
     await expect(page.getByRole("heading", { name: /Shop Lighting Objects/i })).toBeVisible();
-    await expect(page.getByRole("link", { name: /Meridian Bloom/i })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Shell Fan/i })).toBeVisible();
   });
 
   test("product detail loads", async ({ page }) => {
-    await page.goto("/products/meridian-bloom");
+    await page.goto("/products/shell-fan");
 
-    await expect(page.getByRole("heading", { name: "Meridian Bloom" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Shell Fan" })).toBeVisible();
     await expect(page.getByText("Fitting adapter *")).toBeVisible();
     await expect(page.getByText("LED bulbs only", { exact: true })).toBeVisible();
   });
 
   test("adapter selection required", async ({ page }) => {
-    await page.goto("/products/meridian-bloom");
+    await page.goto("/products/shell-fan");
 
     await expect(
       page.getByRole("button", { name: "Select a fitting adapter to continue" }),
@@ -95,12 +95,12 @@ test.describe("ArcVane smoke coverage", () => {
   });
 
   test("add to cart", async ({ page }) => {
-    await page.goto("/products/meridian-bloom");
+    await page.goto("/products/shell-fan");
 
-    await page.getByRole("button", { name: "B22" }).click();
+    await page.getByRole("button", { name: "E27" }).click();
     await page.getByRole("button", { name: /Add to cart/i }).click();
 
-    await expect(page.getByText("Meridian Bloom added to cart")).toBeVisible();
+    await expect(page.getByText("Shell Fan added to cart")).toBeVisible();
     await expect(page.getByRole("button", { name: "Cart, 1 items" })).toBeVisible();
   });
 
@@ -117,7 +117,7 @@ test.describe("ArcVane smoke coverage", () => {
     await expectCheckoutValidationError(
       request,
       {
-        items: [{ ...meridianBloomItem, selectedAdapter: "" }],
+        items: [{ ...shellFanItem, selectedAdapter: "" }],
         ledAcknowledged: true,
       },
       "selectedAdapter",
@@ -129,7 +129,7 @@ test.describe("ArcVane smoke coverage", () => {
     await expectCheckoutValidationError(
       request,
       {
-        items: [meridianBloomItem],
+        items: [shellFanItem],
         ledAcknowledged: false,
       },
       "ledAcknowledged",

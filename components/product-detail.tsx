@@ -4,6 +4,7 @@
 import { useCallback, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, AlertTriangle, MapPin, ShoppingBag } from "lucide-react";
+import { ADAPTER_OPTIONS } from "@/lib/product-options";
 import type { Product, AdapterType } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
@@ -33,9 +34,7 @@ export function ProductDetail({ product }: { product: Product }) {
 
   // Use adapters from the product DTO (populated from Shopify or mock data)
   const adapterOptions: AdapterType[] =
-    product.adapters.length > 0
-      ? product.adapters
-      : ["B22", "E27", "Clipsal No. 530", "Other / not sure"];
+    product.adapters.length > 0 ? product.adapters : ADAPTER_OPTIONS;
 
   const canAdd =
     selectedAdapter !== null &&

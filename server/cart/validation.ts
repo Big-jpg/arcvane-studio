@@ -4,6 +4,7 @@
 import "server-only";
 
 import { getProducts } from "@/lib/catalogue";
+import { ADAPTER_OPTIONS } from "@/lib/product-options";
 import type { AdapterType, Product } from "@/lib/types";
 
 export interface CheckoutCartItemInput {
@@ -72,7 +73,7 @@ export interface CartValidationOptions {
   requireLedAcknowledgement?: boolean;
 }
 
-const VALID_ADAPTERS: AdapterType[] = ["B22", "E27", "Clipsal No. 530", "Other / not sure"];
+const VALID_ADAPTERS: AdapterType[] = ADAPTER_OPTIONS;
 
 function isValidAdapter(value: unknown): value is AdapterType {
   return typeof value === "string" && VALID_ADAPTERS.includes(value as AdapterType);
