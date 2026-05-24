@@ -1,159 +1,102 @@
 // app/custom/page.tsx
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CustomDesignRequestForm } from "@/components/custom-design-request-form";
-import { CheckCircle2, Ruler, ShieldCheck, SlidersHorizontal } from "lucide-react";
+import { Mail, MessageSquare, Ruler } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Custom Design",
+  title: "Studio Enquiries",
   description:
-    "Request a custom parametric lighting object designed for your space, fitting, dimensions, and aesthetic requirements.",
+    "Low-priority ArcVane Studio enquiry route for practical product, production, collaboration, and fit questions.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
-const customOptions = [
-  "Form and silhouette",
-  "Diameter and height",
-  "Pattern density and aperture",
-  "Light diffusion and translucency",
-  "Colour and material character",
-  "Fitting adapter type",
-  "Pendant, batten, or wall-mounted arrangements",
-  "Multi-shade compositions",
-];
-
-const designSteps = [
+const enquiryTypes = [
   {
-    title: "Share the space",
-    text: "Describe the room, the existing fitting, approximate dimensions, ceiling height where relevant, and the atmosphere you want to create. Photos of the fitting and surrounding space are useful.",
+    icon: Ruler,
+    title: "Fit clarification",
+    text: "Use this route for practical questions about dimensions, E27 hardware assumptions, shade-pack compatibility, or whether a listed piece suits a known setting.",
   },
   {
-    title: "Confirm feasibility",
-    text: "The request is reviewed for fitting compatibility, scale, material suitability, heat safety, and whether the intended form is practical to produce and use.",
+    icon: MessageSquare,
+    title: "Studio or trade enquiry",
+    text: "The studio can consider restrained collaborations, placement questions, or small production conversations when they align with the current collection language.",
   },
   {
-    title: "Set direction and price",
-    text: "The design direction, expected production window, and price are confirmed before production proceeds. Larger or unusual works may require an individual quote.",
-  },
-  {
-    title: "Produce the piece",
-    text: "The shade and adapter are prepared in the studio. Typical custom turnaround is 5–10 business days after the design, fitting, and price are confirmed.",
-  },
-  {
-    title: "Collect locally",
-    text: "Custom work is currently collected by appointment. Shipping remains stubbed and unavailable unless explicitly introduced in a later phase.",
+    icon: Mail,
+    title: "Order support",
+    text: "For active orders, production timing, local pickup, delivery notes, or replacement questions, provide the order reference so the studio can respond directly.",
   },
 ];
 
-export default function CustomPage() {
+export default function StudioEnquiriesPage() {
   return (
     <>
-      <section className="bg-warm-black py-16 text-warm-white sm:py-20">
+      <section className="bg-shell py-20 text-charcoal sm:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber">
-            Customisation
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-warm-amber">
+            Studio enquiries
           </p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Custom Design</h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-ivory/70">
-            For spaces that need a particular proportion, fitting, colour, or light behaviour,
-            ArcVane can adapt a parametric lighting object around your requirements.
+          <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-charcoal sm:text-6xl">
+            A quiet enquiry route, not the core product offer.
+          </h1>
+          <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
+            ArcVane now centres on a curated collection of finished E27 lighting objects. This page
+            remains available for practical studio questions, not as a primary custom-design service.
           </p>
         </div>
       </section>
 
-      <section className="bg-warm-white py-12 sm:py-16">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_320px]">
-            <section className="rounded-2xl border border-charcoal/10 bg-ivory/40 p-6 sm:p-8">
-              <SlidersHorizontal className="h-6 w-6 text-charcoal/50" />
-              <h2 className="mt-4 text-xl font-semibold text-charcoal">What can be customised</h2>
-              <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {customOptions.map((item) => (
-                  <div
-                    key={item}
-                    className="rounded-lg border border-charcoal/10 bg-warm-white px-4 py-3 text-sm text-charcoal/70"
-                  >
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <aside className="rounded-2xl border border-amber/30 bg-amber/5 p-6">
-              <ShieldCheck className="h-6 w-6 text-amber" />
-              <h2 className="mt-4 text-lg font-semibold text-charcoal">Safety remains fixed</h2>
-              <p className="mt-3 text-sm leading-relaxed text-charcoal/70">
-                Customisation can change size, form, colour, and material direction. It does not
-                remove the LED-only limitation or the requirement for a compatible, safe fitting.
-              </p>
-              <Link
-                href="/safety"
-                className="mt-4 inline-flex text-sm font-semibold text-charcoal underline underline-offset-4"
-              >
-                Read safety note
-              </Link>
-            </aside>
+      <section className="bg-off-white py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {enquiryTypes.map((item) => {
+              const Icon = item.icon;
+              return (
+                <article key={item.title} className="rounded-[1.75rem] border border-charcoal/10 bg-shell/65 p-6 shadow-sm shadow-charcoal/5 sm:p-8">
+                  <Icon className="h-6 w-6 text-weathered-post" />
+                  <h2 className="mt-6 text-2xl font-semibold tracking-tight text-charcoal">
+                    {item.title}
+                  </h2>
+                  <p className="mt-4 text-sm leading-7 text-deep-brown/70">{item.text}</p>
+                </article>
+              );
+            })}
           </div>
 
-          <section className="mt-10 rounded-2xl border border-charcoal/10 bg-warm-white p-6 sm:p-8">
-            <h2 className="text-xl font-semibold text-charcoal">The customisation process</h2>
-            <div className="mt-6 space-y-5">
-              {designSteps.map((step, index) => (
-                <div
-                  key={step.title}
-                  className="flex gap-4 rounded-xl border border-charcoal/10 bg-ivory/30 p-5"
-                >
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-charcoal text-xs font-semibold text-warm-white">
-                    {index + 1}
-                  </span>
-                  <div>
-                    <h3 className="text-base font-semibold text-charcoal">{step.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-charcoal/70">{step.text}</p>
-                  </div>
-                </div>
-              ))}
+          <section className="mt-12 rounded-[2rem] border border-charcoal/10 bg-horizon-blue/20 p-6 sm:p-10">
+            <h2 className="text-3xl font-semibold tracking-tight text-charcoal">
+              What this page is for
+            </h2>
+            <div className="mt-5 max-w-3xl space-y-4 text-sm leading-7 text-deep-brown/70">
+              <p>
+                The previous custom pathway has been demoted because the rebrand positions ArcVane as
+                a small studio collection rather than a bespoke configuration tool. Finished products,
+                shade sets, table lamps, and accessories are the primary commercial offer.
+              </p>
+              <p>
+                If your question is about a listed product, include the product name, intended use,
+                room context, and any relevant dimensions. If you need a different colour, scale, or
+                object type, treat that as an enquiry rather than an assumed service.
+              </p>
+            </div>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/contact"
+                className="rounded-full bg-charcoal px-5 py-3 text-center text-sm font-semibold text-off-white transition-colors hover:bg-deep-brown"
+              >
+                Contact the studio
+              </Link>
+              <Link
+                href="/products"
+                className="rounded-full border border-charcoal/15 px-5 py-3 text-center text-sm font-semibold text-charcoal transition-colors hover:border-charcoal/35"
+              >
+                View the collection
+              </Link>
             </div>
           </section>
-
-          <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
-            <section className="rounded-2xl border border-charcoal/10 bg-ivory/40 p-6">
-              <Ruler className="h-6 w-6 text-charcoal/50" />
-              <h2 className="mt-4 text-lg font-semibold text-charcoal">Requesting a custom size</h2>
-              <p className="mt-3 text-sm leading-relaxed text-charcoal/70">
-                Provide the approximate diameter, height, available clearance, and whether the shade
-                is intended for a pendant, batten holder, lamp, or other fixture. If you do not know
-                the exact size, describe the existing shade or send a photo for scale.
-              </p>
-            </section>
-
-            <section className="rounded-2xl border border-charcoal/10 bg-warm-white p-6">
-              <CheckCircle2 className="h-6 w-6 text-charcoal/50" />
-              <h2 className="mt-4 text-lg font-semibold text-charcoal">Pricing and timing</h2>
-              <p className="mt-3 text-sm leading-relaxed text-charcoal/70">
-                Custom designs generally start from $60 AUD depending on size, geometry, material,
-                and development effort. A $30 design fee applies and is credited toward the final
-                purchase price if the piece proceeds.
-              </p>
-            </section>
-          </div>
-
-          <section className="mt-10 rounded-2xl border border-charcoal/10 bg-ivory/50 p-6 sm:p-8">
-            <h2 className="text-lg font-semibold text-charcoal">Request a custom design</h2>
-            <p className="mt-2 text-sm leading-relaxed text-charcoal/60">
-              Share the practical details first: fitting type, room context, approximate size,
-              colour or material preference, and the visual direction. The more context you provide,
-              the better the initial design response will be.
-            </p>
-            <CustomDesignRequestForm />
-          </section>
-
-          <div className="mt-12 border-t border-charcoal/10 pt-8">
-            <p className="text-sm text-charcoal/60">
-              Prefer to discuss directly?{" "}
-              <Link href="/contact" className="text-charcoal underline underline-offset-2">
-                Get in touch
-              </Link>
-            </p>
-          </div>
         </div>
       </section>
     </>
