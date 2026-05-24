@@ -177,7 +177,7 @@ export default async function AdminLiteBomsPage({ searchParams }: AdminLiteBomsP
               Overview
             </Link>
             <Link
-              href="/admin/products"
+              href="/admin-lite/products"
               className="rounded-full border border-warm-white/15 px-4 py-2 text-sm font-medium text-warm-white/80 transition hover:border-amber hover:text-amber"
             >
               Products
