@@ -99,36 +99,27 @@ export async function getAdminProductByHandle(handle: string): Promise<AdminProd
 export async function upsertAdminProduct(
   params: UpsertAdminProductParams,
 ): Promise<AdminProductRecord | null> {
+  // Ensure arrays are never undefined/null — pg serializes [] as NULL which
+  // the stored procedure handles via COALESCE, but we normalise here defensively.
+  const colours = params.colours.length > 0 ? params.colours : [];
+  const images = params.images.length > 0 ? params.images : [];
+  const adapters = params.adapters.length > 0 ? params.adapters : [];
+
   const row = await queryOne<AdminProductRow>(
-    `SELECT * FROM upsert_admin_product(
-      $1::text,
-      $2::text,
-      $3::text,
-      $4::numeric,
-      $5::text,
-      $6::text,
-      $7::text,
-      $8::text,
-      $9::text,
-      $10::text[],
-      $11::text[],
-      $12::text[],
-      $13::boolean,
-      $14::text
-    )`,
+    `SELECT * FROM upsert_admin_product($1, $2, $3, $4, $5, $6, $7, $8, $9, $10::text[], $11::text[], $12::text[], $13, $14)`,
     [
       params.id,
       params.handle,
       params.title,
-      params.price,
+      String(params.price),
       params.currency,
       params.category,
       params.description,
       params.material,
       params.dimensions,
-      params.colours,
-      params.images,
-      params.adapters,
+      colours.length > 0 ? colours : null,
+      images.length > 0 ? images : null,
+      adapters.length > 0 ? adapters : null,
       params.inStock,
       params.designFamily ?? null,
     ],
@@ -142,7 +133,7 @@ export async function appendAdminProductImage(
   imageUrl: string,
 ): Promise<AdminProductRecord | null> {
   const row = await queryOne<AdminProductRow>(
-    `SELECT * FROM append_admin_product_image($1::text, $2::text)`,
+    `SELECT * FROM append_admin_product_image($1, $2)`,
     [id, imageUrl],
   );
 
@@ -150,7 +141,10 @@ export async function appendAdminProductImage(
 }
 
 export async function deleteAdminProduct(id: string): Promise<boolean> {
-  const row = await queryOne<{ delete_admin_product: boolean }>(`SELECT delete_admin_product($1)`, [id]);
+  const row = await queryOne<{ delete_admin_product: boolean }>(
+    `SELECT delete_admin_product($1)`,
+    [id],
+  );
   return row?.delete_admin_product ?? false;
 }
 

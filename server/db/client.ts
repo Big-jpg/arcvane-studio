@@ -8,12 +8,20 @@ import { Pool, QueryResult, QueryResultRow } from "pg";
 // Connection Pool
 // ---------------------------------------------------------------------------
 
+// Neon (and most managed PostgreSQL providers) require SSL.
+// The DATABASE_URL typically includes ?sslmode=require, but we also set ssl
+// explicitly to ensure the pg driver enables it regardless of URL params.
+const isProduction = process.env.NODE_ENV === "production";
+const databaseUrl = process.env.DATABASE_URL ?? "";
+const requiresSsl = databaseUrl.includes("neon.tech") || databaseUrl.includes("sslmode=require") || isProduction;
+
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: databaseUrl,
   // Sensible defaults for a serverless-friendly deployment (Vercel, etc.)
   max: 10,
   idleTimeoutMillis: 30_000,
-  connectionTimeoutMillis: 5_000,
+  connectionTimeoutMillis: 10_000,
+  ...(requiresSsl ? { ssl: { rejectUnauthorized: false } } : {}),
 });
 
 // ---------------------------------------------------------------------------
