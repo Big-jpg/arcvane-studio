@@ -1,7 +1,7 @@
 // app/products/page.tsx
 import Link from "next/link";
-import Image from "next/image";
 import type { Metadata } from "next";
+import { ProductImage } from "@/components/product-image";
 import { getProducts, getCategories } from "@/lib/catalogue";
 
 export const metadata: Metadata = {
@@ -82,7 +82,7 @@ export default async function ProductsPage() {
                 className="group overflow-hidden rounded-xl border border-charcoal/10 bg-ivory/30 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-charcoal/5"
               >
                 <div className="relative aspect-square overflow-hidden bg-ivory/50">
-                  <Image
+                  <ProductImage
                     src={product.images[0]}
                     alt={product.title}
                     fill

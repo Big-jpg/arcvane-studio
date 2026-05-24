@@ -2,7 +2,6 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, AlertTriangle, MapPin, ShoppingBag } from "lucide-react";
 import type { Product, AdapterType } from "@/lib/types";
@@ -10,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 import type { CartItem } from "@/lib/cart-types";
 import { Toast } from "@/components/toast";
+import { ProductImage } from "@/components/product-image";
 
 export function ProductDetail({ product }: { product: Product }) {
   const [selectedAdapter, setSelectedAdapter] = useState<AdapterType | null>(null);
@@ -123,7 +123,7 @@ export function ProductDetail({ product }: { product: Product }) {
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
             {/* Image */}
             <div className="relative aspect-square overflow-hidden rounded-2xl bg-ivory/50">
-              <Image
+              <ProductImage
                 src={product.images[0]}
                 alt={product.title}
                 fill

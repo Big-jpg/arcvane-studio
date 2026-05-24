@@ -2,12 +2,12 @@
 "use client";
 
 import { useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { cartItemKey } from "@/lib/cart-types";
 import { cn } from "@/lib/utils";
+import { ProductImage } from "@/components/product-image";
 
 export function CartDrawer() {
   const { state, itemCount, subtotal, currency, drawerOpen, closeDrawer, removeItem, setQuantity } =
@@ -94,7 +94,7 @@ export function CartDrawer() {
                       {/* Thumbnail */}
                       <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-md bg-ivory/50">
                         {item.imageUrl ? (
-                          <Image
+                          <ProductImage
                             src={item.imageUrl}
                             alt={item.title}
                             fill

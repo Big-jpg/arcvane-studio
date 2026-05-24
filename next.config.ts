@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
         hostname: "cdn.shopify.com",
         pathname: "/s/files/**",
       },
+      {
+        // Vercel Blob public product images
+        protocol: "https",
+        hostname: "**.public.blob.vercel-storage.com",
+      },
     ],
   },
 };

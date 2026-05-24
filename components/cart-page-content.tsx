@@ -3,12 +3,12 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { cartItemKey } from "@/lib/cart-types";
 import { cn } from "@/lib/utils";
+import { ProductImage } from "@/components/product-image";
 
 interface CheckoutCreateSessionResponse {
   sessionId?: string;
@@ -106,7 +106,7 @@ export function CartPageContent() {
                     {/* Thumbnail */}
                     <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-ivory/50 sm:h-28 sm:w-28">
                       {item.imageUrl ? (
-                        <Image
+                        <ProductImage
                           src={item.imageUrl}
                           alt={item.title}
                           fill
