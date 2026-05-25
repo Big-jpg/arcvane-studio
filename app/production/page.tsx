@@ -6,32 +6,32 @@ import { Box, Clock, Factory, PackageCheck } from "lucide-react";
 export const metadata: Metadata = {
   title: "Production",
   description:
-    "How ArcVane Studio produces small-batch E27 lighting objects locally, with made-after-order timing, compact 300mm cube packaging, and controlled finish variation.",
+    "How ArcVane Studio makes small-run coastal lighting pieces in Western Australia, with made-after-order timing, compact packing, and controlled finish variation.",
 };
 
 const productionSteps = [
   {
     icon: Factory,
-    title: "Small studio, local production",
-    text: "ArcVane objects are produced in a small Western Australian studio workflow rather than ordered from an offshore catalogue. Production stays close to design decisions, material behaviour, and final finishing.",
+    title: "Made locally",
+    text: "Designed, printed, finished, checked, and packed through one small Western Australian studio workflow.",
   },
   {
     icon: Clock,
     title: "Made after order",
-    text: "Most pieces are produced or finished after an order is placed. This keeps stock deliberate, supports small runs, and avoids treating the collection as disposable inventory.",
+    text: "Most pieces are produced or finished after purchase, keeping stock deliberate and runs small.",
   },
   {
     icon: Box,
-    title: "Compact product system",
-    text: "Forms are designed around domestic scale, E27 hardware, and a compact packaging model. The constraint keeps the objects practical without making them feel generic.",
+    title: "Compact by design",
+    text: "Forms are built around domestic scale, shared E27 hardware, and practical delivery.",
   },
 ];
 
 const timelines = [
-  ["Production and finishing", "Usually completed inside the 5–7 business day dispatch window."],
-  ["Quality check", "Each piece is checked for fit, finish, visible defects, and LED-only hardware compatibility before packing."],
-  ["Packing", "Products are packed to suit a 300×300×300mm shipping cube wherever the order composition allows."],
-  ["Dispatch", "Tracking is provided after hand-off to the carrier or local pickup is arranged where available."],
+  ["Production", "Usually completed within the 5-7 business day dispatch window."],
+  ["Quality check", "Fit, finish, visible defects, and LED-only suitability are checked before packing."],
+  ["Packing", "Orders are packed compactly, with the 300 mm cube as the guiding constraint where practical."],
+  ["Dispatch", "Tracking is provided after carrier hand-off, or local pickup is arranged where available."],
 ];
 
 export default function ProductionPage() {
@@ -42,13 +42,15 @@ export default function ProductionPage() {
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-warm-amber">
             Studio production
           </p>
+
           <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-charcoal sm:text-6xl">
-            Made after order, with the discipline of a compact collection.
+            Made slowly, packed simply, released in small runs.
           </h1>
+
           <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
-            ArcVane produces finished lighting objects in small batches. The work is local,
-            controlled, and intentionally limited to E27-ready forms that can be made, checked, and
-            shipped without excessive complexity.
+            ArcVane pieces are made through a compact studio workflow: print,
+            finish, check, pack, dispatch. No offshore catalogue. No sprawling
+            custom process.
           </p>
         </div>
       </section>
@@ -58,16 +60,21 @@ export default function ProductionPage() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {productionSteps.map((step) => {
               const Icon = step.icon;
+
               return (
                 <article
                   key={step.title}
                   className="rounded-[1.75rem] border border-charcoal/10 bg-shell/65 p-6 shadow-sm shadow-charcoal/5 sm:p-8"
                 >
                   <Icon className="h-6 w-6 text-weathered-post" />
+
                   <h2 className="mt-6 text-2xl font-semibold tracking-tight text-charcoal">
                     {step.title}
                   </h2>
-                  <p className="mt-4 text-sm leading-7 text-deep-brown/70">{step.text}</p>
+
+                  <p className="mt-4 text-sm leading-7 text-deep-brown/70">
+                    {step.text}
+                  </p>
                 </article>
               );
             })}
@@ -77,23 +84,30 @@ export default function ProductionPage() {
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.82fr_1.18fr]">
               <div>
                 <PackageCheck className="h-7 w-7 text-weathered-post" />
+
                 <h2 className="mt-5 text-3xl font-semibold tracking-tight text-charcoal">
-                  Production timing is simple by default.
+                  A simple order path.
                 </h2>
+
                 <p className="mt-5 text-sm leading-7 text-deep-brown/70">
-                  The current model does not rely on complex bespoke design work. Most orders follow
-                  the same practical sequence: make or finish the piece, check the E27 fit and LED-only
-                  suitability, pack compactly, then dispatch.
+                  Most orders follow the same rhythm: make or finish the piece,
+                  check the hardware fit, pack it properly, then send it out.
                 </p>
               </div>
 
               <dl className="divide-y divide-charcoal/10 rounded-2xl border border-charcoal/10 bg-off-white/80">
                 {timelines.map(([label, value]) => (
-                  <div key={label} className="grid grid-cols-1 gap-2 px-5 py-5 sm:grid-cols-[180px_1fr]">
+                  <div
+                    key={label}
+                    className="grid grid-cols-1 gap-2 px-5 py-5 sm:grid-cols-[180px_1fr]"
+                  >
                     <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-weathered-post">
                       {label}
                     </dt>
-                    <dd className="text-sm leading-7 text-deep-brown/70">{value}</dd>
+
+                    <dd className="text-sm leading-7 text-deep-brown/70">
+                      {value}
+                    </dd>
                   </div>
                 ))}
               </dl>
@@ -102,20 +116,23 @@ export default function ProductionPage() {
 
           <section className="mt-12 rounded-[2rem] border border-charcoal/10 bg-shell/70 p-6 sm:p-10">
             <h2 className="text-3xl font-semibold tracking-tight text-charcoal">
-              Variation is controlled, not eliminated.
+              Variation belongs to the work.
             </h2>
+
             <div className="mt-5 max-w-3xl space-y-4 text-sm leading-7 text-deep-brown/70">
               <p>
-                PLA layer texture, small tonal shifts, and subtle diffusion differences are part of
-                the production language. A piece should be consistent with the listing, but it should
-                not look like anonymous injection-moulded stock.
+                Layer texture, small tonal shifts, and subtle diffusion
+                differences are expected. Each piece should match the listing,
+                but not feel anonymous or injection-moulded.
               </p>
+
               <p>
-                If you need a clarification about finish tone, hardware assumptions, or delivery
-                timing, contact the studio before ordering. The current enquiry route is for practical
-                production questions, not full custom design commissioning.
+                For finish, hardware, or delivery questions, contact the studio
+                before ordering. Custom design commissions are not the current
+                focus.
               </p>
             </div>
+
             <Link
               href="/contact"
               className="mt-7 inline-flex rounded-full bg-charcoal px-5 py-3 text-sm font-semibold text-off-white transition-colors hover:bg-deep-brown"

@@ -4,109 +4,109 @@ import { Mail, MessageSquare } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Get in touch with ArcVane Studio.",
+  description:
+    "Contact ArcVane Studio for product, order, material, fitting, or small-run lighting enquiries.",
 };
 
 export default function ContactPage() {
   return (
     <>
-      <section className="bg-warm-black py-16 text-warm-white sm:py-20">
+      <section className="bg-shell py-20 text-charcoal sm:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Contact</h1>
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-warm-amber">
+            Contact
+          </p>
 
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-ivory/70">
-            Questions about a piece, fitting, collection, or custom design can be directed to the
-            studio.
+          <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-charcoal sm:text-6xl">
+            Product questions, order support, and studio enquiries.
+          </h1>
+
+          <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
+            ArcVane is a small studio. Messages are handled directly, with a
+            focus on practical product, fitting, material, and delivery
+            questions.
           </p>
         </div>
       </section>
 
-      <section className="bg-warm-white py-12 sm:py-16">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+      <section className="bg-off-white py-16 sm:py-24">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="space-y-10">
-            <div className="prose prose-charcoal max-w-none text-charcoal/80">
-              <p className="text-lg leading-relaxed">
-                ArcVane operates as a small studio, so enquiries are handled directly. For fitting
-                questions, custom work, or order support, clear photos and practical measurements
-                are often the most useful starting point.
-              </p>
-            </div>
-
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              <div className="rounded-xl border border-charcoal/10 bg-ivory/30 p-6">
-                <Mail className="h-6 w-6 text-charcoal/50" />
+              <div className="rounded-[1.75rem] border border-charcoal/10 bg-shell/65 p-6 shadow-sm shadow-charcoal/5 sm:p-8">
+                <Mail className="h-6 w-6 text-weathered-post" />
 
-                <h3 className="mt-3 text-base font-semibold text-charcoal">Email</h3>
+                <h2 className="mt-6 text-2xl font-semibold tracking-tight text-charcoal">
+                  Email
+                </h2>
 
-                <p className="mt-2 text-sm text-charcoal/60">rossfarrell7@gmail.com</p>
+                <a
+                  href="mailto:rossfarrell7@gmail.com"
+                  className="mt-4 block text-sm font-semibold text-deep-brown underline-offset-4 hover:underline"
+                >
+                  rossfarrell7@gmail.com
+                </a>
 
-                <p className="mt-2 text-xs leading-relaxed text-charcoal/40">
+                <p className="mt-3 text-sm leading-7 text-deep-brown/65">
                   Most enquiries are answered within 1-2 business days.
                 </p>
               </div>
 
-              <div className="rounded-xl border border-charcoal/10 bg-ivory/30 p-6">
-                <MessageSquare className="h-6 w-6 text-charcoal/50" />
+              <div className="rounded-[1.75rem] border border-charcoal/10 bg-shell/65 p-6 shadow-sm shadow-charcoal/5 sm:p-8">
+                <MessageSquare className="h-6 w-6 text-weathered-post" />
 
-                <h3 className="mt-3 text-base font-semibold text-charcoal">Custom enquiries</h3>
+                <h2 className="mt-6 text-2xl font-semibold tracking-tight text-charcoal">
+                  Helpful details
+                </h2>
 
-                <p className="mt-2 text-sm leading-relaxed text-charcoal/60">
-                  For custom work, include photos of the existing fitting, the surrounding space,
-                  and any approximate dimensions or design references.
+                <p className="mt-4 text-sm leading-7 text-deep-brown/65">
+                  Include the product name, order details if relevant, fitting
+                  type, room context, photos, or approximate measurements.
                 </p>
               </div>
             </div>
 
-            <div className="rounded-xl border border-charcoal/10 bg-ivory/50 p-6">
-              <h3 className="text-lg font-semibold text-charcoal">Send a message</h3>
+            <section className="rounded-[2rem] border border-charcoal/10 bg-horizon-blue/20 p-6 sm:p-10">
+              <div className="max-w-3xl">
+                <h2 className="text-3xl font-semibold tracking-tight text-charcoal">
+                  What to get in touch about
+                </h2>
 
-              <p className="mt-2 text-sm leading-relaxed text-charcoal/60">
-                Share the practical details first: the fitting, the space, the product or order
-                involved, and what you would like help with.
+                <div className="mt-6 grid gap-4 text-sm leading-7 text-deep-brown/70 sm:grid-cols-2">
+                  <p>
+                    Product availability, current pieces, shade sets, E27
+                    compatibility, low-power LED use, materials, colours, and
+                    finish variation.
+                  </p>
+
+                  <p>
+                    Dispatch timing, local pickup where available, order
+                    questions, product care, or small production enquiries that
+                    fit the current studio collection.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <section className="rounded-[2rem] border border-charcoal/10 bg-shell/70 p-6 sm:p-10">
+              <h2 className="text-3xl font-semibold tracking-tight text-charcoal">
+                A note on custom work.
+              </h2>
+
+              <p className="mt-5 max-w-3xl text-sm leading-7 text-deep-brown/70">
+                ArcVane is currently focused on a narrow collection of finished
+                pieces and compatible shade systems. Custom design commissions
+                may be considered only where they sit close to the existing
+                material, hardware, and production language.
               </p>
 
-              <form className="mt-6 space-y-4">
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <div>
-                    <label className="block text-sm font-medium text-charcoal">Name</label>
-                    <input
-                      type="text"
-                      placeholder="Your name"
-                      className="mt-1 w-full rounded-lg border border-charcoal/20 bg-warm-white px-3 py-2.5 text-sm text-charcoal placeholder:text-charcoal/30 focus:border-charcoal focus:outline-none focus:ring-1 focus:ring-charcoal"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-charcoal">Email</label>
-                    <input
-                      type="email"
-                      placeholder="you@example.com"
-                      className="mt-1 w-full rounded-lg border border-charcoal/20 bg-warm-white px-3 py-2.5 text-sm text-charcoal placeholder:text-charcoal/30 focus:border-charcoal focus:outline-none focus:ring-1 focus:ring-charcoal"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-charcoal">Message</label>
-                  <textarea
-                    placeholder="Tell us what you need help with..."
-                    rows={5}
-                    className="mt-1 w-full rounded-lg border border-charcoal/20 bg-warm-white px-3 py-2.5 text-sm text-charcoal placeholder:text-charcoal/30 focus:border-charcoal focus:outline-none focus:ring-1 focus:ring-charcoal"
-                  />
-                </div>
-
-                <button
-                  type="button"
-                  className="w-full rounded-lg bg-charcoal px-6 py-3 text-sm font-semibold text-warm-white transition-colors hover:bg-charcoal/90"
-                >
-                  Send message
-                </button>
-
-                <p className="text-center text-xs leading-relaxed text-charcoal/40">
-                  Form is not yet functional. Contact ArcVane directly in the meantime.
-                </p>
-              </form>
-            </div>
+              <a
+                href="mailto:rossfarrell7@gmail.com"
+                className="mt-7 inline-flex rounded-full bg-charcoal px-5 py-3 text-sm font-semibold text-off-white transition-colors hover:bg-deep-brown"
+              >
+                Email the studio
+              </a>
+            </section>
           </div>
         </div>
       </section>
