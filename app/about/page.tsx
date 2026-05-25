@@ -68,9 +68,9 @@ export default function AboutPage() {
           <section className="mt-12 rounded-[2rem] border border-charcoal/10 bg-horizon-blue/20 p-6 sm:p-10">
             <div className="max-w-3xl space-y-5 text-sm leading-7 text-deep-brown/72">
               <p>
-                ArcVane is not built around parametric novelty for its own sake. The design language
-                starts with coastal references and works backward into forms that can hold warm LED
-                light, show material texture, and sit calmly in domestic rooms.
+                ArcVane is built around coastal references rather than novelty for its own sake. The
+                design language works backward from shell, dune, limestone, and tidepool forms into
+                objects that can hold warm LED light, show material texture, and sit calmly in domestic rooms.
               </p>
               <p>
                 The studio uses PLA because it suits the intended objects. Clear PLA can glow with a

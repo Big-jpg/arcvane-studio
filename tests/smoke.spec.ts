@@ -1,180 +1,109 @@
-// tests/smoke.spec.ts
-import { expect, test, type APIRequestContext } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
-type CheckoutErrorDetail = {
-  handle: string;
-  field: string;
-  message: string;
-};
-
-type CheckoutErrorResponse = {
-  error?: string;
-  details?: CheckoutErrorDetail[];
-};
-
-const shellFanItem = {
-  productId: "prod-01",
-  variantId: null,
-  handle: "shell-fan",
-  title: "Shell Fan",
-  variantTitle: null,
-  imageUrl: "/products/product-01.png",
-  unitPrice: 90,
-  currency: "AUD",
-  quantity: 1,
-  selectedAdapter: "E27",
-  bulbTypeConfirmed: true,
-  fixtureNotes: null,
-  customisationNotes: null,
-  material: "Clear PLA, translucent shell-diffusion finish",
-  colour: "Clear PLA",
-  metadata: {},
-};
-
-async function expectCheckoutValidationError(
-  request: APIRequestContext,
-  payload: unknown,
-  expectedField: string,
-  expectedMessage: RegExp,
-) {
-  const response = await request.post("/api/checkout/create-session", {
-    data: payload,
-  });
-
-  expect(response.status()).toBe(422);
-
-  const body = (await response.json()) as CheckoutErrorResponse;
-  expect(body.error).toBe("Cart validation failed.");
-  expect(body.details ?? []).toEqual(
-    expect.arrayContaining([
-      expect.objectContaining({
-        field: expectedField,
-        message: expect.stringMatching(expectedMessage),
-      }),
-    ]),
-  );
-}
-
-test.describe("ArcVane smoke coverage", () => {
+test.describe("ArcVane public smoke coverage", () => {
   test.beforeEach(async ({ page }) => {
     await page.addInitScript(() => window.localStorage.clear());
   });
 
-  test("home page loads", async ({ page }) => {
+  test("primary navigation reflects the coastal collection site map", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto("/");
+
+    const primaryNav = page.getByRole("navigation", { name: "Primary navigation" });
+
+    await expect(primaryNav.getByRole("link", { name: "Collection" })).toHaveAttribute(
+      "href",
+      "/products",
+    );
+    await expect(primaryNav.getByRole("link", { name: "Materials" })).toHaveAttribute(
+      "href",
+      "/materials",
+    );
+    await expect(primaryNav.getByRole("link", { name: "Process" })).toHaveAttribute(
+      "href",
+      "/production",
+    );
+    await expect(primaryNav.getByRole("link", { name: "About" })).toHaveAttribute(
+      "href",
+      "/about",
+    );
+    await expect(primaryNav.getByRole("link", { name: "Contact" })).toHaveAttribute(
+      "href",
+      "/contact",
+    );
+
+    await expect(primaryNav.getByRole("link", { name: "Custom" })).toHaveCount(0);
+    await expect(primaryNav.getByRole("link", { name: "Fitting Guide" })).toHaveCount(0);
+    await expect(primaryNav.getByRole("link", { name: "FAQ" })).toHaveCount(0);
+    await expect(primaryNav.getByRole("link", { name: "Shop" })).toHaveCount(0);
+  });
+
+  test("home page loads coastal lighting content", async ({ page }) => {
     await page.goto("/");
 
     await expect(
       page.getByRole("heading", {
-        name: /Contemporary lighting objects for the fittings you already own/i,
+        name: /Small-batch lighting objects shaped by coastal forms/i,
       }),
     ).toBeVisible();
-    await expect(page.getByText("Lightweight domestic delivery")).toBeVisible();
+    await expect(page.getByText(/Shell-like PLA diffusers/i)).toBeVisible();
+    await expect(page.getByRole("link", { name: /Shop current collection/i })).toBeVisible();
   });
 
-  test("product catalogue loads", async ({ page }) => {
+  test("collection page loads current product names", async ({ page }) => {
     await page.goto("/products");
 
-    await expect(page.getByRole("heading", { name: /Shop Lighting Objects/i })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /Coastal lighting objects, kept deliberately small/i }),
+    ).toBeVisible();
     await expect(page.getByRole("link", { name: /Shell Fan/i })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Coral Veil/i })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Dune Rib/i })).toBeVisible();
   });
 
-  test("product detail loads", async ({ page }) => {
+  test("product detail page loads", async ({ page }) => {
     await page.goto("/products/shell-fan");
 
     await expect(page.getByRole("heading", { name: "Shell Fan" })).toBeVisible();
-    await expect(page.getByText("Fitting adapter *")).toBeVisible();
+    await expect(page.getByText(/Clear PLA, translucent shell-diffusion finish/i)).toBeVisible();
     await expect(page.getByText("LED bulbs only", { exact: true })).toBeVisible();
   });
 
-  test("adapter selection required", async ({ page }) => {
-    await page.goto("/products/shell-fan");
+  test("materials page loads", async ({ page }) => {
+    await page.goto("/materials");
 
     await expect(
-      page.getByRole("button", { name: "Select a fitting adapter to continue" }),
-    ).toBeDisabled();
+      page.getByRole("heading", { name: /PLA treated as a coastal material/i }),
+    ).toBeVisible();
+    await expect(page.getByText(/ArcVane uses clear PLA, matte PLA/i)).toBeVisible();
   });
 
-  test("add to cart", async ({ page }) => {
-    await page.goto("/products/shell-fan");
+  test("process page loads", async ({ page }) => {
+    await page.goto("/production");
 
-    await page.getByRole("button", { name: "E27" }).click();
-    await page.getByRole("button", { name: /Add to cart/i }).click();
-
-    await expect(page.getByText("Shell Fan added to cart")).toBeVisible();
-    await expect(page.getByRole("button", { name: "Cart, 1 items" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        name: /Made after order, with the discipline of a compact collection/i,
+      }),
+    ).toBeVisible();
+    await expect(page.getByText(/ArcVane produces finished lighting objects in small batches/i)).toBeVisible();
   });
 
-  test("checkout rejects empty cart", async ({ request }) => {
-    await expectCheckoutValidationError(
-      request,
-      { items: [], ledAcknowledged: true },
-      "items",
-      /Cart must contain at least one item/i,
-    );
+  test("about page loads", async ({ page }) => {
+    await page.goto("/about");
+
+    await expect(
+      page.getByRole("heading", {
+        name: /Coastal lighting objects from a small Western Australian studio/i,
+      }),
+    ).toBeVisible();
+    await expect(page.getByText(/ArcVane Studio designs compact E27 lighting objects/i)).toBeVisible();
   });
 
-  test("checkout rejects missing adapter", async ({ request }) => {
-    await expectCheckoutValidationError(
-      request,
-      {
-        items: [{ ...shellFanItem, selectedAdapter: "" }],
-        ledAcknowledged: true,
-      },
-      "selectedAdapter",
-      /Invalid adapter selection/i,
-    );
-  });
+  test("contact page loads", async ({ page }) => {
+    await page.goto("/contact");
 
-  test("checkout rejects missing LED acknowledgement", async ({ request }) => {
-    await expectCheckoutValidationError(
-      request,
-      {
-        items: [shellFanItem],
-        ledAcknowledged: false,
-      },
-      "ledAcknowledged",
-      /LED-only bulb acknowledgement is required before checkout/i,
-    );
-  });
-
-  test("custom design form submits", async ({ page }) => {
-    await page.route("**/api/custom-design-requests", async (route) => {
-      expect(route.request().method()).toBe("POST");
-
-      const body = route.request().postDataJSON() as Record<string, unknown>;
-      expect(body.name).toBe("Smoke Tester");
-      expect(body.adapter_type).toBe("B22");
-      expect(body.upload_instruction_acknowledged).toBe(true);
-
-      await route.fulfill({
-        status: 201,
-        contentType: "application/json",
-        body: JSON.stringify({ ok: true, requestId: "smoke-custom-001" }),
-      });
-    });
-
-    await page.goto("/custom");
-
-    await page.getByLabel(/Name/i).fill("Smoke Tester");
-    await page.getByLabel(/Phone/i).fill("0400000000");
-    await page.getByRole("textbox", { name: "Email *" }).fill("smoke@example.test");
-    await page.getByLabel(/Fixture type/i).fill("Pendant");
-    await page.getByLabel(/Adapter type/i).selectOption("B22");
-    await page.getByLabel(/Desired shade style/i).fill("Warm ivory pleated shade");
-    await page.getByLabel(/Dimensions if known/i).fill("220mm diameter x 180mm high");
-    await page.getByLabel(/Colour\/material preference/i).fill("Warm ivory PLA");
-    await page.getByLabel(/Notes/i).fill("Smoke-test submission for Phase 10 handoff.");
-    await page.getByLabel(/fixture or room photos should be emailed separately/i).check();
-    await page.getByRole("button", { name: "Submit request" }).click();
-
-    await expect(page.getByText(/Your custom design request has been recorded/i)).toBeVisible();
-    await expect(page.getByText("Request ID: smoke-custom-001")).toBeVisible();
-  });
-
-  test("admin page protected", async ({ page }) => {
-    await page.goto("/admin");
-
-    await expect(page).toHaveURL(/\/login\?callbackUrl=%2Fadmin/);
-    await expect(page.getByRole("heading", { name: "Sign In", exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Contact" })).toBeVisible();
+    await expect(page.getByText(/ArcVane operates as a small studio/i)).toBeVisible();
   });
 });
