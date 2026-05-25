@@ -1,6 +1,6 @@
 # ArcVane Studio
 
-**ArcVane Studio** is a Next.js App Router storefront for custom 3D printed lampshades designed for the lights customers already own. The application combines a product catalogue, adapter-aware product detail pages, cart validation, Stripe Checkout, custom design requests, Auth.js authentication, and a protected admin area.
+**ArcVane Studio** is a Next.js App Router storefront for small-batch coastal lighting objects designed around a shared E27 lighting system. The application combines a product catalogue, adapter-aware product detail pages, cart validation, Stripe Checkout, custom design requests, Auth.js authentication, and a protected admin area.
 
 The implementation intentionally keeps core system behavior explicit. Database access uses raw SQL and stored procedures rather than an ORM, checkout is validated server-side before Stripe session creation, and operational setup is documented as a sequence of controlled release actions rather than implicit build-time automation.
 
@@ -17,7 +17,7 @@ This README reflects the Phase 10 handoff state: testing, deployment preparation
 | Checkout       | Stripe Checkout session creation through API route handlers                             |
 | Authentication | Auth.js / NextAuth v5 with protected admin allowlist                                    |
 | Database       | PostgreSQL through raw SQL and stored procedures; no ORM                                |
-| Testing        | Playwright smoke tests for critical storefront and validation paths                     |
+| Testing        | Playwright smoke tests for public storefront route and content coverage                 |
 | Deployment     | Vercel-compatible with explicit environment and production checklists                   |
 
 ## Repository structure
@@ -48,7 +48,7 @@ ArcVane/
 | Catalogue             | Shopify Storefront API | Product data is fetched from Shopify when configured                        |
 | Payments              | Stripe Checkout        | Session creation occurs server-side after validation                        |
 | Auth                  | Auth.js / NextAuth v5  | Email and optional OAuth providers, with admin allowlist                    |
-| Smoke tests           | Playwright             | Browser and API smoke coverage for Phase 10 critical paths                  |
+| Smoke tests           | Playwright             | Browser coverage for public storefront routes and key rebranded content     |
 | Deployment            | Vercel                 | Standard Next.js deployment with explicit environment setup                 |
 
 ## Local development
