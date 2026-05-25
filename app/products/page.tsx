@@ -8,14 +8,14 @@ import type { ProductCategory } from "@/lib/types";
 export const metadata: Metadata = {
   title: "Collection",
   description:
-    "Explore ArcVane Studio small-batch coastal lighting objects, shade sets, table lamps, and E27 accessories made in Western Australia.",
+    "Explore ArcVane Studio coastal lighting pieces, shade sets, table lamps, and E27 accessories made in Western Australia.",
   alternates: {
     canonical: "/products",
   },
   openGraph: {
     title: "ArcVane Studio Collection",
     description:
-      "Small-batch coastal lighting objects, clear PLA diffusers, matte stands, and limited-run shade sets designed around a shared E27 lighting system.",
+      "Small-run coastal lighting pieces, clear PLA diffusers, matte stands, and interchangeable shade sets.",
     url: "/products",
     images: [
       {
@@ -34,7 +34,10 @@ type ProductsPageProps = {
   }>;
 };
 
-function isProductCategory(value: string | undefined, categories: ProductCategory[]): value is ProductCategory {
+function isProductCategory(
+  value: string | undefined,
+  categories: ProductCategory[],
+): value is ProductCategory {
   return typeof value === "string" && categories.includes(value as ProductCategory);
 }
 
@@ -46,7 +49,10 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   const products = await getProducts();
   const categories = getCategories();
   const params = searchParams ? await searchParams : {};
-  const activeCategory = isProductCategory(params.category, categories) ? params.category : null;
+  const activeCategory = isProductCategory(params.category, categories)
+    ? params.category
+    : null;
+
   const visibleProducts = activeCategory
     ? products.filter((product) => product.category === activeCategory)
     : products;
@@ -59,12 +65,14 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-warm-amber">
               Current collection
             </p>
+
             <h1 className="mt-5 text-4xl font-semibold tracking-tight text-charcoal sm:text-6xl">
-              Coastal lighting objects, kept deliberately small.
+              Coastal lighting pieces, released in small runs.
             </h1>
+
             <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
-              A restrained studio collection of translucent PLA diffusers, matte tripod stands,
-              shade sets, and limited forms shaped by Western Australian coastal light.
+              Translucent diffusers, matte tripod stands, shade sets, and
+              compact table forms shaped by Western Australian coastal light.
             </p>
           </div>
 
@@ -73,19 +81,21 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               <span className="block text-xs font-semibold uppercase tracking-[0.22em] text-weathered-post">
                 System
               </span>
-              Shared E27 hardware with low-power LED use only.
+              Shared E27 hardware. Low-power LED only.
             </p>
+
             <p>
               <span className="block text-xs font-semibold uppercase tracking-[0.22em] text-weathered-post">
-                Material
+                Materials
               </span>
-              Clear PLA diffusion, matte PLA stands, and small-batch finish variation.
+              Clear PLA glow, matte PLA bodies, subtle batch variation.
             </p>
+
             <p>
               <span className="block text-xs font-semibold uppercase tracking-[0.22em] text-weathered-post">
-                Fulfilment
+                Scale
               </span>
-              Designed for compact 300×300×300mm cube packaging.
+              Compact pieces designed for real rooms and practical delivery.
             </p>
           </div>
         </div>
@@ -102,7 +112,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                   : "shrink-0 rounded-full border border-charcoal/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-deep-brown/60 transition-colors hover:border-charcoal/30 hover:text-charcoal"
               }
             >
-              All objects
+              All pieces
             </Link>
 
             {categories.map((category) => (
@@ -129,15 +139,19 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-weathered-post">
                 {activeCategory ?? "Full collection"}
               </p>
+
               <h2 className="mt-3 text-2xl font-semibold tracking-tight text-charcoal sm:text-3xl">
                 {activeCategory
-                  ? `${visibleProducts.length} ${visibleProducts.length === 1 ? "piece" : "pieces"} in ${activeCategory}`
-                  : "Finished pieces and shade systems"}
+                  ? `${visibleProducts.length} ${
+                      visibleProducts.length === 1 ? "piece" : "pieces"
+                    } in ${activeCategory}`
+                  : "Finished lamps, diffusers, and shade systems"}
               </h2>
             </div>
+
             <p className="max-w-md text-sm leading-7 text-deep-brown/65">
-              Each listing is treated as a finished object rather than an open-ended configuration.
-              Surface, opacity, and colour can vary subtly between batches.
+              Each listing is a finished object or compatible shade set.
+              Surface, opacity, and colour may vary slightly between batches.
             </p>
           </div>
 
@@ -163,12 +177,17 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                     <p className="text-xs font-semibold uppercase tracking-[0.2em] text-weathered-post">
                       {product.category}
                     </p>
+
                     <h3 className="mt-2 text-xl font-semibold tracking-tight text-charcoal">
                       {product.title}
                     </h3>
                   </div>
+
                   <p className="shrink-0 text-sm font-semibold text-charcoal">
-                    ${product.price} <span className="font-normal text-deep-brown/45">{product.currency}</span>
+                    ${product.price}{" "}
+                    <span className="font-normal text-deep-brown/45">
+                      {product.currency}
+                    </span>
                   </p>
                 </div>
 
