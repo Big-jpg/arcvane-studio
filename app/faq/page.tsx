@@ -5,54 +5,54 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "FAQ",
   description:
-    "ArcVane Studio FAQ covering E27 fittings, LED-only use, clear PLA and matte PLA materials, small-batch production, shipping, and returns.",
+    "ArcVane Studio FAQ covering E27 fittings, LED-only use, PLA materials, small-run production, shipping, and returns.",
 };
 
 const faqs = [
   {
     question: "What fitting system do ArcVane products use?",
     answer:
-      "The current ArcVane collection is built around E27 as the primary lighting system. Product pages keep adapter selection deliberately simple because the new model is designed around one clear hardware assumption.",
+      "The current collection is built around E27 hardware. Product pages should state what is included before ordering.",
   },
   {
     question: "Can I use incandescent or halogen bulbs?",
     answer:
-      "No. ArcVane products are LED-only. Use compatible low-power LED bulbs and do not use incandescent, halogen, heat lamp, appliance, or other high-temperature bulbs with PLA lighting objects.",
+      "No. ArcVane products are LED-only. Do not use incandescent, halogen, heat lamp, appliance, or other high-temperature bulbs with PLA lighting pieces.",
   },
   {
-    question: "Why use PLA for lighting objects?",
+    question: "Why use PLA?",
     answer:
-      "PLA is used intentionally for its diffusion, layer texture, and tactile finish. Clear PLA can behave like shell, sea glass, or frosted mineral under warm LED light, while matte PLA gives stands and tripods a soft coastal surface.",
+      "PLA is used for diffusion, surface texture, and tactile finish. Clear PLA softens light like shell or sea glass. Matte PLA gives stands and tripods a quieter surface.",
   },
   {
-    question: "Are layer lines or small finish variations defects?",
+    question: "Are layer lines or finish variations defects?",
     answer:
-      "Fine FDM layer lines, subtle colour shifts, and variable opacity are expected. They are part of the small-batch material language unless they materially affect fit, safety, or the listed product description.",
+      "No, not by default. Fine layer lines, subtle colour shifts, and variable opacity are part of the small-run material character unless they affect fit, safety, or the listed product description.",
   },
   {
-    question: "Are the products made to order?",
+    question: "Are products made to order?",
     answer:
-      "Most pieces are made or finished after ordering inside a small Western Australian studio workflow. This supports low stock, careful checking, and limited collection runs rather than mass inventory.",
+      "Most pieces are made or finished after ordering through a small Western Australian studio workflow.",
   },
   {
     question: "How long does dispatch take?",
     answer:
-      "Allow 5–7 business days for production, finishing, quality checking, packing, and carrier hand-off. Carrier transit time begins after dispatch and varies by destination.",
+      "Allow 5-7 business days for production, finishing, checking, packing, and carrier hand-off. Transit time begins after dispatch.",
   },
   {
     question: "How are products packed?",
     answer:
-      "The current collection is designed around compact 300×300×300mm cube packaging wherever the order composition allows. Multiple items or unusual combinations may require different packing for safety.",
+      "The collection is designed around compact 300 x 300 x 300 mm packaging wherever practical. Some orders may need different packing for protection.",
   },
   {
-    question: "Do you still offer custom design work?",
+    question: "Do you offer custom design work?",
     answer:
-      "Custom design is no longer presented as the core product offering. The studio enquiry route remains available for practical questions, collaborations, or order clarification, but the primary offer is the curated collection.",
+      "Custom design is not the core offer. The current focus is the curated collection, shade systems, and practical product enquiries.",
   },
   {
     question: "Can I return an item?",
     answer:
-      "Returns and remedies are handled according to the returns policy and Australian consumer law. Expected small-batch texture and colour variation is normal; damage, incorrect items, or material defects should be raised with the studio promptly.",
+      "Returns and remedies are handled under the returns policy and Australian consumer law. Damage, incorrect items, or material defects should be raised with the studio promptly.",
   },
 ];
 
@@ -64,12 +64,14 @@ export default function FAQPage() {
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-warm-amber">
             FAQ
           </p>
+
           <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-charcoal sm:text-6xl">
-            Straight answers for a simpler lighting system.
+            Simple answers for the current collection.
           </h1>
+
           <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
-            The current ArcVane model is intentionally narrow: E27 fittings, low-power LED bulbs,
-            clear and matte PLA, compact production, and small-batch coastal objects.
+            E27 hardware, low-power LED bulbs, compact shipping, small-run
+            production, and PLA materials.
           </p>
         </div>
       </section>
@@ -82,19 +84,25 @@ export default function FAQPage() {
                 <h2 className="text-xl font-semibold tracking-tight text-charcoal">
                   {item.question}
                 </h2>
-                <p className="mt-4 text-sm leading-7 text-deep-brown/70">{item.answer}</p>
+
+                <p className="mt-4 text-sm leading-7 text-deep-brown/70">
+                  {item.answer}
+                </p>
               </article>
             ))}
           </div>
 
           <section className="mt-12 rounded-[2rem] border border-warm-amber/25 bg-warm-amber/5 p-6 sm:p-8">
             <h2 className="text-2xl font-semibold tracking-tight text-charcoal">
-              Need something more specific?
+              Need something specific?
             </h2>
+
             <p className="mt-4 text-sm leading-7 text-deep-brown/70">
-              For product fit, finish, pickup, shipping, or order-specific questions, contact the
-              studio before ordering. For safety assumptions, read the LED-only safety note first.
+              For fit, finish, delivery, order, or material questions, contact
+              the studio before ordering. For bulb and heat limits, read the
+              safety note.
             </p>
+
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/contact"
@@ -102,11 +110,12 @@ export default function FAQPage() {
               >
                 Contact the studio
               </Link>
+
               <Link
                 href="/safety"
                 className="rounded-full border border-charcoal/15 px-5 py-3 text-center text-sm font-semibold text-charcoal transition-colors hover:border-charcoal/35"
               >
-                LED safety note
+                Read safety note
               </Link>
             </div>
           </section>
