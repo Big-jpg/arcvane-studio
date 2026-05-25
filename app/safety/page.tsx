@@ -1,84 +1,103 @@
 // app/safety/page.tsx
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AlertTriangle, CheckCircle2, ShieldCheck, ThermometerSun } from "lucide-react";
+import {
+  AlertTriangle,
+  CheckCircle2,
+  ShieldCheck,
+  ThermometerSun,
+} from "lucide-react";
 
 export const metadata: Metadata = {
   title: "LED Bulb Safety",
   description:
-    "Safety guidance for ArcVane Studio lampshades, including LED-only bulb requirements and fitting adapter limitations.",
+    "Safety guidance for ArcVane Studio shades, including LED-only use, heat limits, and fitting adapter notes.",
 };
 
 const safeUse = [
   "Use modern LED bulbs only.",
-  "Keep the bulb within the wattage and temperature limits printed on your existing fixture.",
-  "Use the supplied adapter only as a mechanical support for the shade.",
-  "Ask a qualified electrician if the fitting, wiring, or installation environment appears damaged or unusual.",
+  "Check the wattage and temperature limits on your existing fixture.",
+  "Use the supplied adapter only to support the shade.",
+  "Ask an electrician if the fitting, wiring, or room conditions look damaged or unusual.",
 ];
 
 const unsafeUse = [
-  "Do not use incandescent bulbs.",
-  "Do not use halogen bulbs.",
-  "Do not use heat lamps, appliance bulbs, or other high-temperature bulbs.",
-  "Do not modify wiring, sockets, or fixed electrical infrastructure to make a shade fit.",
+  "No incandescent bulbs.",
+  "No halogen bulbs.",
+  "No heat lamps or appliance bulbs.",
+  "No wiring, socket, or fixed-installation changes to force a fit.",
 ];
 
 export default function SafetyPage() {
   return (
     <>
-      <section className="bg-warm-black py-16 text-warm-white sm:py-20">
+      <section className="bg-shell py-20 text-charcoal sm:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-warm-amber">
             Product safety
           </p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-            LED Bulb Safety Note
+
+          <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-charcoal sm:text-6xl">
+            Low-power LED only.
           </h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-ivory/70">
-            ArcVane shades are decorative lighting accessories designed for low-heat LED bulbs.
-            The bulb limitation is part of the product, not an optional recommendation.
+
+          <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
+            ArcVane shades are designed for low-heat LED bulbs. This is a
+            product requirement, not a styling preference.
           </p>
         </div>
       </section>
 
-      <section className="bg-warm-white py-12 sm:py-16">
+      <section className="bg-off-white py-16 sm:py-24">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-2xl border border-amber/30 bg-amber/5 p-6 sm:p-8">
+          <div className="rounded-[2rem] border border-warm-amber/30 bg-warm-amber/10 p-6 sm:p-8">
             <div className="flex items-start gap-4">
-              <AlertTriangle className="mt-1 h-7 w-7 shrink-0 text-amber" />
+              <AlertTriangle className="mt-1 h-7 w-7 shrink-0 text-warm-amber" />
+
               <div>
-                <h2 className="text-xl font-semibold text-charcoal">Use LED bulbs only</h2>
-                <p className="mt-3 text-sm leading-relaxed text-charcoal/75">
-                  All ArcVane shades must be used with LED bulbs only. Incandescent, halogen, heat
-                  lamp, appliance, or other high-temperature bulbs must not be used under any
-                  circumstance. High heat can deform printed materials, shorten product life, and
-                  create an unsafe installation condition.
+                <h2 className="text-2xl font-semibold tracking-tight text-charcoal">
+                  Do not use high-heat bulbs.
+                </h2>
+
+                <p className="mt-3 text-sm leading-7 text-deep-brown/75">
+                  Incandescent, halogen, heat lamp, appliance, or unknown
+                  high-temperature bulbs must not be used with ArcVane shades.
+                  Heat can deform PLA, shorten product life, and create an
+                  unsafe fitting condition.
                 </p>
               </div>
             </div>
           </div>
 
           <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
-            <section className="rounded-2xl border border-charcoal/10 bg-ivory/40 p-6">
-              <CheckCircle2 className="h-6 w-6 text-charcoal/50" />
-              <h2 className="mt-4 text-lg font-semibold text-charcoal">Safe use checklist</h2>
-              <ul className="mt-4 space-y-3 text-sm leading-relaxed text-charcoal/70">
+            <section className="rounded-[1.75rem] border border-charcoal/10 bg-shell/65 p-6 shadow-sm shadow-charcoal/5 sm:p-8">
+              <CheckCircle2 className="h-6 w-6 text-weathered-post" />
+
+              <h2 className="mt-5 text-2xl font-semibold tracking-tight text-charcoal">
+                Safe use
+              </h2>
+
+              <ul className="mt-5 space-y-3 text-sm leading-7 text-deep-brown/70">
                 {safeUse.map((item) => (
                   <li key={item} className="flex gap-3">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-amber" />
+                    <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-warm-amber" />
                     <span>{item}</span>
                   </li>
                 ))}
               </ul>
             </section>
 
-            <section className="rounded-2xl border border-charcoal/10 bg-warm-white p-6">
-              <ThermometerSun className="h-6 w-6 text-charcoal/50" />
-              <h2 className="mt-4 text-lg font-semibold text-charcoal">Do not use</h2>
-              <ul className="mt-4 space-y-3 text-sm leading-relaxed text-charcoal/70">
+            <section className="rounded-[1.75rem] border border-charcoal/10 bg-shell/65 p-6 shadow-sm shadow-charcoal/5 sm:p-8">
+              <ThermometerSun className="h-6 w-6 text-weathered-post" />
+
+              <h2 className="mt-5 text-2xl font-semibold tracking-tight text-charcoal">
+                Do not use
+              </h2>
+
+              <ul className="mt-5 space-y-3 text-sm leading-7 text-deep-brown/70">
                 {unsafeUse.map((item) => (
                   <li key={item} className="flex gap-3">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-charcoal/40" />
+                    <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-charcoal/40" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -86,19 +105,24 @@ export default function SafetyPage() {
             </section>
           </div>
 
-          <section className="mt-8 rounded-2xl border border-charcoal/10 bg-ivory/40 p-6 sm:p-8">
-            <ShieldCheck className="h-6 w-6 text-charcoal/50" />
-            <h2 className="mt-4 text-xl font-semibold text-charcoal">What the adapter does</h2>
-            <div className="mt-4 space-y-4 text-sm leading-relaxed text-charcoal/70">
+          <section className="mt-8 rounded-[2rem] border border-charcoal/10 bg-horizon-blue/20 p-6 sm:p-10">
+            <ShieldCheck className="h-6 w-6 text-weathered-post" />
+
+            <h2 className="mt-5 text-3xl font-semibold tracking-tight text-charcoal">
+              What the adapter does.
+            </h2>
+
+            <div className="mt-5 max-w-3xl space-y-4 text-sm leading-7 text-deep-brown/70">
               <p>
-                The supplied fitting adapter is a mechanical support component. It helps the shade
-                sit correctly on the compatible fitting type you select at checkout.
+                The supplied adapter is a mechanical support for the shade. It
+                helps the shade sit correctly on the compatible fitting type.
               </p>
+
               <p>
-                The adapter does not alter wiring, electrical contacts, insulation, earthing, or the
-                certified electrical infrastructure already installed in the room. If your fitting
-                is loose, damaged, cracked, discoloured, overheating, or otherwise questionable,
-                resolve that electrical issue before using any decorative shade.
+                It does not change wiring, contacts, insulation, earthing, or
+                fixed electrical infrastructure. If the fitting is loose,
+                damaged, cracked, discoloured, overheating, or otherwise
+                questionable, have it checked before using any decorative shade.
               </p>
             </div>
           </section>
@@ -106,13 +130,14 @@ export default function SafetyPage() {
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/fitting-guide"
-              className="inline-flex justify-center rounded-lg bg-charcoal px-6 py-3 text-sm font-semibold text-warm-white transition-colors hover:bg-charcoal/90"
+              className="inline-flex justify-center rounded-full bg-charcoal px-6 py-3 text-sm font-semibold text-off-white transition-colors hover:bg-deep-brown"
             >
               Choose a fitting adapter
             </Link>
+
             <Link
               href="/faq"
-              className="inline-flex justify-center rounded-lg border border-charcoal/15 px-6 py-3 text-sm font-semibold text-charcoal transition-colors hover:border-charcoal/30"
+              className="inline-flex justify-center rounded-full border border-charcoal/15 px-6 py-3 text-sm font-semibold text-charcoal transition-colors hover:border-charcoal/35"
             >
               Read safety FAQ
             </Link>
