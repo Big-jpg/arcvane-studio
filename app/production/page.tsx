@@ -29,9 +29,18 @@ const productionSteps = [
 
 const timelines = [
   ["Production", "Usually completed within the 5-7 business day dispatch window."],
-  ["Quality check", "Fit, finish, visible defects, and LED-only suitability are checked before packing."],
-  ["Packing", "Orders are packed compactly, with the 300 mm cube as the guiding constraint where practical."],
-  ["Dispatch", "Tracking is provided after carrier hand-off, or local pickup is arranged where available."],
+  [
+    "Quality check",
+    "Fit, finish, visible defects, and LED-only suitability are checked before packing.",
+  ],
+  [
+    "Packing",
+    "Orders are packed compactly, with the 300 mm cube as the guiding constraint where practical.",
+  ],
+  [
+    "Dispatch",
+    "Tracking is provided after carrier hand-off, or local pickup is arranged where available.",
+  ],
 ];
 
 export default function ProductionPage() {
@@ -48,9 +57,8 @@ export default function ProductionPage() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
-            ArcVane pieces are made through a compact studio workflow: print,
-            finish, check, pack, dispatch. No offshore catalogue. No sprawling
-            custom process.
+            ArcVane pieces are made through a compact studio workflow: print, finish, check, pack,
+            dispatch. No offshore catalogue. No sprawling options matrix.
           </p>
         </div>
       </section>
@@ -72,9 +80,7 @@ export default function ProductionPage() {
                     {step.title}
                   </h2>
 
-                  <p className="mt-4 text-sm leading-7 text-deep-brown/70">
-                    {step.text}
-                  </p>
+                  <p className="mt-4 text-sm leading-7 text-deep-brown/70">{step.text}</p>
                 </article>
               );
             })}
@@ -90,8 +96,8 @@ export default function ProductionPage() {
                 </h2>
 
                 <p className="mt-5 text-sm leading-7 text-deep-brown/70">
-                  Most orders follow the same rhythm: make or finish the piece,
-                  check the hardware fit, pack it properly, then send it out.
+                  Most orders follow the same rhythm: make or finish the piece, check the hardware
+                  fit, pack it properly, then send it out.
                 </p>
               </div>
 
@@ -105,9 +111,7 @@ export default function ProductionPage() {
                       {label}
                     </dt>
 
-                    <dd className="text-sm leading-7 text-deep-brown/70">
-                      {value}
-                    </dd>
+                    <dd className="text-sm leading-7 text-deep-brown/70">{value}</dd>
                   </div>
                 ))}
               </dl>
@@ -121,15 +125,13 @@ export default function ProductionPage() {
 
             <div className="mt-5 max-w-3xl space-y-4 text-sm leading-7 text-deep-brown/70">
               <p>
-                Layer texture, small tonal shifts, and subtle diffusion
-                differences are expected. Each piece should match the listing,
-                but not feel anonymous or injection-moulded.
+                Layer texture, small tonal shifts, and subtle diffusion differences are expected.
+                Each piece should match the listing, but not feel anonymous or injection-moulded.
               </p>
 
               <p>
-                For finish, hardware, or delivery questions, contact the studio
-                before ordering. Custom design commissions are not the current
-                focus.
+                For finish, hardware, or delivery questions, contact the studio before ordering. The
+                current focus is a curated collection and compatible shade system.
               </p>
             </div>
 

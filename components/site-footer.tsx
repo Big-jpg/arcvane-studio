@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const footerSections = [
   {
-    title: "Shop",
+    title: "Collection",
     links: [
       { href: "/products", label: "Current Collection" },
       { href: "/products?category=shade-sets", label: "Shade Sets" },
@@ -12,21 +12,23 @@ const footerSections = [
     ],
   },
   {
-    title: "Studio",
+    title: "Atelier",
     links: [
       { href: "/materials", label: "Materials" },
       { href: "/production", label: "Production" },
-      { href: "/safety", label: "Safety" },
       { href: "/about", label: "About" },
     ],
   },
   {
-    title: "Support",
+    title: "Care",
     links: [
-      { href: "/shipping", label: "Shipping" },
+      { href: "/shipping", label: "Fulfilment" },
+      { href: "/safety", label: "Safety" },
       { href: "/returns", label: "Returns" },
+      { href: "/faq", label: "FAQ" },
       { href: "/contact", label: "Contact" },
-      { href: "/terms", label: "Terms / Privacy" },
+      { href: "/terms", label: "Terms" },
+      { href: "/privacy", label: "Privacy" },
     ],
   },
 ];
@@ -38,15 +40,19 @@ export function SiteFooter() {
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand column */}
           <div className="space-y-4">
-            <Link href="/" className="inline-flex items-center gap-2" aria-label="ArcVane Studio home">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2"
+              aria-label="ArcVane Studio home"
+            >
               <span className="h-2 w-2 rounded-full bg-warm-amber" />
               <span className="text-lg font-semibold tracking-tight text-off-white">
                 ArcVane Studio
               </span>
             </Link>
             <p className="max-w-sm text-sm leading-relaxed text-shell/75">
-              Small-batch coastal lighting objects made from translucent PLA, matte-finished stands,
-              and warm LED hardware. Designed and produced in Western Australia.
+              A Western Australian lighting atelier for translucent PLA diffusion, modular E27 shade
+              systems, and small-run coastal objects.
             </p>
           </div>
 
