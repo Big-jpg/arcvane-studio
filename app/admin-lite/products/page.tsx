@@ -25,7 +25,10 @@ async function loadProductState(): Promise<{
   products: Product[];
 }> {
   try {
-    const [products, catalogueSource] = await Promise.all([listAdminProducts(), getCatalogueSource()]);
+    const [products, catalogueSource] = await Promise.all([
+      listAdminProducts(),
+      getCatalogueSource(),
+    ]);
 
     return {
       databaseAvailable: true,
@@ -54,8 +57,8 @@ export default async function AdminLiteProductsPage() {
             <div>
               <h1 className="font-serif text-4xl font-semibold">Product catalogue</h1>
               <p className="mt-2 max-w-3xl text-sm leading-6 text-warm-white/70">
-                Manage internal product records that can become the live catalogue once database rows exist. Shopify
-                still takes precedence when the Shopify Storefront environment is configured.
+                Manage internal product records with a guided listing workflow. Shopify still takes
+                precedence when the Shopify Storefront environment is configured.
               </p>
             </div>
             <p className="text-sm text-warm-white/60">Signed in as {admin.email}</p>
@@ -94,24 +97,30 @@ export default async function AdminLiteProductsPage() {
           <div>
             <h2 className="font-serif text-3xl font-semibold text-charcoal">Products</h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-charcoal/60">
-              Create and maintain product rows using raw SQL-backed stored procedures. If the product schema has not
-              been installed, the static mock catalogue remains visible here as read-only fallback data.
+              Create and maintain product rows, review public-facing listing quality, and capture
+              optional share copy without changing the database contract. If the product schema has
+              not been installed, the static mock catalogue remains visible here as read-only
+              fallback data.
             </p>
           </div>
           <p className="text-sm text-charcoal/50">
-            Catalogue source: {catalogueSource} · Data layer: {databaseAvailable ? "database writable" : "mock read-only"} · {products.length} products
+            Catalogue source: {catalogueSource} · Data layer:{" "}
+            {databaseAvailable ? "database writable" : "mock read-only"} · {products.length}{" "}
+            products
           </p>
         </div>
 
         {!databaseAvailable ? (
           <div className="mb-6 rounded-2xl border border-amber/40 bg-amber/10 p-4 text-sm leading-6 text-charcoal">
-            Product database objects are not installed or not reachable. Public catalogue pages continue to use the
-            existing mock fallback, and this page disables writes until the migration and procedures are applied.
+            Product database objects are not installed or not reachable. Public catalogue pages
+            continue to use the existing mock fallback, and this page disables writes until the
+            migration and procedures are applied.
           </div>
         ) : catalogueSource === "mock" ? (
           <div className="mb-6 rounded-2xl border border-charcoal/10 bg-white p-4 text-sm leading-6 text-charcoal/60">
-            The product table is available but empty, so the public catalogue still reads from mock products. Adding
-            the first database product will switch the non-Shopify catalogue source to database rows.
+            The product table is available but empty, so the public catalogue still reads from mock
+            products. Adding the first database product will switch the non-Shopify catalogue source
+            to database rows.
           </div>
         ) : null}
 
