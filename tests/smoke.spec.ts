@@ -23,10 +23,7 @@ test.describe("ArcVane public smoke coverage", () => {
       "href",
       "/production",
     );
-    await expect(primaryNav.getByRole("link", { name: "About" })).toHaveAttribute(
-      "href",
-      "/about",
-    );
+    await expect(primaryNav.getByRole("link", { name: "About" })).toHaveAttribute("href", "/about");
     await expect(primaryNav.getByRole("link", { name: "Contact" })).toHaveAttribute(
       "href",
       "/contact",
@@ -41,20 +38,19 @@ test.describe("ArcVane public smoke coverage", () => {
   test("home page loads coastal lighting content", async ({ page }) => {
     await page.goto("/");
 
+    await expect(page.getByRole("heading", { name: "Light first." })).toBeVisible();
     await expect(
-      page.getByRole("heading", {
-        name: /Small-batch lighting objects shaped by coastal forms/i,
-      }),
+      page.getByRole("heading", { name: /Not a lamp\. A lighting language/i }),
     ).toBeVisible();
-    await expect(page.getByText(/Shell-like PLA diffusers/i)).toBeVisible();
-    await expect(page.getByRole("link", { name: /Shop current collection/i })).toBeVisible();
+    await expect(page.getByText(/Western Australian coast/i)).toBeVisible();
+    await expect(page.getByRole("link", { name: /Explore the collection/i })).toBeVisible();
   });
 
   test("collection page loads current product names", async ({ page }) => {
     await page.goto("/products");
 
     await expect(
-      page.getByRole("heading", { name: /Coastal lighting objects, kept deliberately small/i }),
+      page.getByRole("heading", { name: /Coastal lighting pieces, released in small runs/i }),
     ).toBeVisible();
     await expect(page.getByRole("link", { name: /Shell Fan/i })).toBeVisible();
     await expect(page.getByRole("link", { name: /Coral Veil/i })).toBeVisible();
@@ -66,16 +62,16 @@ test.describe("ArcVane public smoke coverage", () => {
 
     await expect(page.getByRole("heading", { name: "Shell Fan" })).toBeVisible();
     await expect(page.getByText(/Clear PLA, translucent shell-diffusion finish/i)).toBeVisible();
-    await expect(page.getByText("LED bulbs only", { exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "LED-only safety" })).toBeVisible();
   });
 
   test("materials page loads", async ({ page }) => {
     await page.goto("/materials");
 
     await expect(
-      page.getByRole("heading", { name: /PLA treated as a coastal material/i }),
+      page.getByRole("heading", { name: /Translucent PLA, treated like a coastal material/i }),
     ).toBeVisible();
-    await expect(page.getByText(/ArcVane uses clear PLA, matte PLA/i)).toBeVisible();
+    await expect(page.getByText(/ArcVane uses clear PLA, matte finishes/i)).toBeVisible();
   });
 
   test("process page loads", async ({ page }) => {
@@ -83,10 +79,12 @@ test.describe("ArcVane public smoke coverage", () => {
 
     await expect(
       page.getByRole("heading", {
-        name: /Made after order, with the discipline of a compact collection/i,
+        name: /Made slowly, packed simply, released in small runs/i,
       }),
     ).toBeVisible();
-    await expect(page.getByText(/ArcVane produces finished lighting objects in small batches/i)).toBeVisible();
+    await expect(
+      page.getByText(/No offshore catalogue\. No sprawling custom process/i),
+    ).toBeVisible();
   });
 
   test("about page loads", async ({ page }) => {
@@ -94,16 +92,20 @@ test.describe("ArcVane public smoke coverage", () => {
 
     await expect(
       page.getByRole("heading", {
-        name: /Coastal lighting objects from a small Western Australian studio/i,
+        name: /Coastal lighting from a small Western Australian studio/i,
       }),
     ).toBeVisible();
-    await expect(page.getByText(/ArcVane Studio designs compact E27 lighting objects/i)).toBeVisible();
+    await expect(
+      page.getByText(/ArcVane makes compact lighting pieces shaped by shell/i),
+    ).toBeVisible();
   });
 
   test("contact page loads", async ({ page }) => {
     await page.goto("/contact");
 
-    await expect(page.getByRole("heading", { name: "Contact" })).toBeVisible();
-    await expect(page.getByText(/ArcVane operates as a small studio/i)).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /Product questions, order support/i }),
+    ).toBeVisible();
+    await expect(page.getByText(/ArcVane is a small studio/i)).toBeVisible();
   });
 });
