@@ -4,8 +4,9 @@
 import { randomUUID } from "node:crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { checkAdminAuth } from "@/lib/admin-auth";
+import { getCatalogueReadiness, isProductCategory } from "@/lib/catalogue-readiness";
 import { ADAPTER_TYPES, PRODUCT_CATEGORIES, slugifyProductHandle } from "@/lib/product-options";
-import type { AdapterType, ProductCategory } from "@/lib/types";
+import type { AdapterType } from "@/lib/types";
 import {
   isProductDatabaseUnavailableError,
   listAdminProducts,
@@ -44,7 +45,8 @@ function optionalStringField(record: Record<string, unknown>, key: string): stri
 
 function numberField(record: Record<string, unknown>, key: string): number | null {
   const value = record[key];
-  const parsed = typeof value === "number" ? value : typeof value === "string" ? Number(value) : NaN;
+  const parsed =
+    typeof value === "number" ? value : typeof value === "string" ? Number(value) : NaN;
   return Number.isFinite(parsed) ? parsed : null;
 }
 
@@ -97,10 +99,6 @@ function stringArrayField(record: Record<string, unknown>, key: string): string[
   return [];
 }
 
-function isProductCategory(value: string | null): value is ProductCategory {
-  return value !== null && PRODUCT_CATEGORIES.includes(value as ProductCategory);
-}
-
 function validateAdapters(values: string[]): AdapterType[] | null {
   if (values.length === 0) return [];
   return values.every((value) => ADAPTER_TYPES.includes(value as AdapterType))
@@ -109,7 +107,8 @@ function validateAdapters(values: string[]): AdapterType[] | null {
 }
 
 function databaseErrorResponse(error: unknown): NextResponse<ProductsResponse> {
-  const code = typeof error === "object" && error !== null && "code" in error ? String(error.code) : null;
+  const code =
+    typeof error === "object" && error !== null && "code" in error ? String(error.code) : null;
 
   if (isProductDatabaseUnavailableError(error)) {
     return NextResponse.json(
@@ -202,7 +201,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ProductsR
     );
   }
 
-  if (!isProductCategory(category)) {
+  if (!category || !isProductCategory(category)) {
     return NextResponse.json(
       { ok: false, error: `Product category must be one of: ${PRODUCT_CATEGORIES.join(", ")}.` },
       { status: 422 },
@@ -214,6 +213,28 @@ export async function POST(request: NextRequest): Promise<NextResponse<ProductsR
       { ok: false, error: `Adapters must be selected from: ${ADAPTER_TYPES.join(", ")}.` },
       { status: 422 },
     );
+  }
+
+  if (inStock) {
+    const readiness = getCatalogueReadiness({
+      title,
+      handle,
+      price,
+      category,
+      colours,
+      images,
+      adapters,
+    });
+
+    if (!readiness.publishReady) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: `Product must be publish-ready before it can be marked in stock: ${readiness.issues.join(" ")}`,
+        },
+        { status: 422 },
+      );
+    }
   }
 
   try {

@@ -5,6 +5,7 @@
 
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";
+import { getCatalogueReadiness, type CatalogueReadiness } from "@/lib/catalogue-readiness";
 import {
   ADAPTER_TYPES,
   PRODUCT_CATEGORIES,
@@ -171,8 +172,8 @@ function primaryImage(product: EditableProduct): string | null {
 }
 
 function sourceLabel(source: CatalogueSource): string {
-  if (source === "database") return "database catalogue";
-  if (source === "shopify") return "Shopify catalogue";
+  if (source === "database") return "Neon catalogue";
+  if (source === "shopify") return "Shopify override";
   return "mock fallback";
 }
 
@@ -187,6 +188,18 @@ function toneImagePairsForForm(form: ProductFormState): ToneImagePair[] {
 function toneImagePairsComplete(form: ProductFormState): boolean {
   const pairs = toneImagePairsForForm(form);
   return pairs.length > 0 && pairs.every((pair) => pair.complete);
+}
+
+function readinessForForm(form: ProductFormState) {
+  return getCatalogueReadiness({
+    title: form.title,
+    handle: form.handle,
+    price: priceValue(form),
+    category: form.category,
+    colours: commaSplit(form.colours),
+    images: commaSplit(form.images),
+    adapters: form.adapters,
+  });
 }
 
 function categoryHref(category: ProductCategory): string {
@@ -236,22 +249,16 @@ function generateCopyBlocks(form: ProductFormState): CopyBlock[] {
 }
 
 function completionItems(form: ProductFormState): Array<{ label: string; complete: boolean }> {
-  const tones = commaSplit(form.colours);
-  const images = commaSplit(form.images);
-  const pairs = buildToneImagePairs(tones, images);
+  const readiness = readinessForForm(form);
 
   return [
-    { label: "Title", complete: form.title.trim().length > 0 },
-    { label: "Handle", complete: form.handle.trim().length > 0 },
-    { label: "Price", complete: Number.isFinite(Number(form.price)) && Number(form.price) >= 0 },
+    ...readiness.checks.map((check) => ({
+      label: check.label,
+      complete: check.complete,
+    })),
     { label: "Description", complete: form.description.trim().length > 0 },
     { label: "Material", complete: form.material.trim().length > 0 },
     { label: "Dimensions", complete: form.dimensions.trim().length > 0 },
-    { label: "Finish tones", complete: tones.length > 0 },
-    {
-      label: "Tone image pairs",
-      complete: pairs.length > 0 && pairs.every((pair) => pair.complete),
-    },
   ];
 }
 
@@ -280,7 +287,7 @@ function stepIsComplete(step: WizardStep["id"], form: ProductFormState): boolean
   }
 
   if (step === "imagery") {
-    return toneImagePairsComplete(form);
+    return !form.inStock || toneImagePairsComplete(form);
   }
 
   return true;
@@ -316,6 +323,7 @@ export function ProductCatalogueManager({
   const imageRequirement = toneImageRequirement(tones);
   const imagePairsComplete =
     toneImagePairs.length > 0 && toneImagePairs.every((pair) => pair.complete);
+  const readiness = useMemo(() => readinessForForm(form), [form]);
   const copyBlocks = useMemo(() => generateCopyBlocks(form), [form]);
   const completion = useMemo(() => completionItems(form), [form]);
   const completedCount = completion.filter((item) => item.complete).length;
@@ -325,7 +333,7 @@ export function ProductCatalogueManager({
     stepIsComplete("identity", form) &&
     stepIsComplete("commerce", form) &&
     stepIsComplete("object", form) &&
-    (!form.inStock || stepIsComplete("imagery", form));
+    (!form.inStock || readiness.publishReady);
 
   function resetForm() {
     setForm(emptyProductForm);
@@ -398,7 +406,7 @@ export function ProductCatalogueManager({
 
     if (!canSaveProduct) {
       setMessage(
-        "Complete the required product fields and add paired no-light and illuminated images for each in-stock finish tone before saving. Set the product out of stock to save an incomplete upload draft.",
+        `Complete the required product fields before saving. In-stock products must be publish-ready: ${readiness.issues.join(" ") || "no readiness issues found"}`,
       );
       return;
     }
@@ -586,8 +594,8 @@ export function ProductCatalogueManager({
           </div>
           {products.length === 0 ? (
             <p className="px-4 py-8 text-sm text-charcoal/60">
-              No database products exist yet. Add the first product to switch the public mock
-              fallback to the database catalogue.
+              No Neon catalogue products exist yet. Add the first product as an out-of-stock draft,
+              then mark it in stock when readiness checks pass.
             </p>
           ) : (
             <div className="divide-y divide-charcoal/10">
@@ -965,144 +973,27 @@ export function ProductCatalogueManager({
             ) : null}
 
             {currentStep.id === "imagery" ? (
-              <div className="grid gap-3">
-                <label className="block text-sm font-semibold text-charcoal">
-                  Image paths / URLs
-                  <textarea
-                    value={form.images}
-                    onChange={(event) =>
-                      setForm((current) => ({ ...current, images: event.target.value }))
-                    }
-                    disabled={!databaseAvailable || isPending}
-                    className="mt-1 min-h-24 w-full rounded-lg border border-charcoal/15 bg-white px-3 py-2 text-sm font-normal text-charcoal outline-none transition focus:border-amber disabled:opacity-60"
-                    placeholder="Tone 1 no-light image, Tone 1 illuminated image, Tone 2 no-light image, Tone 2 illuminated image"
-                    required
-                  />
-                  <span className="mt-1 block text-xs font-normal leading-5 text-charcoal/45">
-                    Images are paired by finish tone. Current requirement: {imageRequirement} image
-                    {imageRequirement === 1 ? "" : "s"} for {tones.length} tone
-                    {tones.length === 1 ? "" : "s"}.
-                  </span>
-                </label>
-
-                <div className="rounded-xl border border-charcoal/10 bg-ivory/40 p-3">
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                    <p className="text-sm font-semibold text-charcoal">Image management</p>
-                    <label className="rounded-full border border-charcoal/15 px-3 py-1.5 text-xs font-semibold text-charcoal transition hover:border-amber">
-                      Upload image
-                      <input
-                        type="file"
-                        accept="image/png,image/jpeg,image/webp"
-                        className="sr-only"
-                        disabled={!databaseAvailable || isPending || !form.id}
-                        onChange={(event) => uploadImage(event.target.files?.[0] ?? null)}
-                      />
-                    </label>
-                  </div>
-                  {!form.id ? (
-                    <p className="mt-2 text-xs text-charcoal/50">
-                      Paste image URLs first, or save once the required tone image pairs are in
-                      place before uploading additional files.
-                    </p>
-                  ) : null}
-                  {tones.length === 0 ? (
-                    <p className="mt-3 text-sm text-charcoal/50">
-                      Add at least one finish tone in the Object step before arranging imagery.
-                    </p>
-                  ) : (
-                    <div className="mt-3 grid gap-3">
-                      {toneImagePairs.map((pair) => (
-                        <div
-                          key={pair.tone}
-                          className="rounded-lg border border-charcoal/10 bg-white p-3"
-                        >
-                          <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
-                            <div>
-                              <p className="text-sm font-semibold text-charcoal">{pair.tone}</p>
-                              <p className="mt-1 text-xs text-charcoal/45">
-                                Images {pair.toneIndex * 2 + 1} and {pair.toneIndex * 2 + 2}
-                              </p>
-                            </div>
-                            <span
-                              className={`rounded-full border px-2.5 py-1 text-xs font-semibold ${
-                                pair.complete
-                                  ? "border-emerald-500/25 bg-emerald-50 text-emerald-700"
-                                  : "border-amber/40 bg-amber/10 text-charcoal"
-                              }`}
-                            >
-                              {pair.complete ? "Complete" : "Needs pair"}
-                            </span>
-                          </div>
-
-                          <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                            {(["unlit", "illuminated"] as const).map((mode) => {
-                              const image = mode === "unlit" ? pair.unlit : pair.illuminated;
-
-                              return (
-                                <div
-                                  key={mode}
-                                  className="rounded-lg border border-charcoal/10 bg-ivory/55 p-2"
-                                >
-                                  <div
-                                    className="aspect-[3/4] rounded-md bg-white bg-contain bg-center bg-no-repeat"
-                                    style={image ? { backgroundImage: `url(${image})` } : undefined}
-                                    aria-label={`${pair.tone} ${TONE_IMAGE_MODE_LABELS[mode]} image slot`}
-                                  />
-                                  <p className="mt-2 text-xs font-semibold uppercase tracking-[0.14em] text-charcoal/55">
-                                    {TONE_IMAGE_MODE_LABELS[mode]}
-                                  </p>
-                                  {image ? (
-                                    <>
-                                      <p
-                                        className="mt-1 truncate text-xs text-charcoal/60"
-                                        title={image}
-                                      >
-                                        {image}
-                                      </p>
-                                      <button
-                                        type="button"
-                                        onClick={() =>
-                                          setForm((current) => ({
-                                            ...current,
-                                            images: removeImage(current.images, image),
-                                          }))
-                                        }
-                                        disabled={!databaseAvailable || isPending}
-                                        className="mt-2 rounded-full border border-red-500/30 px-2 py-1 text-xs font-semibold text-red-700 transition hover:border-red-500 disabled:opacity-50"
-                                      >
-                                        Remove
-                                      </button>
-                                    </>
-                                  ) : (
-                                    <p className="mt-1 text-xs leading-5 text-charcoal/45">
-                                      Missing image URL for this view.
-                                    </p>
-                                  )}
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      ))}
-                      {images.length > imageRequirement ? (
-                        <div className="rounded-lg border border-amber/30 bg-amber/10 p-3 text-xs leading-5 text-charcoal/65">
-                          {images.length - imageRequirement} extra image
-                          {images.length - imageRequirement === 1 ? "" : "s"} are attached after the
-                          tone pairs. They are preserved in the database but are not used by the
-                          public tone selector yet.
-                        </div>
-                      ) : null}
-                      {!imagePairsComplete ? (
-                        <p className="text-xs leading-5 text-charcoal/50">
-                          Complete every tone pair before marking the product in stock so the
-                          product page can switch cleanly between no-light and illuminated views.
-                          Out-of-stock products can be saved as upload drafts.
-                        </p>
-                      ) : null}
-                    </div>
-                  )}
-                </div>
-              </div>
+              <ProductImagePairsEditor
+                formId={form.id}
+                imageValue={form.images}
+                images={images}
+                tones={tones}
+                toneImagePairs={toneImagePairs}
+                imageRequirement={imageRequirement}
+                imagePairsComplete={imagePairsComplete}
+                databaseAvailable={databaseAvailable}
+                isPending={isPending}
+                onImageValueChange={(value) =>
+                  setForm((current) => ({ ...current, images: value }))
+                }
+                onRemoveImage={(image) =>
+                  setForm((current) => ({
+                    ...current,
+                    images: removeImage(current.images, image),
+                  }))
+                }
+                onUploadImage={uploadImage}
+              />
             ) : null}
 
             {currentStep.id === "review" ? (
@@ -1113,6 +1004,7 @@ export function ProductCatalogueManager({
                   completion={completion}
                   completedCount={completedCount}
                 />
+                <ProductReadinessPanel readiness={readiness} inStock={form.inStock} />
                 <CopyCapturePanel
                   copyBlocks={copyBlocks}
                   copiedCopyTitle={copiedCopyTitle}
@@ -1164,6 +1056,7 @@ export function ProductCatalogueManager({
               completedCount={completedCount}
               compact
             />
+            <ProductReadinessPanel readiness={readiness} inStock={form.inStock} compact />
           </div>
         ) : null}
       </aside>
@@ -1246,6 +1139,221 @@ function ProductPreviewCard({
             {item.label}
           </span>
         ))}
+      </div>
+    </div>
+  );
+}
+
+function ProductReadinessPanel({
+  readiness,
+  inStock,
+  compact = false,
+}: {
+  readiness: CatalogueReadiness;
+  inStock: boolean;
+  compact?: boolean;
+}) {
+  const visibleState = inStock && readiness.publishReady ? "Public" : "Draft";
+
+  return (
+    <section
+      className={`${compact ? "mt-5" : ""} rounded-2xl border border-charcoal/10 bg-ivory/45 p-4`}
+    >
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-charcoal/45">
+            Public visibility
+          </p>
+          <h4 className="mt-2 font-serif text-2xl font-semibold text-charcoal">{visibleState}</h4>
+        </div>
+        <span
+          className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+            visibleState === "Public"
+              ? "border-emerald-500/25 bg-emerald-50 text-emerald-700"
+              : "border-charcoal/10 bg-white text-charcoal/55"
+          }`}
+        >
+          {inStock ? "In stock" : "Out of stock draft"}
+        </span>
+      </div>
+
+      <p className="mt-3 text-sm leading-6 text-charcoal/60">
+        {visibleState === "Public"
+          ? "This product can publish through the Neon catalogue."
+          : "Out-of-stock rows can be saved as drafts. Mark in stock only after all readiness checks pass."}
+      </p>
+
+      {!compact ? (
+        <div className="mt-4 flex flex-wrap gap-2">
+          {readiness.checks.map((check) => (
+            <span
+              key={check.label}
+              className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+                check.complete
+                  ? "border-emerald-500/25 bg-emerald-50 text-emerald-700"
+                  : "border-amber/40 bg-amber/10 text-charcoal"
+              }`}
+            >
+              {check.label}
+            </span>
+          ))}
+        </div>
+      ) : null}
+    </section>
+  );
+}
+
+function ProductImagePairsEditor({
+  formId,
+  imageValue,
+  images,
+  tones,
+  toneImagePairs,
+  imageRequirement,
+  imagePairsComplete,
+  databaseAvailable,
+  isPending,
+  onImageValueChange,
+  onRemoveImage,
+  onUploadImage,
+}: {
+  formId: string;
+  imageValue: string;
+  images: string[];
+  tones: string[];
+  toneImagePairs: ToneImagePair[];
+  imageRequirement: number;
+  imagePairsComplete: boolean;
+  databaseAvailable: boolean;
+  isPending: boolean;
+  onImageValueChange: (value: string) => void;
+  onRemoveImage: (image: string) => void;
+  onUploadImage: (file: File | null) => void;
+}) {
+  return (
+    <div className="grid gap-3">
+      <label className="block text-sm font-semibold text-charcoal">
+        Image paths / URLs
+        <textarea
+          value={imageValue}
+          onChange={(event) => onImageValueChange(event.target.value)}
+          disabled={!databaseAvailable || isPending}
+          className="mt-1 min-h-24 w-full rounded-lg border border-charcoal/15 bg-white px-3 py-2 text-sm font-normal text-charcoal outline-none transition focus:border-amber disabled:opacity-60"
+          placeholder="Tone 1 no-light image, Tone 1 illuminated image, Tone 2 no-light image, Tone 2 illuminated image"
+          required
+        />
+        <span className="mt-1 block text-xs font-normal leading-5 text-charcoal/45">
+          Images are paired by finish tone. Current requirement: {imageRequirement} image
+          {imageRequirement === 1 ? "" : "s"} for {tones.length} tone
+          {tones.length === 1 ? "" : "s"}.
+        </span>
+      </label>
+
+      <div className="rounded-xl border border-charcoal/10 bg-ivory/40 p-3">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm font-semibold text-charcoal">Image management</p>
+          <label className="rounded-full border border-charcoal/15 px-3 py-1.5 text-xs font-semibold text-charcoal transition hover:border-amber">
+            Upload image
+            <input
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              className="sr-only"
+              disabled={!databaseAvailable || isPending || !formId}
+              onChange={(event) => onUploadImage(event.target.files?.[0] ?? null)}
+            />
+          </label>
+        </div>
+        {!formId ? (
+          <p className="mt-2 text-xs text-charcoal/50">
+            Paste image URLs first, or save once the required tone image pairs are in place before
+            uploading additional files.
+          </p>
+        ) : null}
+        {tones.length === 0 ? (
+          <p className="mt-3 text-sm text-charcoal/50">
+            Add at least one finish tone in the Object step before arranging imagery.
+          </p>
+        ) : (
+          <div className="mt-3 grid gap-3">
+            {toneImagePairs.map((pair) => (
+              <div key={pair.tone} className="rounded-lg border border-charcoal/10 bg-white p-3">
+                <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <p className="text-sm font-semibold text-charcoal">{pair.tone}</p>
+                    <p className="mt-1 text-xs text-charcoal/45">
+                      Images {pair.toneIndex * 2 + 1} and {pair.toneIndex * 2 + 2}
+                    </p>
+                  </div>
+                  <span
+                    className={`rounded-full border px-2.5 py-1 text-xs font-semibold ${
+                      pair.complete
+                        ? "border-emerald-500/25 bg-emerald-50 text-emerald-700"
+                        : "border-amber/40 bg-amber/10 text-charcoal"
+                    }`}
+                  >
+                    {pair.complete ? "Complete" : "Needs pair"}
+                  </span>
+                </div>
+
+                <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                  {(["unlit", "illuminated"] as const).map((mode) => {
+                    const image = mode === "unlit" ? pair.unlit : pair.illuminated;
+
+                    return (
+                      <div
+                        key={mode}
+                        className="rounded-lg border border-charcoal/10 bg-ivory/55 p-2"
+                      >
+                        <div
+                          className="aspect-[3/4] rounded-md bg-white bg-contain bg-center bg-no-repeat"
+                          style={image ? { backgroundImage: `url(${image})` } : undefined}
+                          aria-label={`${pair.tone} ${TONE_IMAGE_MODE_LABELS[mode]} image slot`}
+                        />
+                        <p className="mt-2 text-xs font-semibold uppercase tracking-[0.14em] text-charcoal/55">
+                          {TONE_IMAGE_MODE_LABELS[mode]}
+                        </p>
+                        {image ? (
+                          <>
+                            <p className="mt-1 truncate text-xs text-charcoal/60" title={image}>
+                              {image}
+                            </p>
+                            <button
+                              type="button"
+                              onClick={() => onRemoveImage(image)}
+                              disabled={!databaseAvailable || isPending}
+                              className="mt-2 rounded-full border border-red-500/30 px-2 py-1 text-xs font-semibold text-red-700 transition hover:border-red-500 disabled:opacity-50"
+                            >
+                              Remove
+                            </button>
+                          </>
+                        ) : (
+                          <p className="mt-1 text-xs leading-5 text-charcoal/45">
+                            Missing image URL for this view.
+                          </p>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+            {images.length > imageRequirement ? (
+              <div className="rounded-lg border border-amber/30 bg-amber/10 p-3 text-xs leading-5 text-charcoal/65">
+                {images.length - imageRequirement} extra image
+                {images.length - imageRequirement === 1 ? "" : "s"} are attached after the tone
+                pairs. They are preserved in the database but are not used by the public tone
+                selector yet.
+              </div>
+            ) : null}
+            {!imagePairsComplete ? (
+              <p className="text-xs leading-5 text-charcoal/50">
+                Complete every tone pair before marking the product in stock so the product page can
+                switch cleanly between no-light and illuminated views. Out-of-stock products can be
+                saved as upload drafts.
+              </p>
+            ) : null}
+          </div>
+        )}
       </div>
     </div>
   );

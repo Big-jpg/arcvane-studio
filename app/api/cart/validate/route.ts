@@ -1,6 +1,6 @@
 // app/api/cart/validate/route.ts
 // Server-side cart validation endpoint.
-// Validates cart items against the catalogue (Shopify or mock) before checkout.
+// Validates cart items against the configured public catalogue before checkout.
 // The server does NOT trust client-side prices — it verifies each item's price
 // against the authoritative catalogue source.
 

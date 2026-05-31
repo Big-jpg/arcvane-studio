@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         destination: "/shipping",
         permanent: false,
       },
+      {
+        source: "/admin/products",
+        destination: "/admin-lite/products",
+        permanent: false,
+      },
     ];
   },
   images: {

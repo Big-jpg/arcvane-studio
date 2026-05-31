@@ -3,6 +3,7 @@
 
 import { NextResponse, type NextRequest } from "next/server";
 import { checkAdminAuth } from "@/lib/admin-auth";
+import { getCatalogueReadiness } from "@/lib/catalogue-readiness";
 import {
   deleteAdminProduct,
   getAdminProduct,
@@ -42,7 +43,10 @@ function databaseErrorResponse(error: unknown): NextResponse<ProductItemResponse
     );
   }
 
-  return NextResponse.json({ ok: false, error: "Product catalogue operation failed." }, { status: 500 });
+  return NextResponse.json(
+    { ok: false, error: "Product catalogue operation failed." },
+    { status: 500 },
+  );
 }
 
 export async function GET(
@@ -122,6 +126,34 @@ export async function PATCH(
   const { id } = await params;
 
   try {
+    if (inStock) {
+      const existingProduct = await getAdminProduct(id);
+
+      if (!existingProduct) {
+        return NextResponse.json({ ok: false, error: "Product not found." }, { status: 404 });
+      }
+
+      const readiness = getCatalogueReadiness({
+        title: existingProduct.title,
+        handle: existingProduct.handle,
+        price: existingProduct.price,
+        category: existingProduct.category,
+        colours: existingProduct.colours,
+        images: existingProduct.images,
+        adapters: existingProduct.adapters,
+      });
+
+      if (!readiness.publishReady) {
+        return NextResponse.json(
+          {
+            ok: false,
+            error: `Product must be publish-ready before it can be marked in stock: ${readiness.issues.join(" ")}`,
+          },
+          { status: 422 },
+        );
+      }
+    }
+
     const product = await toggleAdminProductStock(id, inStock);
 
     if (!product) {

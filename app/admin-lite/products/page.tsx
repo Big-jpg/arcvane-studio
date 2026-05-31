@@ -4,11 +4,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ProductCatalogueManager } from "@/components/admin-lite/product-catalogue-manager";
-import { getCatalogueSource } from "@/lib/catalogue";
 import { requireAdmin } from "@/lib/admin-auth";
-import { products as mockProducts } from "@/lib/mock-products";
 import type { Product } from "@/lib/types";
-import { listAdminProducts } from "@/server/db/product-contracts";
+import {
+  getAdminCatalogueProducts,
+  getCatalogueState,
+  type CatalogueState,
+} from "@/server/catalogue/state";
 
 export const dynamic = "force-dynamic";
 
@@ -17,36 +19,21 @@ export const metadata: Metadata = {
   description: "Product catalogue management for ArcVane Studio.",
 };
 
-type CatalogueSource = "shopify" | "database" | "mock";
-
 async function loadProductState(): Promise<{
-  databaseAvailable: boolean;
-  catalogueSource: CatalogueSource;
+  catalogueState: CatalogueState;
   products: Product[];
 }> {
-  try {
-    const [products, catalogueSource] = await Promise.all([
-      listAdminProducts(),
-      getCatalogueSource(),
-    ]);
+  const [catalogueState, products] = await Promise.all([
+    getCatalogueState(),
+    getAdminCatalogueProducts(),
+  ]);
 
-    return {
-      databaseAvailable: true,
-      catalogueSource,
-      products,
-    };
-  } catch {
-    return {
-      databaseAvailable: false,
-      catalogueSource: "mock",
-      products: mockProducts,
-    };
-  }
+  return { catalogueState, products };
 }
 
 export default async function AdminLiteProductsPage() {
   const admin = await requireAdmin();
-  const { databaseAvailable, catalogueSource, products } = await loadProductState();
+  const { catalogueState, products } = await loadProductState();
 
   return (
     <main className="min-h-screen bg-ivory text-charcoal">
@@ -57,8 +44,8 @@ export default async function AdminLiteProductsPage() {
             <div>
               <h1 className="font-serif text-4xl font-semibold">Product catalogue</h1>
               <p className="mt-2 max-w-3xl text-sm leading-6 text-warm-white/70">
-                Manage internal product records with a guided listing workflow. Shopify still takes
-                precedence when the Shopify Storefront environment is configured.
+                Manage the Neon catalogue that publishes ArcVane&apos;s public collection, with
+                draft rows held out of stock until they are ready.
               </p>
             </div>
             <p className="text-sm text-warm-white/60">Signed in as {admin.email}</p>
@@ -98,36 +85,34 @@ export default async function AdminLiteProductsPage() {
             <h2 className="font-serif text-3xl font-semibold text-charcoal">Products</h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-charcoal/60">
               Create and maintain product rows, review public-facing listing quality, and capture
-              optional share copy without changing the database contract. If the product schema has
-              not been installed, local mock products remain visible here as read-only fallback data
-              for setup checks.
+              optional share copy without changing the database contract. Public visibility is
+              governed by catalogue source and readiness diagnostics below.
             </p>
           </div>
           <p className="text-sm text-charcoal/50">
-            Catalogue source: {catalogueSource} · Data layer:{" "}
-            {databaseAvailable ? "database writable" : "mock read-only"} · {products.length}{" "}
-            products
+            Public source: {catalogueState.source} ·{" "}
+            {catalogueState.editable ? "Neon editable" : "Neon not publishing"} ·{" "}
+            {catalogueState.productCount} public products
           </p>
         </div>
 
-        {!databaseAvailable ? (
-          <div className="mb-6 rounded-2xl border border-amber/40 bg-amber/10 p-4 text-sm leading-6 text-charcoal">
-            Product database objects are not installed or not reachable. This page shows local mock
-            fallback rows for diagnostics and disables writes until the migration and procedures are
-            applied.
-          </div>
-        ) : catalogueSource === "mock" ? (
-          <div className="mb-6 rounded-2xl border border-charcoal/10 bg-white p-4 text-sm leading-6 text-charcoal/60">
-            The product table is available but empty. Development can still use mock products when
-            the fallback is enabled, but production public catalogue pages read from live catalogue
-            rows only.
+        {catalogueState.warnings.length > 0 ? (
+          <div className="mb-6 grid gap-2">
+            {catalogueState.warnings.map((warning) => (
+              <p
+                key={warning}
+                className="rounded-2xl border border-amber/40 bg-amber/10 p-4 text-sm leading-6 text-charcoal"
+              >
+                {warning}
+              </p>
+            ))}
           </div>
         ) : null}
 
         <ProductCatalogueManager
           products={products}
-          databaseAvailable={databaseAvailable}
-          catalogueSource={catalogueSource}
+          databaseAvailable={catalogueState.databaseAvailable}
+          catalogueSource={catalogueState.source}
         />
       </section>
     </main>
