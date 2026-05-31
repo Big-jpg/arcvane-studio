@@ -17,7 +17,7 @@ const inter = Inter({
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://arcvane-studio.com";
 const siteDescription =
-  "Custom 3D printed lampshades designed for the lights you already own. Parametric lighting objects with included B22, E27, and Clipsal-compatible adapters.";
+  "A Western Australian lighting atelier creating small-run coastal lighting objects, translucent PLA diffusers, and modular E27 shade systems.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -32,13 +32,13 @@ export const metadata: Metadata = {
   publisher: "ArcVane Studio",
   category: "lighting design",
   keywords: [
-    "3D printed lampshades",
-    "custom lampshades",
-    "B22 adapter",
-    "E27 adapter",
-    "Clipsal adapter",
-    "LED lampshades",
-    "domestic lighting",
+    "Western Australian lighting atelier",
+    "coastal lighting design",
+    "E27 shade system",
+    "PLA diffusion",
+    "modular lighting components",
+    "small-run lighting",
+    "domestic lighting objects",
   ],
   alternates: {
     canonical: "/",

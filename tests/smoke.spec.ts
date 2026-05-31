@@ -83,7 +83,7 @@ test.describe("ArcVane public smoke coverage", () => {
       }),
     ).toBeVisible();
     await expect(
-      page.getByText(/No offshore catalogue\. No sprawling custom process/i),
+      page.getByText(/No offshore catalogue\. No sprawling options matrix/i),
     ).toBeVisible();
   });
 
@@ -107,5 +107,31 @@ test.describe("ArcVane public smoke coverage", () => {
       page.getByRole("heading", { name: /Product questions, order support/i }),
     ).toBeVisible();
     await expect(page.getByText(/ArcVane is a small studio/i)).toBeVisible();
+  });
+
+  test("fulfilment page covers shipping and pickup", async ({ page }) => {
+    await page.goto("/shipping");
+
+    await expect(page.getByRole("heading", { name: /Compact delivery/i })).toBeVisible();
+    await expect(page.getByText(/Australia-wide delivery/i)).toBeVisible();
+    await expect(page.getByText(/arranged local pickup/i)).toBeVisible();
+  });
+
+  test("demoted public routes redirect to canonical pages", async ({ page }) => {
+    await page.goto("/custom");
+    await expect(page).toHaveURL(/\/contact$/);
+
+    await page.goto("/pickup");
+    await expect(page).toHaveURL(/\/shipping$/);
+  });
+
+  test("sitemap omits demoted public routes", async ({ request }) => {
+    const response = await request.get("/sitemap.xml");
+    expect(response.ok()).toBe(true);
+
+    const sitemap = await response.text();
+    expect(sitemap).toContain("/shipping");
+    expect(sitemap).not.toContain("/custom");
+    expect(sitemap).not.toContain("/pickup");
   });
 });

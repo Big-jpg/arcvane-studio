@@ -22,9 +22,8 @@ export default function ContactPage() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
-            ArcVane is a small studio. Messages are handled directly, with a
-            focus on practical product, fitting, material, and delivery
-            questions.
+            ArcVane is a small studio. Messages are handled directly, with a focus on practical
+            product, fitting, material, and delivery questions.
           </p>
         </div>
       </section>
@@ -36,9 +35,7 @@ export default function ContactPage() {
               <div className="rounded-[1.75rem] border border-charcoal/10 bg-shell/65 p-6 shadow-sm shadow-charcoal/5 sm:p-8">
                 <Mail className="h-6 w-6 text-weathered-post" />
 
-                <h2 className="mt-6 text-2xl font-semibold tracking-tight text-charcoal">
-                  Email
-                </h2>
+                <h2 className="mt-6 text-2xl font-semibold tracking-tight text-charcoal">Email</h2>
 
                 <a
                   href="mailto:rossfarrell7@gmail.com"
@@ -60,8 +57,8 @@ export default function ContactPage() {
                 </h2>
 
                 <p className="mt-4 text-sm leading-7 text-deep-brown/65">
-                  Include the product name, order details if relevant, fitting
-                  type, room context, photos, or approximate measurements.
+                  Include the product name, order details if relevant, fitting type, room context,
+                  photos, or approximate measurements.
                 </p>
               </div>
             </div>
@@ -74,15 +71,13 @@ export default function ContactPage() {
 
                 <div className="mt-6 grid gap-4 text-sm leading-7 text-deep-brown/70 sm:grid-cols-2">
                   <p>
-                    Product availability, current pieces, shade sets, E27
-                    compatibility, low-power LED use, materials, colours, and
-                    finish variation.
+                    Product availability, current pieces, shade sets, E27 compatibility, low-power
+                    LED use, materials, colours, and finish variation.
                   </p>
 
                   <p>
-                    Dispatch timing, local pickup where available, order
-                    questions, product care, or small production enquiries that
-                    fit the current studio collection.
+                    Dispatch timing, local pickup where available, order questions, product care, or
+                    small production enquiries that fit the current studio collection.
                   </p>
                 </div>
               </div>
@@ -90,14 +85,14 @@ export default function ContactPage() {
 
             <section className="rounded-[2rem] border border-charcoal/10 bg-shell/70 p-6 sm:p-10">
               <h2 className="text-3xl font-semibold tracking-tight text-charcoal">
-                A note on custom work.
+                A note on fit and product enquiries.
               </h2>
 
               <p className="mt-5 max-w-3xl text-sm leading-7 text-deep-brown/70">
-                ArcVane is currently focused on a narrow collection of finished
-                pieces and compatible shade systems. Custom design commissions
-                may be considered only where they sit close to the existing
-                material, hardware, and production language.
+                ArcVane is currently focused on a narrow collection of finished pieces and
+                compatible shade systems. Product, fitting, colour, availability, order, and
+                fulfilment questions are welcome where they help match an existing piece to a real
+                room.
               </p>
 
               <a
