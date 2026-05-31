@@ -1,12 +1,14 @@
 // app/products/[handle]/page.tsx
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getProductByHandle, getProducts } from "@/lib/catalogue";
+import { getProductByHandle } from "@/lib/catalogue";
 import { ProductDetail } from "@/components/product-detail";
 
 interface Props {
   params: Promise<{ handle: string }>;
 }
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { handle } = await params;
@@ -41,11 +43,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: [productImage],
     },
   };
-}
-
-export async function generateStaticParams() {
-  const products = await getProducts();
-  return products.map((p) => ({ handle: p.handle }));
 }
 
 export default async function ProductPage({ params }: Props) {

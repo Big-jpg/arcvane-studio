@@ -99,8 +99,8 @@ export default async function AdminLiteProductsPage() {
             <p className="mt-2 max-w-3xl text-sm leading-6 text-charcoal/60">
               Create and maintain product rows, review public-facing listing quality, and capture
               optional share copy without changing the database contract. If the product schema has
-              not been installed, the static mock catalogue remains visible here as read-only
-              fallback data.
+              not been installed, local mock products remain visible here as read-only fallback data
+              for setup checks.
             </p>
           </div>
           <p className="text-sm text-charcoal/50">
@@ -112,15 +112,15 @@ export default async function AdminLiteProductsPage() {
 
         {!databaseAvailable ? (
           <div className="mb-6 rounded-2xl border border-amber/40 bg-amber/10 p-4 text-sm leading-6 text-charcoal">
-            Product database objects are not installed or not reachable. Public catalogue pages
-            continue to use the existing mock fallback, and this page disables writes until the
-            migration and procedures are applied.
+            Product database objects are not installed or not reachable. This page shows local mock
+            fallback rows for diagnostics and disables writes until the migration and procedures are
+            applied.
           </div>
         ) : catalogueSource === "mock" ? (
           <div className="mb-6 rounded-2xl border border-charcoal/10 bg-white p-4 text-sm leading-6 text-charcoal/60">
-            The product table is available but empty, so the public catalogue still reads from mock
-            products. Adding the first database product will switch the non-Shopify catalogue source
-            to database rows.
+            The product table is available but empty. Development can still use mock products when
+            the fallback is enabled, but production public catalogue pages read from live catalogue
+            rows only.
           </div>
         ) : null}
 

@@ -12,6 +12,8 @@ export const metadata: Metadata = {
     "A Western Australian lighting atelier exploring coastal light, translucent PLA, and a modular E27 shade language.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const products = await getProducts();
 

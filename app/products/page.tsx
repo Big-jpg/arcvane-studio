@@ -28,6 +28,8 @@ export const metadata: Metadata = {
   },
 };
 
+export const dynamic = "force-dynamic";
+
 type ProductsPageProps = {
   searchParams?: Promise<{
     category?: string;
@@ -49,9 +51,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   const products = await getProducts();
   const categories = getCategories();
   const params = searchParams ? await searchParams : {};
-  const activeCategory = isProductCategory(params.category, categories)
-    ? params.category
-    : null;
+  const activeCategory = isProductCategory(params.category, categories) ? params.category : null;
 
   const visibleProducts = activeCategory
     ? products.filter((product) => product.category === activeCategory)
@@ -71,8 +71,8 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             </h1>
 
             <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
-              Translucent diffusers, matte tripod stands, shade sets, and
-              compact table forms shaped by Western Australian coastal light.
+              Translucent diffusers, matte tripod stands, shade sets, and compact table forms shaped
+              by Western Australian coastal light.
             </p>
           </div>
 
@@ -150,64 +150,67 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             </div>
 
             <p className="max-w-md text-sm leading-7 text-deep-brown/65">
-              Each listing is a finished object or compatible shade set.
-              Surface, opacity, and colour may vary slightly between batches.
+              Each listing is a finished object or compatible shade set. Surface, opacity, and
+              colour may vary slightly between batches.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
-            {visibleProducts.map((product) => (
-              <Link
-                key={product.id}
-                href={`/products/${product.handle}`}
-                className="group block"
-              >
-                <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] border border-charcoal/10 bg-shell/70 shadow-sm shadow-charcoal/5">
-                  <ProductImage
-                    src={product.images[0]}
-                    alt={product.title}
-                    fill
-                    className="object-contain p-8 transition duration-500 group-hover:scale-[1.025]"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                </div>
-
-                <div className="mt-5 flex items-start justify-between gap-5">
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-weathered-post">
-                      {product.category}
-                    </p>
-
-                    <h3 className="mt-2 text-xl font-semibold tracking-tight text-charcoal">
-                      {product.title}
-                    </h3>
+          {visibleProducts.length === 0 ? (
+            <div className="rounded-[1.75rem] border border-charcoal/10 bg-shell/65 p-8">
+              <p className="max-w-xl text-sm leading-7 text-deep-brown/65">
+                No pieces are currently published in this view. The next small-run release will
+                appear here when it is ready.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+              {visibleProducts.map((product) => (
+                <Link key={product.id} href={`/products/${product.handle}`} className="group block">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] border border-charcoal/10 bg-shell/70 shadow-sm shadow-charcoal/5">
+                    <ProductImage
+                      src={product.images[0]}
+                      alt={product.title}
+                      fill
+                      className="object-contain p-8 transition duration-500 group-hover:scale-[1.025]"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
                   </div>
 
-                  <p className="shrink-0 text-sm font-semibold text-charcoal">
-                    ${product.price}{" "}
-                    <span className="font-normal text-deep-brown/45">
-                      {product.currency}
-                    </span>
+                  <div className="mt-5 flex items-start justify-between gap-5">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-weathered-post">
+                        {product.category}
+                      </p>
+
+                      <h3 className="mt-2 text-xl font-semibold tracking-tight text-charcoal">
+                        {product.title}
+                      </h3>
+                    </div>
+
+                    <p className="shrink-0 text-sm font-semibold text-charcoal">
+                      ${product.price}{" "}
+                      <span className="font-normal text-deep-brown/45">{product.currency}</span>
+                    </p>
+                  </div>
+
+                  <p className="mt-3 line-clamp-3 text-sm leading-7 text-deep-brown/65">
+                    {product.description}
                   </p>
-                </div>
 
-                <p className="mt-3 line-clamp-3 text-sm leading-7 text-deep-brown/65">
-                  {product.description}
-                </p>
-
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {product.colours.slice(0, 3).map((colour) => (
-                    <span
-                      key={colour}
-                      className="rounded-full border border-charcoal/10 px-3 py-1 text-xs text-deep-brown/55"
-                    >
-                      {colour}
-                    </span>
-                  ))}
-                </div>
-              </Link>
-            ))}
-          </div>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {product.colours.slice(0, 3).map((colour) => (
+                      <span
+                        key={colour}
+                        className="rounded-full border border-charcoal/10 px-3 py-1 text-xs text-deep-brown/55"
+                      >
+                        {colour}
+                      </span>
+                    ))}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </>
