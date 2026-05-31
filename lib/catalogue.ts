@@ -2,9 +2,9 @@
 //
 // Product data source abstraction.
 // Checks data sources at runtime:
-//   - If SHOPIFY_STORE_DOMAIN and SHOPIFY_STOREFRONT_ACCESS_TOKEN are set → Shopify Storefront API
-//   - Else if admin_products exists and contains rows → database catalogue
-//   - Otherwise → local mock catalogue
+//   - If SHOPIFY_STORE_DOMAIN and SHOPIFY_STOREFRONT_ACCESS_TOKEN are set -> Shopify Storefront API
+//   - Else if admin_products exists and contains rows -> database catalogue
+//   - Otherwise -> local mock catalogue in development only
 //
 // All exports are async where source selection requires I/O.
 
@@ -32,6 +32,16 @@ function isShopifyConfigured(): boolean {
     !domain.startsWith("https://") &&
     hasRealEnvValue(process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN)
   );
+}
+
+function isMockCatalogueFallbackEnabled(): boolean {
+  if (hasRealEnvValue(process.env.ENABLE_MOCK_CATALOGUE_FALLBACK)) {
+    return ["1", "true", "yes"].includes(
+      process.env.ENABLE_MOCK_CATALOGUE_FALLBACK.trim().toLowerCase(),
+    );
+  }
+
+  return process.env.NODE_ENV !== "production";
 }
 
 // ---------------------------------------------------------------------------
@@ -71,6 +81,10 @@ export async function getProducts(): Promise<Product[]> {
     return databaseProducts;
   }
 
+  if (!isMockCatalogueFallbackEnabled()) {
+    return [];
+  }
+
   const mock = await getMockModule();
   return mock.products;
 }
@@ -88,6 +102,10 @@ export async function getProductByHandle(handle: string): Promise<Product | null
   const databaseProducts = await getDatabaseProducts();
   if (databaseProducts) {
     return databaseProducts.find((product) => product.handle === handle) ?? null;
+  }
+
+  if (!isMockCatalogueFallbackEnabled()) {
+    return null;
   }
 
   const mock = await getMockModule();
@@ -110,5 +128,9 @@ export async function getCatalogueSource(): Promise<"shopify" | "database" | "mo
     return "shopify";
   }
 
-  return (await getDatabaseProducts()) ? "database" : "mock";
+  if (await getDatabaseProducts()) {
+    return "database";
+  }
+
+  return isMockCatalogueFallbackEnabled() ? "mock" : "database";
 }

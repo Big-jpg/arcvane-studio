@@ -4,6 +4,8 @@ import { getProducts } from "@/lib/catalogue";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://arcvane-studio.com";
 
+export const dynamic = "force-dynamic";
+
 const publicRoutes: Array<{
   path: string;
   changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"];

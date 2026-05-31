@@ -3,11 +3,24 @@
 
 import { useCallback, useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, CheckCircle2, Info, PackageCheck, ShieldCheck, ShoppingBag } from "lucide-react";
+import {
+  ArrowLeft,
+  CheckCircle2,
+  Info,
+  PackageCheck,
+  ShieldCheck,
+  ShoppingBag,
+} from "lucide-react";
 import type { Product, AdapterType } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 import type { CartItem } from "@/lib/cart-types";
+import {
+  TONE_IMAGE_MODE_LABELS,
+  buildToneImagePairs,
+  toneImageForMode,
+  type ToneImageMode,
+} from "@/lib/product-tone-images";
 import { Toast } from "@/components/toast";
 import { ProductImage } from "@/components/product-image";
 
@@ -49,10 +62,21 @@ function getShadeCompatibilityLine(product: Product): string {
 
 export function ProductDetail({ product }: { product: Product }) {
   const [selectedColour, setSelectedColour] = useState<string>(product.colours[0] ?? "");
+  const [selectedImageMode, setSelectedImageMode] = useState<ToneImageMode>("illuminated");
   const [toastVisible, setToastVisible] = useState(false);
 
   const { addItem, itemCount } = useCart();
   const primaryAdapter = useMemo(() => getPrimaryAdapter(product), [product]);
+  const toneImagePairs = useMemo(
+    () => buildToneImagePairs(product.colours, product.images),
+    [product.colours, product.images],
+  );
+  const selectedToneImages = useMemo(
+    () => toneImagePairs.find((pair) => pair.tone === selectedColour) ?? toneImagePairs[0] ?? null,
+    [selectedColour, toneImagePairs],
+  );
+  const fallbackImage = product.images[0] ?? "";
+  const selectedImage = toneImageForMode(selectedToneImages, selectedImageMode, fallbackImage);
   const canAdd = selectedColour.length > 0;
 
   const sendBuyerEvent = useCallback(
@@ -75,7 +99,7 @@ export function ProductDetail({ product }: { product: Product }) {
       handle: product.handle,
       title: product.title,
       variantTitle: selectedColour,
-      imageUrl: product.images[0] ?? "",
+      imageUrl: selectedImage,
       unitPrice: product.price,
       currency: product.currency,
       quantity: 1,
@@ -104,7 +128,16 @@ export function ProductDetail({ product }: { product: Product }) {
     }
 
     setToastVisible(true);
-  }, [addItem, canAdd, itemCount, primaryAdapter, product, selectedColour, sendBuyerEvent]);
+  }, [
+    addItem,
+    canAdd,
+    itemCount,
+    primaryAdapter,
+    product,
+    selectedColour,
+    selectedImage,
+    sendBuyerEvent,
+  ]);
 
   const details = [
     ["Scale and dimensions", product.dimensions],
@@ -113,7 +146,10 @@ export function ProductDetail({ product }: { product: Product }) {
     ["Lighting system", `${primaryAdapter} / low-power LED only`],
     ["Included hardware", getHardwareLine(product)],
     ["Production window", product.productionNotes ?? "Ships within 5–7 business days"],
-    ["Shipping cube", "Designed to fit a 300×300×300mm shipping cube for efficient Australia-wide delivery."],
+    [
+      "Shipping cube",
+      "Designed to fit a 300×300×300mm shipping cube for efficient Australia-wide delivery.",
+    ],
   ];
 
   return (
@@ -136,17 +172,59 @@ export function ProductDetail({ product }: { product: Product }) {
             <div>
               <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-charcoal/10 bg-shell shadow-sm shadow-charcoal/5">
                 <ProductImage
-                  src={product.images[0]}
-                  alt={`${product.title} finished product photography`}
+                  src={selectedImage}
+                  alt={`${product.title} in ${selectedColour || "selected finish"}, ${TONE_IMAGE_MODE_LABELS[selectedImageMode].toLowerCase()}`}
                   fill
                   className="object-contain p-8 sm:p-12"
                   sizes="(max-width: 1024px) 100vw, 58vw"
                   priority
                 />
               </div>
+              {selectedToneImages ? (
+                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                  {(["unlit", "illuminated"] as ToneImageMode[]).map((mode) => {
+                    const image =
+                      mode === "unlit" ? selectedToneImages.unlit : selectedToneImages.illuminated;
+                    const active = selectedImageMode === mode;
+
+                    return (
+                      <button
+                        key={mode}
+                        type="button"
+                        onClick={() => setSelectedImageMode(mode)}
+                        className={cn(
+                          "group rounded-2xl border bg-shell p-2 text-left transition-all",
+                          active
+                            ? "border-charcoal shadow-sm shadow-charcoal/10"
+                            : "border-charcoal/10 hover:border-charcoal/30",
+                        )}
+                      >
+                        <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-off-white">
+                          <ProductImage
+                            src={image}
+                            alt={`${product.title} ${selectedToneImages.tone} ${TONE_IMAGE_MODE_LABELS[mode].toLowerCase()} view`}
+                            fill
+                            className="object-contain p-3 transition duration-300 group-hover:scale-[1.02]"
+                            sizes="(max-width: 640px) 50vw, 220px"
+                          />
+                        </div>
+                        <span
+                          className={cn(
+                            "mt-2 block text-xs font-semibold uppercase tracking-[0.16em]",
+                            active ? "text-charcoal" : "text-deep-brown/45",
+                          )}
+                        >
+                          {TONE_IMAGE_MODE_LABELS[mode]}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : null}
               <p className="mt-4 text-xs leading-6 text-deep-brown/50">
-                Finished product photography is shown first. Colour, translucency, and layer texture
-                may shift with LED temperature, room light, and small-batch finishing.
+                Finish tone photography is paired as no-light and illuminated views. Colour,
+                translucency, and layer texture may shift with LED temperature, room light, and
+                small-batch finishing.
               </p>
             </div>
 
@@ -158,7 +236,8 @@ export function ProductDetail({ product }: { product: Product }) {
                 {product.title}
               </h1>
               <p className="mt-5 text-2xl font-semibold text-charcoal">
-                ${product.price} <span className="text-base font-normal text-deep-brown/45">{product.currency}</span>
+                ${product.price}{" "}
+                <span className="text-base font-normal text-deep-brown/45">{product.currency}</span>
               </p>
 
               <p className="mt-7 text-base leading-8 text-deep-brown/70">{product.description}</p>
@@ -167,17 +246,19 @@ export function ProductDetail({ product }: { product: Product }) {
                 <div className="flex items-start gap-3">
                   <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-dune-grass" />
                   <div>
-                    <h2 className="text-sm font-semibold text-charcoal">E27 as the primary system</h2>
+                    <h2 className="text-sm font-semibold text-charcoal">
+                      E27 as the primary system
+                    </h2>
                     <p className="mt-2 text-sm leading-7 text-deep-brown/65">
-                      This piece is supplied around ArcVane&apos;s E27 lighting model. There is no complex
-                      adapter selection on the current collection; use only compatible E27 hardware
-                      and low-power LED bulbs.
+                      This piece is supplied around ArcVane&apos;s E27 lighting model. There is no
+                      complex adapter selection on the current collection; use only compatible E27
+                      hardware and low-power LED bulbs.
                     </p>
                   </div>
                 </div>
               </div>
 
-              {product.colours.length > 1 && (
+              {product.colours.length > 0 && (
                 <div className="mt-8 border-t border-charcoal/10 pt-7">
                   <label className="text-sm font-semibold text-charcoal">Finish tone</label>
                   <div className="mt-3 flex flex-wrap gap-2">
@@ -185,7 +266,10 @@ export function ProductDetail({ product }: { product: Product }) {
                       <button
                         key={colour}
                         type="button"
-                        onClick={() => setSelectedColour(colour)}
+                        onClick={() => {
+                          setSelectedColour(colour);
+                          setSelectedImageMode("illuminated");
+                        }}
                         className={cn(
                           "rounded-full border px-4 py-2 text-sm font-medium transition-all",
                           selectedColour === colour
@@ -201,6 +285,12 @@ export function ProductDetail({ product }: { product: Product }) {
                     Finish tones are selected as studio directions, not exact industrial colour
                     matches. Small differences between batches are expected.
                   </p>
+                  {selectedToneImages && !selectedToneImages.complete ? (
+                    <p className="mt-2 text-xs leading-6 text-warm-amber">
+                      This finish tone is missing one of its paired views, so the available product
+                      photography is being reused.
+                    </p>
+                  ) : null}
                 </div>
               )}
 
@@ -208,7 +298,10 @@ export function ProductDetail({ product }: { product: Product }) {
                 <h2 className="text-sm font-semibold text-charcoal">Product details</h2>
                 <dl className="mt-4 divide-y divide-charcoal/10 rounded-2xl border border-charcoal/10 bg-off-white">
                   {details.map(([label, value]) => (
-                    <div key={label} className="grid grid-cols-1 gap-2 px-4 py-4 sm:grid-cols-[150px_1fr]">
+                    <div
+                      key={label}
+                      className="grid grid-cols-1 gap-2 px-4 py-4 sm:grid-cols-[150px_1fr]"
+                    >
                       <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-weathered-post">
                         {label}
                       </dt>
@@ -223,17 +316,22 @@ export function ProductDetail({ product }: { product: Product }) {
                   <ShieldCheck className="h-5 w-5 text-warm-amber" />
                   <h2 className="mt-4 text-sm font-semibold text-charcoal">LED-only safety</h2>
                   <p className="mt-2 text-sm leading-7 text-deep-brown/65">
-                    Use modern low-power LED bulbs only. Do not use incandescent, halogen, heat lamp,
-                    or other high-temperature bulbs with PLA lighting objects.
+                    Use modern low-power LED bulbs only. Do not use incandescent, halogen, heat
+                    lamp, or other high-temperature bulbs with PLA lighting objects.
                   </p>
-                  <Link href="/safety" className="mt-3 inline-flex text-sm font-semibold text-charcoal underline underline-offset-4">
+                  <Link
+                    href="/safety"
+                    className="mt-3 inline-flex text-sm font-semibold text-charcoal underline underline-offset-4"
+                  >
                     Read safety note
                   </Link>
                 </div>
 
                 <div className="rounded-2xl border border-charcoal/10 bg-shell/60 p-5">
                   <PackageCheck className="h-5 w-5 text-weathered-post" />
-                  <h2 className="mt-4 text-sm font-semibold text-charcoal">Shade-pack compatibility</h2>
+                  <h2 className="mt-4 text-sm font-semibold text-charcoal">
+                    Shade-pack compatibility
+                  </h2>
                   <p className="mt-2 text-sm leading-7 text-deep-brown/65">
                     {getShadeCompatibilityLine(product)}
                   </p>
@@ -244,9 +342,9 @@ export function ProductDetail({ product }: { product: Product }) {
                 <div className="flex items-start gap-3">
                   <Info className="mt-0.5 h-5 w-5 shrink-0 text-weathered-post" />
                   <p className="text-sm leading-7 text-deep-brown/70">
-                    Small-batch finishing is part of the object. Fine FDM layer lines, variable clear
-                    PLA opacity, and subtle tone changes are expected and treated as natural texture,
-                    not defects.
+                    Small-batch finishing is part of the object. Fine FDM layer lines, variable
+                    clear PLA opacity, and subtle tone changes are expected and treated as natural
+                    texture, not defects.
                   </p>
                 </div>
               </div>

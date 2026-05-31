@@ -11,6 +11,13 @@ import {
   createProductIdSeed,
   slugifyProductHandle,
 } from "@/lib/product-options";
+import {
+  TONE_IMAGE_MODE_LABELS,
+  buildToneImagePairs,
+  preferredToneImage,
+  toneImageRequirement,
+  type ToneImagePair,
+} from "@/lib/product-tone-images";
 import type { AdapterType, Product, ProductCategory } from "@/lib/types";
 
 type CatalogueSource = "shopify" | "database" | "mock";
@@ -169,13 +176,17 @@ function sourceLabel(source: CatalogueSource): string {
   return "mock fallback";
 }
 
-function setPrimary(imagesCsv: string, image: string): string {
-  const images = commaSplit(imagesCsv).filter((candidate) => candidate !== image);
-  return commaJoin([image, ...images]);
-}
-
 function removeImage(imagesCsv: string, image: string): string {
   return commaJoin(commaSplit(imagesCsv).filter((candidate) => candidate !== image));
+}
+
+function toneImagePairsForForm(form: ProductFormState): ToneImagePair[] {
+  return buildToneImagePairs(commaSplit(form.colours), commaSplit(form.images));
+}
+
+function toneImagePairsComplete(form: ProductFormState): boolean {
+  const pairs = toneImagePairsForForm(form);
+  return pairs.length > 0 && pairs.every((pair) => pair.complete);
 }
 
 function categoryHref(category: ProductCategory): string {
@@ -225,6 +236,10 @@ function generateCopyBlocks(form: ProductFormState): CopyBlock[] {
 }
 
 function completionItems(form: ProductFormState): Array<{ label: string; complete: boolean }> {
+  const tones = commaSplit(form.colours);
+  const images = commaSplit(form.images);
+  const pairs = buildToneImagePairs(tones, images);
+
   return [
     { label: "Title", complete: form.title.trim().length > 0 },
     { label: "Handle", complete: form.handle.trim().length > 0 },
@@ -232,7 +247,11 @@ function completionItems(form: ProductFormState): Array<{ label: string; complet
     { label: "Description", complete: form.description.trim().length > 0 },
     { label: "Material", complete: form.material.trim().length > 0 },
     { label: "Dimensions", complete: form.dimensions.trim().length > 0 },
-    { label: "Images", complete: commaSplit(form.images).length > 0 },
+    { label: "Finish tones", complete: tones.length > 0 },
+    {
+      label: "Tone image pairs",
+      complete: pairs.length > 0 && pairs.every((pair) => pair.complete),
+    },
   ];
 }
 
@@ -255,15 +274,22 @@ function stepIsComplete(step: WizardStep["id"], form: ProductFormState): boolean
     return (
       form.description.trim().length > 0 &&
       form.material.trim().length > 0 &&
-      form.dimensions.trim().length > 0
+      form.dimensions.trim().length > 0 &&
+      commaSplit(form.colours).length > 0
     );
+  }
+
+  if (step === "imagery") {
+    return toneImagePairsComplete(form);
   }
 
   return true;
 }
 
-function productPreviewImage(images: string[]): string | null {
-  return images[0] ?? null;
+function productPreviewImage(images: string[], tones: string[]): string | null {
+  const [firstPair] = buildToneImagePairs(tones, images);
+  const image = preferredToneImage(firstPair, images[0] ?? "");
+  return image || null;
 }
 
 export function ProductCatalogueManager({
@@ -285,15 +311,21 @@ export function ProductCatalogueManager({
 
   const currentStep = wizardSteps[currentStepIndex];
   const images = useMemo(() => commaSplit(form.images), [form.images]);
+  const tones = useMemo(() => commaSplit(form.colours), [form.colours]);
+  const toneImagePairs = useMemo(() => buildToneImagePairs(tones, images), [images, tones]);
+  const imageRequirement = toneImageRequirement(tones);
+  const imagePairsComplete =
+    toneImagePairs.length > 0 && toneImagePairs.every((pair) => pair.complete);
   const copyBlocks = useMemo(() => generateCopyBlocks(form), [form]);
   const completion = useMemo(() => completionItems(form), [form]);
   const completedCount = completion.filter((item) => item.complete).length;
-  const previewImage = productPreviewImage(images);
+  const previewImage = productPreviewImage(images, tones);
   const canMoveNext = stepIsComplete(currentStep.id, form);
   const canSaveProduct =
     stepIsComplete("identity", form) &&
     stepIsComplete("commerce", form) &&
-    stepIsComplete("object", form);
+    stepIsComplete("object", form) &&
+    (!form.inStock || stepIsComplete("imagery", form));
 
   function resetForm() {
     setForm(emptyProductForm);
@@ -361,6 +393,13 @@ export function ProductCatalogueManager({
 
     if (!databaseAvailable) {
       setMessage("Install the product migration and procedures before editing products.");
+      return;
+    }
+
+    if (!canSaveProduct) {
+      setMessage(
+        "Complete the required product fields and add paired no-light and illuminated images for each in-stock finish tone before saving. Set the product out of stock to save an incomplete upload draft.",
+      );
       return;
     }
 
@@ -875,7 +914,7 @@ export function ProductCatalogueManager({
                 </div>
 
                 <label className="block text-sm font-semibold text-charcoal">
-                  Colours
+                  Finish tones
                   <input
                     value={form.colours}
                     onChange={(event) =>
@@ -883,8 +922,13 @@ export function ProductCatalogueManager({
                     }
                     disabled={!databaseAvailable || isPending}
                     className="mt-1 min-h-11 w-full rounded-lg border border-charcoal/15 bg-white px-3 text-sm font-normal text-charcoal outline-none transition focus:border-amber disabled:opacity-60"
-                    placeholder="Shell, Clear PLA, Warm Amber"
+                    placeholder="White Foam, Aquamarine / Coral Blue, Cerulean to Azure Blue"
+                    required
                   />
+                  <span className="mt-1 block text-xs font-normal leading-5 text-charcoal/45">
+                    Each tone requires two ordered images in the imagery step: no light, then
+                    illuminated.
+                  </span>
                 </label>
               </div>
             ) : null}
@@ -923,8 +967,7 @@ export function ProductCatalogueManager({
             {currentStep.id === "imagery" ? (
               <div className="grid gap-3">
                 <label className="block text-sm font-semibold text-charcoal">
-                  Image paths / URLs{" "}
-                  <span className="font-normal text-charcoal/40">(optional)</span>
+                  Image paths / URLs
                   <textarea
                     value={form.images}
                     onChange={(event) =>
@@ -932,8 +975,14 @@ export function ProductCatalogueManager({
                     }
                     disabled={!databaseAvailable || isPending}
                     className="mt-1 min-h-24 w-full rounded-lg border border-charcoal/15 bg-white px-3 py-2 text-sm font-normal text-charcoal outline-none transition focus:border-amber disabled:opacity-60"
-                    placeholder="/products/product-01.png, https://example.com/image.webp"
+                    placeholder="Tone 1 no-light image, Tone 1 illuminated image, Tone 2 no-light image, Tone 2 illuminated image"
+                    required
                   />
+                  <span className="mt-1 block text-xs font-normal leading-5 text-charcoal/45">
+                    Images are paired by finish tone. Current requirement: {imageRequirement} image
+                    {imageRequirement === 1 ? "" : "s"} for {tones.length} tone
+                    {tones.length === 1 ? "" : "s"}.
+                  </span>
                 </label>
 
                 <div className="rounded-xl border border-charcoal/10 bg-ivory/40 p-3">
@@ -952,60 +1001,104 @@ export function ProductCatalogueManager({
                   </div>
                   {!form.id ? (
                     <p className="mt-2 text-xs text-charcoal/50">
-                      Save the product before uploading image files. Products can be saved with no
-                      images.
+                      Paste image URLs first, or save once the required tone image pairs are in
+                      place before uploading additional files.
                     </p>
                   ) : null}
-                  {images.length === 0 ? (
+                  {tones.length === 0 ? (
                     <p className="mt-3 text-sm text-charcoal/50">
-                      No images configured. You can save the product now and add uploaded or pasted
-                      image URLs later.
+                      Add at least one finish tone in the Object step before arranging imagery.
                     </p>
                   ) : (
-                    <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                      {images.map((image, index) => (
+                    <div className="mt-3 grid gap-3">
+                      {toneImagePairs.map((pair) => (
                         <div
-                          key={image}
-                          className="rounded-lg border border-charcoal/10 bg-white p-2"
+                          key={pair.tone}
+                          className="rounded-lg border border-charcoal/10 bg-white p-3"
                         >
-                          <div
-                            className="aspect-[3/4] rounded-md bg-ivory bg-cover bg-center"
-                            style={{ backgroundImage: `url(${image})` }}
-                            aria-label={`Configured product image ${index + 1}`}
-                          />
-                          <p className="mt-2 truncate text-xs text-charcoal/60" title={image}>
-                            {image}
-                          </p>
-                          <div className="mt-2 flex gap-2">
-                            <button
-                              type="button"
-                              onClick={() =>
-                                setForm((current) => ({
-                                  ...current,
-                                  images: setPrimary(current.images, image),
-                                }))
-                              }
-                              disabled={index === 0 || !databaseAvailable || isPending}
-                              className="rounded-full border border-charcoal/15 px-2 py-1 text-xs font-semibold text-charcoal transition hover:border-amber disabled:opacity-50"
+                          <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
+                            <div>
+                              <p className="text-sm font-semibold text-charcoal">{pair.tone}</p>
+                              <p className="mt-1 text-xs text-charcoal/45">
+                                Images {pair.toneIndex * 2 + 1} and {pair.toneIndex * 2 + 2}
+                              </p>
+                            </div>
+                            <span
+                              className={`rounded-full border px-2.5 py-1 text-xs font-semibold ${
+                                pair.complete
+                                  ? "border-emerald-500/25 bg-emerald-50 text-emerald-700"
+                                  : "border-amber/40 bg-amber/10 text-charcoal"
+                              }`}
                             >
-                              Primary
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() =>
-                                setForm((current) => ({
-                                  ...current,
-                                  images: removeImage(current.images, image),
-                                }))
-                              }
-                              disabled={!databaseAvailable || isPending}
-                              className="rounded-full border border-red-500/30 px-2 py-1 text-xs font-semibold text-red-700 transition hover:border-red-500 disabled:opacity-50"
-                            >
-                              Remove
-                            </button>
+                              {pair.complete ? "Complete" : "Needs pair"}
+                            </span>
+                          </div>
+
+                          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                            {(["unlit", "illuminated"] as const).map((mode) => {
+                              const image = mode === "unlit" ? pair.unlit : pair.illuminated;
+
+                              return (
+                                <div
+                                  key={mode}
+                                  className="rounded-lg border border-charcoal/10 bg-ivory/55 p-2"
+                                >
+                                  <div
+                                    className="aspect-[3/4] rounded-md bg-white bg-contain bg-center bg-no-repeat"
+                                    style={image ? { backgroundImage: `url(${image})` } : undefined}
+                                    aria-label={`${pair.tone} ${TONE_IMAGE_MODE_LABELS[mode]} image slot`}
+                                  />
+                                  <p className="mt-2 text-xs font-semibold uppercase tracking-[0.14em] text-charcoal/55">
+                                    {TONE_IMAGE_MODE_LABELS[mode]}
+                                  </p>
+                                  {image ? (
+                                    <>
+                                      <p
+                                        className="mt-1 truncate text-xs text-charcoal/60"
+                                        title={image}
+                                      >
+                                        {image}
+                                      </p>
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          setForm((current) => ({
+                                            ...current,
+                                            images: removeImage(current.images, image),
+                                          }))
+                                        }
+                                        disabled={!databaseAvailable || isPending}
+                                        className="mt-2 rounded-full border border-red-500/30 px-2 py-1 text-xs font-semibold text-red-700 transition hover:border-red-500 disabled:opacity-50"
+                                      >
+                                        Remove
+                                      </button>
+                                    </>
+                                  ) : (
+                                    <p className="mt-1 text-xs leading-5 text-charcoal/45">
+                                      Missing image URL for this view.
+                                    </p>
+                                  )}
+                                </div>
+                              );
+                            })}
                           </div>
                         </div>
                       ))}
+                      {images.length > imageRequirement ? (
+                        <div className="rounded-lg border border-amber/30 bg-amber/10 p-3 text-xs leading-5 text-charcoal/65">
+                          {images.length - imageRequirement} extra image
+                          {images.length - imageRequirement === 1 ? "" : "s"} are attached after the
+                          tone pairs. They are preserved in the database but are not used by the
+                          public tone selector yet.
+                        </div>
+                      ) : null}
+                      {!imagePairsComplete ? (
+                        <p className="text-xs leading-5 text-charcoal/50">
+                          Complete every tone pair before marking the product in stock so the
+                          product page can switch cleanly between no-light and illuminated views.
+                          Out-of-stock products can be saved as upload drafts.
+                        </p>
+                      ) : null}
                     </div>
                   )}
                 </div>
