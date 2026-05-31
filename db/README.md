@@ -17,16 +17,20 @@ Migrations are plain SQL files in `db/migrations/` and must be run in order.
 ```bash
 # Against a fresh database:
 psql $DATABASE_URL -f db/migrations/001_initial_schema.sql
+psql $DATABASE_URL -f db/migrations/002_bom_tables.sql
+psql $DATABASE_URL -f db/migrations/003_products_table.sql
 ```
 
 ## Installing Stored Procedures
 
-Procedure files are in `db/procedures/` and must be run after the schema migration:
+Procedure files are in `db/procedures/` and must be run after the migrations:
 
 ```bash
 psql $DATABASE_URL -f db/procedures/order_procedures.sql
 psql $DATABASE_URL -f db/procedures/auth_procedures.sql
 psql $DATABASE_URL -f db/procedures/pickup_procedures.sql
+psql $DATABASE_URL -f db/procedures/bom_procedures.sql
+psql $DATABASE_URL -f db/procedures/product_procedures.sql
 ```
 
 To re-run procedures (e.g. after editing): all functions use `CREATE OR REPLACE FUNCTION`, so re-running is safe and idempotent.
@@ -37,10 +41,23 @@ To re-run procedures (e.g. after editing): all functions use `CREATE OR REPLACE 
 export DATABASE_URL="postgresql://user:password@localhost:5432/ArcVane"
 
 psql $DATABASE_URL -f db/migrations/001_initial_schema.sql \
+  && psql $DATABASE_URL -f db/migrations/002_bom_tables.sql \
+  && psql $DATABASE_URL -f db/migrations/003_products_table.sql \
   && psql $DATABASE_URL -f db/procedures/order_procedures.sql \
   && psql $DATABASE_URL -f db/procedures/auth_procedures.sql \
-  && psql $DATABASE_URL -f db/procedures/pickup_procedures.sql
+  && psql $DATABASE_URL -f db/procedures/pickup_procedures.sql \
+  && psql $DATABASE_URL -f db/procedures/bom_procedures.sql \
+  && psql $DATABASE_URL -f db/procedures/product_procedures.sql
 ```
+
+The package scripts mirror this order:
+
+```bash
+pnpm db:migrate
+pnpm db:procedures
+```
+
+Do not run setup commands against production until `DATABASE_URL` has been checked and a provider-level backup or export has been taken.
 
 ## Tables
 
@@ -57,6 +74,15 @@ psql $DATABASE_URL -f db/migrations/001_initial_schema.sql \
 | `buyer_events`           | Analytics / hook event log                 |
 | `shipping_stubs`         | Placeholder for future shipping support    |
 | `custom_design_requests` | Custom design inquiry submissions          |
+| `bom_components`         | Admin-lite bill-of-materials components    |
+| `bom_lines`              | Product-to-component bill-of-material rows |
+| `admin_products`         | Admin-lite product catalogue rows          |
+
+## Operational Data Notes
+
+Live `admin_products` rows are operational catalogue data. Export or back up those rows before any destructive database work, reset, or environment rebuild. The current repository setup creates the product table and procedures, but it does not seed or restore live product rows.
+
+Provider-managed schemas such as Neon `neon_auth` are not owned by this application setup path and should not be modified by these scripts.
 
 ## Stored Procedures / Functions
 
@@ -99,6 +125,29 @@ psql $DATABASE_URL -f db/migrations/001_initial_schema.sql \
 | `get_pickup_requests_for_order(...)` | Returns all pickup requests for an order.                                 |
 | `get_orders_pending_pickup(...)`     | Returns orders awaiting pickup (admin view).                              |
 
+### BOM Procedures (`bom_procedures.sql`)
+
+| Function                       | Description                                               |
+| ------------------------------ | --------------------------------------------------------- |
+| `upsert_bom_component(...)`    | Creates or updates a BOM component.                       |
+| `delete_bom_component(...)`    | Deletes an unused BOM component.                          |
+| `list_bom_components(...)`     | Returns BOM components for admin-lite views.              |
+| `upsert_bom_line(...)`         | Creates or updates a product BOM line.                    |
+| `delete_bom_line(...)`         | Deletes a product BOM line.                               |
+| `get_product_bom(...)`         | Returns component-expanded BOM lines for a product.       |
+
+### Product Procedures (`product_procedures.sql`)
+
+| Function                           | Description                                              |
+| ---------------------------------- | -------------------------------------------------------- |
+| `list_admin_products(...)`         | Returns admin-lite product catalogue rows.               |
+| `get_admin_product(...)`           | Retrieves a product by id.                               |
+| `get_admin_product_by_handle(...)` | Retrieves a product by URL handle.                       |
+| `upsert_admin_product(...)`        | Creates or updates an admin-lite catalogue product.      |
+| `append_admin_product_image(...)`  | Adds an image URL to a product image list.               |
+| `delete_admin_product(...)`        | Deletes an admin-lite catalogue product.                 |
+| `toggle_admin_product_stock(...)`  | Updates product stock visibility for admin-lite flows.   |
+
 ## Metadata Fields (Future-Ready)
 
 The `order_items.metadata` JSONB column is designed to carry future-ready fields without schema changes:
@@ -119,14 +168,8 @@ The `order_items.metadata` JSONB column is designed to carry future-ready fields
 - **Idempotency**: Webhook-facing procedures (`create_order_from_stripe_session`, `record_stripe_event`) are idempotent to handle Stripe webhook replay safely.
 - **Indexes**: Key columns are indexed for performance (Stripe session ID, email, user ID, status fields, created_at).
 
-## Rollback
+## Rollback and Destructive Operations
 
-To drop all tables and start fresh:
+Schema resets, table truncation, and other destructive database operations are not part of routine setup. For live Neon environments, use provider-native backups, point-in-time restore, or a reviewed rollback plan instead of ad hoc reset SQL.
 
-```sql
-DROP SCHEMA public CASCADE;
-CREATE SCHEMA public;
-GRANT ALL ON SCHEMA public TO public;
-```
-
-Then re-run migrations and procedures.
+If a disposable local database needs to be recreated, confirm it contains no operational data, rebuild it outside production, and then re-run migrations and procedures in the order above. Never reset a production database that contains operational product, order, or customer data.

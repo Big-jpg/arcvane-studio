@@ -22,7 +22,7 @@ The application is Vercel-compatible and should be deployed as a standard Next.j
 
 ## Initial Vercel setup
 
-Create a new Vercel project from the `Big-jpg/ArcVane` repository and select the production branch according to the release process. For Phase 10 review, use the `phase-10-testing-deployment` branch as a preview deployment source only; do not merge or promote it without review approval.
+Create or link a Vercel project from the `Big-jpg/arcvane-studio` repository and select the production branch according to the release process. Use dedicated review branches for preview deployments; do not merge or promote changes without review approval.
 
 Configure the project with the following settings.
 
@@ -60,14 +60,31 @@ Set the following variables in Vercel under **Project Settings → Environment V
 
 ## Database deployment
 
-Run database setup from a controlled operator environment, not from the Vercel build hook. The current schema and stored procedures are applied with explicit `psql` commands through package scripts.
+Run database setup from a controlled operator environment, not from the Vercel build hook. The current schema includes the base storefront/order/auth tables, BOM tables, and admin-lite product catalogue table. Stored procedures include order, auth, pickup, BOM, and product catalogue functions.
+
+The package scripts apply the full setup path in repository order:
 
 ```bash
 pnpm db:migrate
 pnpm db:procedures
 ```
 
+The script order is:
+
+```text
+db/migrations/001_initial_schema.sql
+db/migrations/002_bom_tables.sql
+db/migrations/003_products_table.sql
+db/procedures/order_procedures.sql
+db/procedures/auth_procedures.sql
+db/procedures/pickup_procedures.sql
+db/procedures/bom_procedures.sql
+db/procedures/product_procedures.sql
+```
+
 Before running these commands against production, verify that `DATABASE_URL` points to the intended production database and that a current backup exists. If using a managed PostgreSQL provider, take a provider-native snapshot immediately before applying schema or procedure changes.
+
+Live rows in `admin_products` are operational catalogue data. Export or back up those rows before destructive database work, resets, or environment rebuilds. Provider-managed schemas such as Neon `neon_auth` are outside the application-owned setup path and should not be modified by these project scripts.
 
 ## Stripe webhook configuration
 

@@ -1,14 +1,14 @@
 # Production Environment Checklist
 
-This checklist is the final Phase 10 operational gate for **ArcVane Studio**. It is written for a controlled production release where storefront functionality, checkout validation, authentication, and database persistence must remain inspectable and reversible.
+This checklist is the operational gate for **ArcVane Studio** production releases. It is written for controlled changes where storefront functionality, checkout validation, authentication, and database persistence must remain inspectable and reversible.
 
 ## Release identity
 
 | Item                   | Required value                             |
 | ---------------------- | ------------------------------------------ |
-| Repository             | `Big-jpg/ArcVane`                        |
-| Phase 10 branch        | `phase-10-testing-deployment`              |
-| Base branch            | `origin/phase-9-fitting-guide-and-trust`   |
+| Repository             | `Big-jpg/arcvane-studio`                   |
+| Production branch      | `main`                                     |
+| Change branches        | Dedicated review branches before merge     |
 | Framework              | Next.js App Router with TypeScript/TSX     |
 | Data access policy     | Raw SQL and stored procedures only; no ORM |
 | Primary release target | Vercel                                     |
@@ -22,7 +22,7 @@ This checklist is the final Phase 10 operational gate for **ArcVane Studio**. It
 | `pnpm format:check` passes after formatting                    | Pending operator verification |
 | `pnpm build` passes                                            | Pending operator verification |
 | `pnpm test:smoke` passes locally or against preview            | Pending operator verification |
-| Phase branch has been pushed to origin without merging         | Pending operator verification |
+| Change branch has been pushed to origin without merging        | Pending operator verification |
 
 ## Environment variables
 
@@ -51,9 +51,18 @@ This checklist is the final Phase 10 operational gate for **ArcVane Studio**. It
 | ---------------------------------------------------------------- | ------- | ---------------------------------------------------------------- |
 | Production PostgreSQL instance provisioned                       | Pending | Use a managed provider with backups enabled.                     |
 | App database role created with least required privileges         | Pending | Avoid using owner or superuser credentials in Vercel.            |
-| `db/migrations/001_initial_schema.sql` applied                   | Pending | Run with `pnpm db:migrate` only after confirming `DATABASE_URL`. |
-| Stored procedures in `db/procedures` applied                     | Pending | Run with `pnpm db:procedures`.                                   |
-| Backup or snapshot captured before migration                     | Pending | Required before production schema changes.                       |
+| `db/migrations/001_initial_schema.sql` applied                   | Pending | Base schema for auth, orders, buyer events, pickup, and custom requests. |
+| `db/migrations/002_bom_tables.sql` applied                       | Pending | BOM component and product BOM line tables.                       |
+| `db/migrations/003_products_table.sql` applied                   | Pending | Admin-lite product catalogue table.                              |
+| `db/procedures/order_procedures.sql` applied                     | Pending | Order, Stripe event, buyer event, admin order, and custom request functions. |
+| `db/procedures/auth_procedures.sql` applied                      | Pending | Auth.js user, account, session, and verification token functions. |
+| `db/procedures/pickup_procedures.sql` applied                    | Pending | Pickup request and pickup status functions.                      |
+| `db/procedures/bom_procedures.sql` applied                       | Pending | BOM component and product BOM functions.                         |
+| `db/procedures/product_procedures.sql` applied                   | Pending | Admin-lite product catalogue functions.                          |
+| Backup or snapshot captured before migration                     | Pending | Required before production schema or procedure changes.          |
+| `admin_products` rows exported or backed up before destructive work | Pending | Live product rows are operational catalogue data, not seed data. |
+| Destructive SQL avoided unless explicitly approved               | Pending | Do not perform schema resets, table wipes, or live data resets as part of routine setup. |
+| Provider-managed schemas left untouched                          | Pending | Neon `neon_auth` objects are not app-owned and should be ignored. |
 | Read/write verification completed for orders and custom requests | Pending | Exercise checkout webhook and custom-design submission paths.    |
 
 ## Shopify catalogue readiness
