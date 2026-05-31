@@ -6,9 +6,9 @@ const footerSections = [
     title: "Collection",
     links: [
       { href: "/products", label: "Current Collection" },
-      { href: "/products?category=shade-sets", label: "Shade Sets" },
-      { href: "/products?category=single-shades", label: "Single Shades" },
-      { href: "/products?category=accessories", label: "Accessories" },
+      { href: "/products?category=Shade%20Sets", label: "Shade Sets" },
+      { href: "/products?category=Single%20Shades", label: "Single Shades" },
+      { href: "/products?category=Accessories", label: "Accessories" },
     ],
   },
   {
