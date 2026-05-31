@@ -134,4 +134,11 @@ test.describe("ArcVane public smoke coverage", () => {
     expect(sitemap).not.toContain("/custom");
     expect(sitemap).not.toContain("/pickup");
   });
+
+  test("legacy admin product route redirects to admin-lite catalogue", async ({ request }) => {
+    const response = await request.get("/admin/products", { maxRedirects: 0 });
+
+    expect(response.status()).toBe(307);
+    expect(response.headers().location).toBe("/admin-lite/products");
+  });
 });

@@ -33,7 +33,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
               <h1 className="font-serif text-4xl font-semibold">ArcVane operations</h1>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-warm-white/70">
                 Restricted operational surface for orders, pickup transitions, custom requests, and
-                catalogue visibility.
+                the editable Neon catalogue.
               </p>
             </div>
             <p className="text-sm text-warm-white/60">Signed in as {admin.email}</p>
