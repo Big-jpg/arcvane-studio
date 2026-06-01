@@ -113,7 +113,7 @@ test.describe("ArcVane public smoke coverage", () => {
     await page.goto("/shipping");
 
     await expect(page.getByRole("heading", { name: /Compact delivery/i })).toBeVisible();
-    await expect(page.getByText(/Australia-wide delivery/i)).toBeVisible();
+    await expect(page.getByText(/delivery where available/i)).toBeVisible();
     await expect(page.getByText(/arranged local pickup/i)).toBeVisible();
   });
 

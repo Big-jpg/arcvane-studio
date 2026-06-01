@@ -86,7 +86,7 @@ export default function PrivacyPage() {
               </h2>
 
               <p className="mt-4">
-                The site may use essential cookies or session storage for cart functionality,
+                The site may use essential cookies or session storage for selection functionality,
                 checkout continuity, authentication, and basic site operation.
               </p>
 

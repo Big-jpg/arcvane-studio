@@ -1,12 +1,7 @@
 // app/safety/page.tsx
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  AlertTriangle,
-  CheckCircle2,
-  ShieldCheck,
-  ThermometerSun,
-} from "lucide-react";
+import { AlertTriangle, CheckCircle2, ShieldCheck, ThermometerSun } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "LED Bulb Safety",
@@ -42,8 +37,8 @@ export default function SafetyPage() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
-            ArcVane shades are designed for low-heat LED bulbs. This is a
-            product requirement, not a styling preference.
+            ArcVane shades are designed for low-heat LED bulbs. This is a product requirement, not a
+            styling preference.
           </p>
         </div>
       </section>
@@ -60,10 +55,9 @@ export default function SafetyPage() {
                 </h2>
 
                 <p className="mt-3 text-sm leading-7 text-deep-brown/75">
-                  Incandescent, halogen, heat lamp, appliance, or unknown
-                  high-temperature bulbs must not be used with ArcVane shades.
-                  Heat can deform PLA, shorten product life, and create an
-                  unsafe fitting condition.
+                  Incandescent, halogen, heat lamp, appliance, or unknown high-temperature bulbs
+                  must not be used with ArcVane shades. Heat can deform PLA, shorten product life,
+                  and create an unsafe fitting condition.
                 </p>
               </div>
             </div>
@@ -73,9 +67,7 @@ export default function SafetyPage() {
             <section className="rounded-[1.75rem] border border-charcoal/10 bg-shell/65 p-6 shadow-sm shadow-charcoal/5 sm:p-8">
               <CheckCircle2 className="h-6 w-6 text-weathered-post" />
 
-              <h2 className="mt-5 text-2xl font-semibold tracking-tight text-charcoal">
-                Safe use
-              </h2>
+              <h2 className="mt-5 text-2xl font-semibold tracking-tight text-charcoal">Safe use</h2>
 
               <ul className="mt-5 space-y-3 text-sm leading-7 text-deep-brown/70">
                 {safeUse.map((item) => (
@@ -114,15 +106,14 @@ export default function SafetyPage() {
 
             <div className="mt-5 max-w-3xl space-y-4 text-sm leading-7 text-deep-brown/70">
               <p>
-                The supplied adapter is a mechanical support for the shade. It
-                helps the shade sit correctly on the compatible fitting type.
+                The supplied adapter is a mechanical support for the shade. It helps the shade sit
+                correctly on the compatible fitting type.
               </p>
 
               <p>
-                It does not change wiring, contacts, insulation, earthing, or
-                fixed electrical infrastructure. If the fitting is loose,
-                damaged, cracked, discoloured, overheating, or otherwise
-                questionable, have it checked before using any decorative shade.
+                It does not change wiring, contacts, insulation, earthing, or fixed electrical
+                infrastructure. If the fitting is loose, damaged, cracked, discoloured, overheating,
+                or otherwise questionable, have it checked before using any decorative shade.
               </p>
             </div>
           </section>
@@ -132,7 +123,7 @@ export default function SafetyPage() {
               href="/fitting-guide"
               className="inline-flex justify-center rounded-full bg-charcoal px-6 py-3 text-sm font-semibold text-off-white transition-colors hover:bg-deep-brown"
             >
-              Choose a fitting adapter
+              Read the fitting guide
             </Link>
 
             <Link

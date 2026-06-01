@@ -5,7 +5,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "FAQ",
   description:
-    "ArcVane Studio FAQ covering E27 fittings, LED-only use, PLA materials, small-run production, shipping, and returns.",
+    "ArcVane Studio FAQ covering E27 fittings, LED-only use, PLA materials, small-run production, fulfilment, and returns.",
 };
 
 const faqs = [
@@ -45,9 +45,9 @@ const faqs = [
       "The collection is designed around compact 300 x 300 x 300 mm packaging wherever practical. Some orders may need different packing for protection.",
   },
   {
-    question: "Do you offer custom design work?",
+    question: "Can I ask about fit, placement, or finish?",
     answer:
-      "Custom design is not the core offer. The current focus is the curated collection, shade systems, and practical product enquiries.",
+      "Yes. The studio can help with product fit, room context, finish tone, E27 compatibility, and whether an existing piece suits the setting you have in mind.",
   },
   {
     question: "Can I return an item?",
@@ -61,17 +61,15 @@ export default function FAQPage() {
     <>
       <section className="bg-shell py-20 text-charcoal sm:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-warm-amber">
-            FAQ
-          </p>
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-warm-amber">FAQ</p>
 
           <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-charcoal sm:text-6xl">
             Simple answers for the current collection.
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
-            E27 hardware, low-power LED bulbs, compact shipping, small-run
-            production, and PLA materials.
+            E27 hardware, low-power LED bulbs, compact fulfilment, small-run production, and PLA
+            materials.
           </p>
         </div>
       </section>
@@ -85,9 +83,7 @@ export default function FAQPage() {
                   {item.question}
                 </h2>
 
-                <p className="mt-4 text-sm leading-7 text-deep-brown/70">
-                  {item.answer}
-                </p>
+                <p className="mt-4 text-sm leading-7 text-deep-brown/70">{item.answer}</p>
               </article>
             ))}
           </div>
@@ -98,9 +94,8 @@ export default function FAQPage() {
             </h2>
 
             <p className="mt-4 text-sm leading-7 text-deep-brown/70">
-              For fit, finish, delivery, order, or material questions, contact
-              the studio before ordering. For bulb and heat limits, read the
-              safety note.
+              For fit, finish, delivery, order, or material questions, contact the studio before
+              ordering. For bulb and heat limits, read the safety note.
             </p>
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">

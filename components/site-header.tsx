@@ -26,9 +26,7 @@ export function SiteHeader() {
         {/* Logo */}
         <Link href="/" className="group flex items-center gap-2" aria-label="ArcVane Studio home">
           <span className="h-2 w-2 rounded-full bg-warm-amber transition-transform group-hover:scale-110" />
-          <span className="text-lg font-semibold tracking-tight text-charcoal">
-            ArcVane Studio
-          </span>
+          <span className="text-lg font-semibold tracking-tight text-charcoal">ArcVane Studio</span>
         </Link>
 
         {/* Desktop nav */}
@@ -44,18 +42,18 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        {/* Right side: user menu + cart + mobile toggle */}
+        {/* Right side: user menu + selection + mobile toggle */}
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="hidden sm:block">
             <UserMenu />
           </div>
 
-          {/* Cart button */}
+          {/* Selection button */}
           <button
             type="button"
             onClick={openDrawer}
             className="relative flex items-center justify-center rounded-full border border-limestone/45 bg-shell/60 p-2 text-charcoal/70 transition-colors hover:border-warm-amber/35 hover:text-charcoal focus:outline-none focus-visible:ring-2 focus-visible:ring-warm-amber/35 focus-visible:ring-offset-2 focus-visible:ring-offset-off-white"
-            aria-label={`Cart${itemCount > 0 ? `, ${itemCount} items` : ""}`}
+            aria-label={`Selection${itemCount > 0 ? `, ${itemCount} items` : ""}`}
           >
             <ShoppingBag className="h-5 w-5" />
             {itemCount > 0 && (

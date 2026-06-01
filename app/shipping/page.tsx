@@ -6,7 +6,7 @@ import { MapPin, Package, Truck } from "lucide-react";
 export const metadata: Metadata = {
   title: "Fulfilment",
   description:
-    "ArcVane Studio fulfilment information: 5–7 business day dispatch, compact 300mm cube packaging, Australia-wide delivery, and arranged local pickup where available.",
+    "ArcVane Studio fulfilment information: 5–7 business day dispatch, compact 300mm cube packaging, delivery where available, and arranged local pickup.",
 };
 
 const fulfilmentNotes = [
@@ -18,12 +18,12 @@ const fulfilmentNotes = [
   {
     icon: Truck,
     title: "5–7 business day dispatch",
-    text: "Most orders are made, finished, checked, and dispatched within 5–7 business days. Tracking is provided after the parcel is handed to the carrier.",
+    text: "Most orders are made, finished, checked, and prepared for dispatch within 5–7 business days. Delivery details are confirmed after the order is placed.",
   },
   {
     icon: MapPin,
     title: "Delivery or arranged pickup",
-    text: "ArcVane ships within Australia from Western Australia. Local pickup may be arranged where it is practical for the order and studio schedule.",
+    text: "ArcVane fulfils orders from Western Australia. Delivery or local pickup is arranged where practical for the order and studio schedule.",
   },
 ];
 
@@ -41,8 +41,8 @@ const expectations = [
     "Larger or mixed orders may require more than one parcel or a larger box if the cube target is not safe.",
   ],
   [
-    "Delivery estimates",
-    "Carrier transit time starts after dispatch and varies by destination, service level, and seasonal load.",
+    "Delivery details",
+    "Delivery timing is confirmed after ordering and depends on destination, service availability, and seasonal load.",
   ],
   [
     "Local pickup",
@@ -63,8 +63,8 @@ export default function ShippingPage() {
           </h1>
           <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
             ArcVane products are designed as compact domestic objects. The fulfilment model supports
-            made-after-order production, safe packing, Australia-wide delivery, and arranged local
-            pickup where available.
+            made-after-order production, safe packing, delivery where available, and arranged local
+            pickup.
           </p>
         </div>
       </section>

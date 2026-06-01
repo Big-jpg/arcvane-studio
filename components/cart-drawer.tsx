@@ -45,15 +45,15 @@ export function CartDrawer() {
         )}
         role="dialog"
         aria-modal="true"
-        aria-label="Shopping cart"
+        aria-label="Selected pieces"
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-charcoal/10 px-6 py-4">
           <h2 className="text-lg font-semibold text-charcoal">
-            Cart{" "}
+            Selection{" "}
             {itemCount > 0 && (
               <span className="text-sm font-normal text-charcoal/50">
-                ({itemCount} {itemCount === 1 ? "item" : "items"})
+                ({itemCount} {itemCount === 1 ? "piece" : "pieces"})
               </span>
             )}
           </h2>
@@ -61,7 +61,7 @@ export function CartDrawer() {
             type="button"
             onClick={closeDrawer}
             className="rounded p-1 text-charcoal/40 transition-colors hover:text-charcoal"
-            aria-label="Close cart"
+            aria-label="Close selection"
           >
             <X className="h-5 w-5" />
           </button>
@@ -71,13 +71,13 @@ export function CartDrawer() {
         {state.items.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center px-6">
             <ShoppingBag className="h-12 w-12 text-charcoal/20" />
-            <p className="mt-4 text-sm font-medium text-charcoal/60">Your cart is empty</p>
+            <p className="mt-4 text-sm font-medium text-charcoal/60">Your selection is empty</p>
             <Link
               href="/products"
               onClick={closeDrawer}
               className="mt-6 inline-flex items-center gap-2 rounded-lg bg-charcoal px-5 py-2.5 text-sm font-semibold text-warm-white transition-colors hover:bg-charcoal/90"
             >
-              Continue shopping
+              View collection
             </Link>
           </div>
         ) : (
@@ -176,14 +176,14 @@ export function CartDrawer() {
                 onClick={closeDrawer}
                 className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-charcoal px-6 py-3 text-sm font-semibold text-warm-white transition-colors hover:bg-charcoal/90"
               >
-                View full cart
+                Review selection
               </Link>
               <button
                 type="button"
                 onClick={closeDrawer}
                 className="mt-2 w-full text-center text-sm text-charcoal/50 underline underline-offset-2 transition-colors hover:text-charcoal"
               >
-                Continue shopping
+                Return to collection
               </button>
             </div>
           </>

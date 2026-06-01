@@ -21,7 +21,7 @@ export default function CheckoutCancelPage() {
 
           <p className="mt-4 text-base leading-relaxed text-charcoal/60">
             Your checkout session was cancelled and no payment was processed. Any items already
-            added to your cart will remain available if you decide to return later.
+            added to your selection will remain available if you decide to return later.
           </p>
 
           <p className="mt-4 text-sm leading-relaxed text-charcoal/50">
@@ -33,7 +33,7 @@ export default function CheckoutCancelPage() {
               href="/cart"
               className="inline-flex items-center gap-2 rounded-lg bg-charcoal px-6 py-3 text-sm font-semibold text-warm-white transition-colors hover:bg-charcoal/90"
             >
-              Return to cart
+              Return to selection
             </Link>
 
             <Link

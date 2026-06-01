@@ -19,7 +19,9 @@ interface CheckoutCreateSessionResponse {
 
 function checkoutErrorMessage(payload: CheckoutCreateSessionResponse): string {
   const firstDetail = payload.details?.find((detail) => detail.message)?.message;
-  return firstDetail ?? payload.error ?? "Checkout could not be started. Please review your cart.";
+  return (
+    firstDetail ?? payload.error ?? "Checkout could not be started. Please review your selection."
+  );
 }
 
 export function CartPageContent() {
@@ -71,16 +73,16 @@ export function CartPageContent() {
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <div className="rounded-xl border border-charcoal/10 bg-ivory/50 p-12 text-center">
             <ShoppingBag className="mx-auto h-12 w-12 text-charcoal/20" />
-            <h2 className="mt-4 text-lg font-semibold text-charcoal">Your cart is empty</h2>
+            <h2 className="mt-4 text-lg font-semibold text-charcoal">Your selection is empty</h2>
             <p className="mt-2 text-sm text-charcoal/60">
-              Browse our collection and add a shade to get started.
+              View the collection and choose a piece when the fit feels right.
             </p>
             <div className="mt-8">
               <Link
                 href="/products"
                 className="inline-flex items-center gap-2 rounded-lg bg-charcoal px-6 py-3 text-sm font-semibold text-warm-white transition-colors hover:bg-charcoal/90"
               >
-                Continue shopping
+                View collection
               </Link>
             </div>
           </div>
@@ -93,7 +95,7 @@ export function CartPageContent() {
     <section className="bg-warm-white py-8 sm:py-12">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-12">
-          {/* Cart items */}
+          {/* Selected pieces */}
           <div className="lg:col-span-2">
             <div className="space-y-6">
               {state.items.map((item) => {
@@ -138,7 +140,7 @@ export function CartPageContent() {
                           type="button"
                           onClick={() => removeItem(key)}
                           className="rounded p-1 text-charcoal/30 transition-colors hover:text-red-600"
-                          aria-label={`Remove ${item.title} from cart`}
+                          aria-label={`Remove ${item.title} from selection`}
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
@@ -215,32 +217,32 @@ export function CartPageContent() {
               })}
             </div>
 
-            {/* Continue shopping */}
+            {/* Return to collection */}
             <div className="mt-6">
               <Link
                 href="/products"
                 className="text-sm text-charcoal/50 underline underline-offset-2 transition-colors hover:text-charcoal"
               >
-                Continue shopping
+                Return to collection
               </Link>
             </div>
           </div>
 
-          {/* Cart summary */}
+          {/* Selection summary */}
           <div className="lg:col-span-1">
             <div className="sticky top-24 rounded-xl border border-charcoal/10 bg-ivory/30 p-6">
-              <h2 className="text-lg font-semibold text-charcoal">Order summary</h2>
+              <h2 className="text-lg font-semibold text-charcoal">Selection summary</h2>
 
               <div className="mt-4 space-y-3 border-t border-charcoal/10 pt-4">
                 <div className="flex justify-between text-sm">
-                  <span className="text-charcoal/60">Items ({itemCount})</span>
+                  <span className="text-charcoal/60">Pieces ({itemCount})</span>
                   <span className="font-medium text-charcoal">
                     ${subtotal.toFixed(2)} {currency}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-charcoal/60">Shipping</span>
-                  <span className="text-xs text-charcoal/40">Local pickup only</span>
+                  <span className="text-charcoal/60">Fulfilment</span>
+                  <span className="text-xs text-charcoal/40">Confirmed after order</span>
                 </div>
               </div>
 
@@ -285,7 +287,7 @@ export function CartPageContent() {
                 {isCheckingOut
                   ? "Starting secure checkout..."
                   : state.ledAcknowledged
-                    ? "Proceed to checkout"
+                    ? "Proceed to secure checkout"
                     : "Confirm LED bulb usage to continue"}
               </button>
 

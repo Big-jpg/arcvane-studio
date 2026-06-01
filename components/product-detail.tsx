@@ -145,10 +145,13 @@ export function ProductDetail({ product }: { product: Product }) {
     ["Colour options", product.colours.join(", ")],
     ["Lighting system", `${primaryAdapter} / low-power LED only`],
     ["Included hardware", getHardwareLine(product)],
-    ["Production window", product.productionNotes ?? "Ships within 5–7 business days"],
     [
-      "Shipping cube",
-      "Designed to fit a 300×300×300mm shipping cube for efficient Australia-wide delivery.",
+      "Production window",
+      product.productionNotes ?? "Ready for fulfilment within 5–7 business days",
+    ],
+    [
+      "Packing guide",
+      "Designed around a compact 300×300×300mm packing target so fulfilment can be arranged cleanly after order.",
     ],
   ];
 
@@ -361,12 +364,11 @@ export function ProductDetail({ product }: { product: Product }) {
                 )}
               >
                 <ShoppingBag className="h-4 w-4" />
-                Add to cart
+                Add to selection
               </button>
 
               <p className="mt-4 text-center text-xs leading-6 text-deep-brown/50">
-                Need a studio clarification rather than a custom build? Contact ArcVane before
-                ordering.
+                Need a fit or finish clarification? Contact ArcVane before ordering.
               </p>
             </div>
           </div>
@@ -374,7 +376,7 @@ export function ProductDetail({ product }: { product: Product }) {
       </section>
 
       <Toast
-        message={`${product.title} added to cart`}
+        message={`${product.title} added to selection`}
         visible={toastVisible}
         onClose={() => setToastVisible(false)}
       />
