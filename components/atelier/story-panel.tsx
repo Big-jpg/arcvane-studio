@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowDown, ArrowRight } from "lucide-react";
 
 import { ProductImage } from "@/components/product-image";
 import type { AtelierStoryChapter, AtelierTreatment } from "@/lib/atelier-story";
@@ -117,10 +117,12 @@ function ChapterVisual({
 export function StoryPanel({
   chapter,
   index,
+  nextChapter,
   children,
 }: {
   chapter: AtelierStoryChapter;
   index: number;
+  nextChapter?: AtelierStoryChapter;
   children?: ReactNode;
 }) {
   const isSystem = chapter.treatment === "system";
@@ -129,6 +131,7 @@ export function StoryPanel({
   return (
     <section
       id={chapter.id}
+      aria-labelledby={`${chapter.id}-title`}
       className={cn(
         "relative scroll-mt-16 overflow-hidden border-b border-limestone/35",
         treatmentClasses[chapter.treatment],
@@ -149,6 +152,7 @@ export function StoryPanel({
           </p>
 
           <Heading
+            id={`${chapter.id}-title`}
             className={cn(
               "mt-6 text-5xl font-semibold leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl",
               index > 0 && "text-4xl leading-tight sm:text-5xl lg:text-6xl",
@@ -200,6 +204,23 @@ export function StoryPanel({
         <ChapterVisual chapter={chapter} priority={index === 0} />
 
         {children && <div className="lg:col-span-2">{children}</div>}
+
+        {nextChapter && (
+          <div className="lg:col-span-2">
+            <a
+              href={`#${nextChapter.id}`}
+              className={cn(
+                "group inline-flex items-center gap-3 rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition-colors",
+                isSystem
+                  ? "border-shell/20 text-shell/65 hover:border-shell/45 hover:text-shell"
+                  : "border-limestone/55 text-deep-brown/52 hover:border-warm-amber/50 hover:text-charcoal",
+              )}
+            >
+              <span>Next: {nextChapter.navLabel}</span>
+              <ArrowDown className="h-3.5 w-3.5 transition-transform group-hover:translate-y-0.5" />
+            </a>
+          </div>
+        )}
       </div>
     </section>
   );

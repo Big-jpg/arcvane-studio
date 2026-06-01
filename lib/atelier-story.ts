@@ -39,6 +39,7 @@ export interface AtelierStudy {
 export interface AtelierStoryChapter {
   id: AtelierChapterId;
   eyebrow: string;
+  navLabel: string;
   title: string;
   subtitle?: string;
   description: string;
@@ -53,6 +54,7 @@ export const atelierChapters: AtelierStoryChapter[] = [
   {
     id: "light",
     eyebrow: "Chapter 01",
+    navLabel: "Light",
     title: "Light first.",
     subtitle: "Before product. Before price. Before category.",
     description:
@@ -67,6 +69,7 @@ export const atelierChapters: AtelierStoryChapter[] = [
   {
     id: "place",
     eyebrow: "Chapter 02",
+    navLabel: "Place",
     title: "The place teaches the object.",
     subtitle: "Western Australian coast. Limestone. White sand. Wide sky.",
     description:
@@ -81,6 +84,7 @@ export const atelierChapters: AtelierStoryChapter[] = [
   {
     id: "observation",
     eyebrow: "Chapter 03",
+    navLabel: "Observation",
     title: "Observation before object.",
     description:
       "The studio studies how light thickens at an edge, how a rib throws shadow, and how clear PLA becomes quiet instead of transparent.",
@@ -111,6 +115,7 @@ export const atelierChapters: AtelierStoryChapter[] = [
   {
     id: "creation",
     eyebrow: "Chapter 04",
+    navLabel: "Creation",
     title: "Sketch. Print. Finish. Assemble.",
     description:
       "The atelier process is visible but controlled: digital drawing, slow print time, hand finishing, hardware checking, and a final light test.",
@@ -141,6 +146,7 @@ export const atelierChapters: AtelierStoryChapter[] = [
   {
     id: "system",
     eyebrow: "Chapter 05",
+    navLabel: "System",
     title: "Not a lamp. A lighting language.",
     subtitle: "Stand. Source. Shade. Adapter. Future shade families.",
     description:
@@ -172,6 +178,7 @@ export const atelierChapters: AtelierStoryChapter[] = [
   {
     id: "collection",
     eyebrow: "Chapter 06",
+    navLabel: "Collection",
     title: "The current collection is evidence.",
     description:
       "Finished shades, stands, and sets are available when they belong to the language. Commerce begins only after the atmosphere is understood.",
@@ -189,6 +196,7 @@ export const atelierChapters: AtelierStoryChapter[] = [
   {
     id: "ownership",
     eyebrow: "Chapter 07",
+    navLabel: "Ownership",
     title: "A room changes before the object is noticed.",
     description:
       "The goal is not spectacle. It is a pool of warmth on a table, a softer wall at night, a small coastal object that belongs without shouting.",
@@ -216,6 +224,7 @@ export const atelierChapters: AtelierStoryChapter[] = [
   {
     id: "purchase",
     eyebrow: "Chapter 08",
+    navLabel: "Purchase",
     title: "Choose quietly.",
     subtitle: "The purchase should feel like a consequence, not a demand.",
     description:
