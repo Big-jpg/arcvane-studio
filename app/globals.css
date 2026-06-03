@@ -92,8 +92,17 @@ body {
   color: var(--text, var(--foreground));
   font-family: "Inter", system-ui, sans-serif;
   transition:
-    background-color 300ms ease,
-    color 300ms ease;
+    background-color 800ms ease,
+    color 600ms ease;
+}
+
+html:not(.time-state-reduced-motion) [class*="bg-ts-"],
+html:not(.time-state-reduced-motion) [class*="text-ts-"],
+html:not(.time-state-reduced-motion) [class*="border-ts-"],
+html:not(.time-state-reduced-motion) [class*="outline-ts-"] {
+  transition-property: background-color, color, border-color, outline-color, text-decoration-color, fill, stroke, box-shadow, transform, opacity;
+  transition-duration: 800ms, 600ms, 600ms, 600ms, 600ms, 600ms, 600ms, 300ms, 300ms, 200ms;
+  transition-timing-function: ease;
 }
 
 /* Smooth scrolling */
@@ -107,6 +116,10 @@ html {
   }
 
   body,
+  [class*="bg-ts-"],
+  [class*="text-ts-"],
+  [class*="border-ts-"],
+  [class*="outline-ts-"],
   .time-state-reduced-motion [class*="ts-"] {
     transition: none !important;
   }
