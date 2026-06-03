@@ -19,19 +19,19 @@
 }
 
 :root[data-time="dawn"] {
-  --bg: #f4eee4;
-  --surface: #fffaf1;
-  --text: #26231f;
-  --muted: #746f67;
-  --accent: #d9a75f;
+  --bg: #f5e6c8;
+  --surface: #fdf3dc;
+  --text: #2a1f0f;
+  --muted: #7a5c3a;
+  --accent: #c8721a;
 }
 
 :root[data-time="midday"] {
-  --bg: #f7f4ec;
-  --surface: #ffffff;
-  --text: #1f1f1d;
-  --muted: #6c6a64;
-  --accent: #b98d4d;
+  --bg: #eef4f9;
+  --surface: #f8fbff;
+  --text: #1a2530;
+  --muted: #5a7080;
+  --accent: #4a7fa5;
 }
 
 :root[data-time="dusk"] {
