@@ -60,6 +60,17 @@ function getShadeCompatibilityLine(product: Product): string {
   return "Built around ArcVane's shared lighting system for calm compatibility across the restrained collection.";
 }
 
+function formatTimeState(timeState?: Product["timeState"]): string | null {
+  if (!timeState) {
+    return null;
+  }
+
+  return timeState
+    .split(" / ")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" / ");
+}
+
 export function ProductDetail({ product }: { product: Product }) {
   const [selectedColour, setSelectedColour] = useState<string>(product.colours[0] ?? "");
   const [selectedImageMode, setSelectedImageMode] = useState<ToneImageMode>("illuminated");
@@ -77,6 +88,7 @@ export function ProductDetail({ product }: { product: Product }) {
   );
   const fallbackImage = product.images[0] ?? "";
   const selectedImage = toneImageForMode(selectedToneImages, selectedImageMode, fallbackImage);
+  const productTimeState = formatTimeState(product.timeState);
   const canAdd = selectedColour.length > 0;
 
   const sendBuyerEvent = useCallback(
@@ -232,9 +244,16 @@ export function ProductDetail({ product }: { product: Product }) {
             </div>
 
             <div className="flex flex-col">
-              <p className="text-xs font-semibold uppercase tracking-[0.26em] text-warm-amber">
-                {product.category}
-              </p>
+              <div className="flex flex-wrap items-center gap-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.26em] text-warm-amber">
+                  {product.category}
+                </p>
+                {productTimeState ? (
+                  <span className="rounded-full border border-warm-amber/25 bg-warm-amber/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-weathered-post">
+                    Best in {productTimeState}
+                  </span>
+                ) : null}
+              </div>
               <h1 className="mt-4 text-4xl font-semibold tracking-tight text-charcoal sm:text-5xl">
                 {product.title}
               </h1>

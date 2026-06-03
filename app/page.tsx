@@ -20,32 +20,16 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-const productPreviewNotes = [
-  {
-    timeState: "Dusk / Evening",
-    behaviour: "Holds a close pool of warmth for low-light rooms.",
-  },
-  {
-    timeState: "Dawn / Midday",
-    behaviour: "Keeps the shell present while letting daylight remain quiet.",
-  },
-  {
-    timeState: "Midday",
-    behaviour: "Shows printed geometry and material layering clearly.",
-  },
-  {
-    timeState: "Evening",
-    behaviour: "Softens the visible bulb into a calmer centre.",
-  },
-  {
-    timeState: "Dawn / Dusk",
-    behaviour: "Works at the threshold where room light is changing.",
-  },
-  {
-    timeState: "Midday / Dusk",
-    behaviour: "Balances sculptural form with a warmer illuminated edge.",
-  },
-];
+function formatTimeState(timeState?: Product["timeState"]) {
+  if (!timeState) {
+    return null;
+  }
+
+  return timeState
+    .split(" / ")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" / ");
+}
 
 function formatPrice(product: Product) {
   try {
@@ -166,10 +150,7 @@ export default async function HomePage() {
 
           {previewProducts.length > 0 ? (
             <div className="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {previewProducts.map((product, index) => {
-                const note = productPreviewNotes[index % productPreviewNotes.length];
-
-                return (
+              {previewProducts.map((product) => (
                   <article
                     key={product.id}
                     className="overflow-hidden rounded-[2.25rem] border border-sand/50 bg-off-white shadow-[0_24px_80px_rgba(61,48,40,0.08)]"
@@ -186,13 +167,13 @@ export default async function HomePage() {
                     <div className="space-y-5 p-6 sm:p-7">
                       <div className="space-y-2">
                         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-warm-amber">
-                          {note.timeState}
+                          {formatTimeState(product.timeState) ?? product.category}
                         </p>
                         <h3 className="text-2xl font-medium tracking-[-0.03em] text-deep-brown">
                           {product.title}
                         </h3>
                       </div>
-                      <p className="text-sm leading-7 text-weathered-post">{note.behaviour}</p>
+                      <p className="text-sm leading-7 text-weathered-post">{product.behaviourNote ?? product.description}</p>
                       <div className="flex items-center justify-between gap-4 border-t border-sand/45 pt-5">
                         <p className="text-base font-semibold text-deep-brown">{formatPrice(product)}</p>
                         <Link
@@ -204,8 +185,7 @@ export default async function HomePage() {
                       </div>
                     </div>
                   </article>
-                );
-              })}
+                ))}
             </div>
           ) : (
             <div className="mt-14 rounded-[2rem] border border-dashed border-limestone bg-off-white/70 p-10 text-center text-weathered-post">

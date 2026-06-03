@@ -10,6 +10,14 @@ export type ProductCategory =
   | "Experimental Drops"
   | "Accessories";
 
+export type ProductTimeState =
+  | "dawn"
+  | "midday"
+  | "dusk"
+  | "evening"
+  | "dawn / midday"
+  | "dusk / evening";
+
 /**
  * Future-ready metadata fields from the branding doc.
  * These are optional and populated from Shopify metafields when available.
@@ -35,6 +43,10 @@ export interface Product {
   currency: string;
   category: ProductCategory;
   description: string;
+  /** Optional storefront association for the time-state palette this product suits best. */
+  timeState?: ProductTimeState;
+  /** Optional one-line material/light behaviour note for restrained product cards. */
+  behaviourNote?: string;
   material: string;
   dimensions: string;
   colours: string[];
