@@ -18,6 +18,38 @@
   --foreground: var(--color-charcoal);
 }
 
+:root[data-time="dawn"] {
+  --bg: #f4eee4;
+  --surface: #fffaf1;
+  --text: #26231f;
+  --muted: #746f67;
+  --accent: #d9a75f;
+}
+
+:root[data-time="midday"] {
+  --bg: #f7f4ec;
+  --surface: #ffffff;
+  --text: #1f1f1d;
+  --muted: #6c6a64;
+  --accent: #b98d4d;
+}
+
+:root[data-time="dusk"] {
+  --bg: #201f24;
+  --surface: #2b2930;
+  --text: #f3eadc;
+  --muted: #b8ab9a;
+  --accent: #c7773f;
+}
+
+:root[data-time="evening"] {
+  --bg: #121217;
+  --surface: #1d1b22;
+  --text: #f6ead7;
+  --muted: #a79a8b;
+  --accent: #d49b54;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -36,6 +68,13 @@
   --color-charcoal: var(--color-charcoal);
   --color-off-white: var(--color-off-white);
 
+  /* Time-state narrative palette */
+  --color-ts-bg: var(--bg);
+  --color-ts-surface: var(--surface);
+  --color-ts-text: var(--text);
+  --color-ts-muted: var(--muted);
+  --color-ts-accent: var(--accent);
+
   /* Transitional aliases for existing surfaces outside Phase A1 scope. */
   --color-warm-black: var(--color-charcoal);
   --color-ivory: var(--color-shell);
@@ -49,9 +88,12 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg, var(--background));
+  color: var(--text, var(--foreground));
   font-family: "Inter", system-ui, sans-serif;
+  transition:
+    background-color 300ms ease,
+    color 300ms ease;
 }
 
 /* Smooth scrolling */
