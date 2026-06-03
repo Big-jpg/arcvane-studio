@@ -16,6 +16,7 @@ export function ChapterPanel({ chapter, index }: ChapterPanelProps) {
   return (
     <section
       id={`chapter-${chapter.key}`}
+      data-time-chapter={chapter.key}
       className="scroll-mt-28 bg-ts-bg px-6 py-24 text-ts-text transition-colors duration-300 sm:px-8 lg:px-12 lg:py-32"
       aria-labelledby={`${chapter.key}-chapter-title`}
     >

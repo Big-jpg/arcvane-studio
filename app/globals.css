@@ -105,6 +105,11 @@ html {
   html {
     scroll-behavior: auto;
   }
+
+  body,
+  .time-state-reduced-motion [class*="ts-"] {
+    transition: none !important;
+  }
 }
 
 /* Selection colour */

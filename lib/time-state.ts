@@ -24,6 +24,7 @@ export const TIME_STATES: { key: TimeState; label: string; target: string }[] = 
 type TimeStateContextValue = {
   currentTimeState: TimeState;
   isTimeStateEnabled: boolean;
+  setTimeState: (key: TimeState) => void;
   selectTimeState: (key: TimeState) => void;
 };
 
@@ -60,15 +61,24 @@ export function TimeStateProvider({ children, enabled = true }: TimeStateProvide
     document.documentElement.dataset.time = currentTimeState;
   }, [currentTimeState, enabled]);
 
-  const selectTimeState = useCallback(
+  const setTimeState = useCallback(
     (key: TimeState) => {
       setCurrentTimeState(key);
+
+      if (enabled) {
+        document.documentElement.dataset.time = key;
+      }
+    },
+    [enabled],
+  );
+
+  const selectTimeState = useCallback(
+    (key: TimeState) => {
+      setTimeState(key);
 
       if (!enabled) {
         return;
       }
-
-      document.documentElement.dataset.time = key;
 
       const targetId = getTargetId(key);
       const target = targetId ? document.getElementById(targetId) : null;
@@ -78,16 +88,17 @@ export function TimeStateProvider({ children, enabled = true }: TimeStateProvide
         behavior: getScrollBehavior(),
       });
     },
-    [enabled],
+    [enabled, setTimeState],
   );
 
   const value = useMemo<TimeStateContextValue>(
     () => ({
       currentTimeState,
       isTimeStateEnabled: enabled,
+      setTimeState,
       selectTimeState,
     }),
-    [currentTimeState, enabled, selectTimeState],
+    [currentTimeState, enabled, selectTimeState, setTimeState],
   );
 
   return createElement(TimeStateContext.Provider, { value }, children);

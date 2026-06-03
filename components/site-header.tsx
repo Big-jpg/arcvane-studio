@@ -4,7 +4,6 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Menu, ShoppingBag, X } from "lucide-react";
-import { TimeStateControl } from "@/components/time-state-control";
 import { UserMenu } from "@/components/user-menu";
 import { useCart } from "@/lib/cart-context";
 import { cn } from "@/lib/utils";
@@ -42,10 +41,8 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        {/* Right side: time state + user menu + selection + mobile toggle */}
+        {/* Right side: user menu + selection + mobile toggle */}
         <div className="flex items-center gap-2 sm:gap-3">
-          <TimeStateControl />
-
           <div className="hidden sm:block">
             <UserMenu />
           </div>
