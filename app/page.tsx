@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { ProductImage } from "@/components/product-image";
+import { ApparatusScrollSequence } from "@/components/time-state/apparatus-scroll-sequence";
 import { ChapterPanel } from "@/components/time-state/chapter-panel";
 import { HomeTimeStateObserver } from "@/components/time-state/home-time-state-observer";
 import { StartEveningButton } from "@/components/time-state/start-evening-button";
@@ -18,29 +19,6 @@ export const metadata: Metadata = {
 };
 
 export const dynamic = "force-dynamic";
-
-const apparatusElements = [
-  {
-    label: "Stand",
-    description: "Sets the posture and scale of the object within the room.",
-  },
-  {
-    label: "Bulb",
-    description: "Provides the source, selected for warmth, output, and domestic use.",
-  },
-  {
-    label: "Diffuser",
-    description: "Softens the source before it reaches the shell.",
-  },
-  {
-    label: "Shade",
-    description: "Shapes the visible edge, geometry, and direction of the light.",
-  },
-  {
-    label: "Room",
-    description: "Completes the apparatus through reflection, shadow, and use.",
-  },
-];
 
 const materialBehaviours = [
   {
@@ -161,40 +139,7 @@ export default async function HomePage() {
         <ChapterPanel key={chapter.key} chapter={chapter} index={index} />
       ))}
 
-      <section className="bg-shell px-6 py-24 text-charcoal sm:px-8 lg:px-12 lg:py-32">
-        <div className="mx-auto max-w-6xl">
-          <div className="max-w-3xl space-y-6">
-            <p className="text-xs font-semibold uppercase tracking-[0.34em] text-warm-amber">
-              Apparatus
-            </p>
-            <h2 className="text-4xl font-medium tracking-[-0.04em] sm:text-5xl lg:text-6xl">
-              A lighting system, not a single object.
-            </h2>
-            <p className="text-lg leading-8 text-weathered-post sm:text-xl sm:leading-9">
-              ArcVane is built from interchangeable parts: a stand, a light source, a
-              diffuser, and a shade. Each part has a role. Together, they form a simple
-              apparatus for shaping domestic light.
-            </p>
-          </div>
-
-          <ol className="mt-14 space-y-4">
-            {apparatusElements.map((element, index) => (
-              <li
-                key={element.label}
-                className="grid gap-4 rounded-[2rem] border border-limestone/35 bg-off-white/70 p-6 shadow-[0_18px_55px_rgba(61,48,40,0.07)] sm:grid-cols-[5rem_minmax(0,0.55fr)_minmax(0,1fr)] sm:items-center sm:p-7"
-              >
-                <span className="font-mono text-sm text-warm-amber">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <h3 className="text-2xl font-medium tracking-[-0.02em] text-deep-brown">
-                  {element.label}
-                </h3>
-                <p className="text-base leading-7 text-weathered-post">{element.description}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+      <ApparatusScrollSequence />
 
       <section className="bg-off-white px-6 py-24 text-charcoal sm:px-8 lg:px-12 lg:py-32">
         <div className="mx-auto max-w-6xl">
