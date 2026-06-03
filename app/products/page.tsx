@@ -6,16 +6,16 @@ import { getProducts, getCategories } from "@/lib/catalogue";
 import type { ProductCategory } from "@/lib/types";
 
 export const metadata: Metadata = {
-  title: "Collection",
+  title: "Lighting Collection",
   description:
-    "Explore ArcVane Studio coastal lighting pieces, shade sets, table lamps, and E27 accessories made in Western Australia.",
+    "Explore ArcVane Studio lighting objects, shade systems, and material finishes shaped for changing domestic light.",
   alternates: {
     canonical: "/products",
   },
   openGraph: {
-    title: "ArcVane Studio Collection",
+    title: "ArcVane Studio Lighting Collection",
     description:
-      "Small-run coastal lighting pieces, clear PLA diffusers, matte stands, and interchangeable shade sets.",
+      "Lighting objects and interchangeable shade systems made with deliberate materials for changing rooms.",
     url: "/products",
     images: [
       {
@@ -63,39 +63,39 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-warm-amber">
-              Current collection
+              Lighting collection
             </p>
 
             <h1 className="mt-5 text-4xl font-semibold tracking-tight text-charcoal sm:text-6xl">
-              Coastal lighting pieces, released in small runs.
+              Objects for shaping domestic light.
             </h1>
 
             <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
-              Translucent diffusers, matte tripod stands, shade sets, and compact table forms shaped
-              by Western Australian coastal light.
+              A lighting system, not a single object: shades, diffusers, stands, and finishes designed
+              to change with the room from dawn to evening.
             </p>
           </div>
 
           <div className="mt-12 grid grid-cols-1 gap-4 border-y border-charcoal/10 py-6 text-sm text-deep-brown/65 sm:grid-cols-3">
             <p>
               <span className="block text-xs font-semibold uppercase tracking-[0.22em] text-weathered-post">
-                System
+                Apparatus
               </span>
-              Shared E27 hardware. Low-power LED only.
+              Shared E27 base, diffuser, shade, and low-heat LED source.
             </p>
 
             <p>
               <span className="block text-xs font-semibold uppercase tracking-[0.22em] text-weathered-post">
                 Materials
               </span>
-              Clear PLA glow, matte PLA bodies, subtle batch variation.
+              Photoluminescent minerals, UV-reactive pigments, and copper silk finishes.
             </p>
 
             <p>
               <span className="block text-xs font-semibold uppercase tracking-[0.22em] text-weathered-post">
-                Scale
+                Production
               </span>
-              Compact pieces designed for real rooms and practical delivery.
+              Atelier-scale batches, made with restraint rather than volume.
             </p>
           </div>
         </div>
@@ -112,7 +112,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                   : "shrink-0 rounded-full border border-charcoal/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-deep-brown/60 transition-colors hover:border-charcoal/30 hover:text-charcoal"
               }
             >
-              All pieces
+              All objects
             </Link>
 
             {categories.map((category) => (
@@ -145,20 +145,20 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                   ? `${visibleProducts.length} ${
                       visibleProducts.length === 1 ? "piece" : "pieces"
                     } in ${activeCategory}`
-                  : "Finished lamps, diffusers, and shade systems"}
+                  : "Lighting objects, diffusers, and shade systems"}
               </h2>
             </div>
 
             <p className="max-w-md text-sm leading-7 text-deep-brown/65">
-              Each listing is a finished object or compatible shade set. Surface, opacity, and
-              colour may vary slightly between batches.
+              Each listing belongs to the same modular lighting system. Finish, opacity, and
+              reflected colour may shift with material, LED temperature, and time of day.
             </p>
           </div>
 
           {visibleProducts.length === 0 ? (
             <div className="rounded-[1.75rem] border border-charcoal/10 bg-shell/65 p-8">
               <p className="max-w-xl text-sm leading-7 text-deep-brown/65">
-                No pieces are currently published in this view. The next small-run release will
+                No objects are currently published in this view. The next considered release will
                 appear here when it is ready.
               </p>
             </div>
