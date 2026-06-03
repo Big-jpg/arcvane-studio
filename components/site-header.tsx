@@ -14,7 +14,6 @@ const navLinks = [
   { href: "/materials", label: "Materials" },
   { href: "/production", label: "Process" },
   { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
 ];
 
 export function SiteHeader() {
