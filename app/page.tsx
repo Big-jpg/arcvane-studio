@@ -20,29 +20,6 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-const materialBehaviours = [
-  {
-    title: "Translucent Shell",
-    description: "Facets light into crystalline edges.",
-  },
-  {
-    title: "Matte Outer Shell",
-    description: "Reduces glare and gives the object visual weight.",
-  },
-  {
-    title: "Inner Diffuser",
-    description: "Softens the bulb and makes the glow usable.",
-  },
-  {
-    title: "Glow Material",
-    description: "Stores light briefly, then returns it slowly.",
-  },
-  {
-    title: "Copper Silk",
-    description: "Reads as warmer and more geological under low light.",
-  },
-];
-
 const productPreviewNotes = [
   {
     timeState: "Dusk / Evening",
@@ -141,39 +118,30 @@ export default async function HomePage() {
 
       <ApparatusScrollSequence />
 
-      <section className="bg-off-white px-6 py-24 text-charcoal sm:px-8 lg:px-12 lg:py-32">
-        <div className="mx-auto max-w-6xl">
-          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <div className="max-w-2xl space-y-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.34em] text-warm-amber">
-                Material behaviour
-              </p>
-              <h2 className="text-4xl font-medium tracking-[-0.04em] sm:text-5xl lg:text-6xl">
-                Materials as behaviours
-              </h2>
-            </div>
-            <p className="max-w-sm text-base leading-7 text-weathered-post">
-              The material choice is not decorative. It changes how the light is held,
-              softened, delayed, or made visible.
-            </p>
-          </div>
-
-          <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-5">
-            {materialBehaviours.map((material) => (
-              <article
-                key={material.title}
-                className="rounded-[2rem] border border-sand/45 bg-shell p-6 shadow-[0_16px_45px_rgba(61,48,40,0.06)] lg:min-h-64"
-              >
-                <div className="mb-8 h-1 w-12 rounded-full bg-warm-amber" aria-hidden="true" />
-                <h3 className="text-xl font-medium tracking-[-0.02em] text-deep-brown">
-                  {material.title}
-                </h3>
-                <p className="mt-4 text-sm leading-7 text-weathered-post">
-                  {material.description}
-                </p>
-              </article>
-            ))}
-          </div>
+      <section className="bg-ts-bg px-6 py-24 text-ts-text transition-colors duration-300 sm:px-8 lg:px-12 lg:py-32">
+        <div className="mx-auto max-w-3xl space-y-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.34em] text-ts-accent">
+            MATERIALS
+          </p>
+          <h2 className="text-4xl font-medium tracking-[-0.04em] sm:text-5xl">
+            Each material changes the light in its own way.
+          </h2>
+          <p className="text-lg leading-8 text-ts-muted sm:text-xl sm:leading-9">
+            We do not choose materials for cost or convenience. {" "}
+            <em className="text-ts-accent not-italic">Photoluminescent minerals</em>
+            {" "}store and return light; {" "}
+            <em className="text-ts-accent not-italic">UV-reactive pigments</em>
+            {" "}reveal hidden colour at dusk; {" "}
+            <em className="text-ts-accent not-italic">Copper silk</em> reads warmer and
+            more geological under low light. Every finish is a deliberate decision about
+            how light behaves in your room.
+          </p>
+          <Link
+            href="/materials"
+            className="inline-flex w-fit text-sm font-semibold text-ts-accent underline-offset-8 transition duration-300 hover:text-ts-text hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts-accent motion-reduce:transition-none"
+          >
+            Explore all finishes →
+          </Link>
         </div>
       </section>
 
