@@ -30,34 +30,34 @@ function getPrimaryAdapter(product: Product): AdapterType {
 
 function getHardwareLine(product: Product): string {
   if (product.category === "Table Lamps") {
-    return "E27 socket assembly, low-power LED bulb, cord set, and compatible shade support are included where shown.";
+    return "E27 socket assembly, low-heat LED bulb, cord set, and compatible shade support are included where shown.";
   }
 
   if (product.category === "Accessories") {
-    return "E27-compatible support hardware is supplied where applicable; pair with an ArcVane E27 cord or lamp assembly.";
+    return "E27-compatible support hardware is supplied where applicable; pair with an ArcVane cord or lamp assembly.";
   }
 
   if (product.category === "Shade Sets") {
-    return "Each shade is designed for the shared E27 system. Compatible E27 socket, LED bulb, and cord hardware may be paired as the base system.";
+    return "Each shade is designed for the shared E27 system. Compatible socket, low-heat LED bulb, and cord hardware may be paired as the base apparatus.";
   }
 
-  return "Designed for the shared E27 lighting system with compatible E27 socket, LED bulb, and cord hardware where applicable.";
+  return "Designed for the shared E27 lighting system with compatible socket, low-heat LED bulb, and cord hardware where applicable.";
 }
 
 function getShadeCompatibilityLine(product: Product): string {
   if (product.category === "Shade Sets") {
-    return "Shade packs are intended to rotate through the same ArcVane E27 base system so the light character can change without changing the hardware.";
+    return "Shade packs rotate through the same ArcVane base so the light character can change without replacing the hardware.";
   }
 
   if (product.category === "Single Shades") {
-    return "Single shades can be paired with compatible ArcVane E27 bases or grouped with future shade packs where scale and clearance match.";
+    return "Single shades can be paired with compatible ArcVane bases or layered with future shade packs where scale and clearance match.";
   }
 
   if (product.category === "Table Lamps") {
-    return "The lamp uses the same E27 system as the shade packs, so compatible ArcVane diffusers can be rotated through the base when scale allows.";
+    return "The lamp uses the same shared system as the shade packs, so compatible ArcVane diffusers can be rotated through the base when scale allows.";
   }
 
-  return "Built around ArcVane's shared E27 system for straightforward compatibility across the restrained collection.";
+  return "Built around ArcVane's shared lighting system for calm compatibility across the restrained collection.";
 }
 
 export function ProductDetail({ product }: { product: Product }) {
@@ -143,7 +143,7 @@ export function ProductDetail({ product }: { product: Product }) {
     ["Scale and dimensions", product.dimensions],
     ["Material and finish", product.material],
     ["Colour options", product.colours.join(", ")],
-    ["Lighting system", `${primaryAdapter} / low-power LED only`],
+    ["Lighting system", `${primaryAdapter} / low-heat LED only`],
     ["Included hardware", getHardwareLine(product)],
     [
       "Production window",
@@ -151,7 +151,7 @@ export function ProductDetail({ product }: { product: Product }) {
     ],
     [
       "Packing guide",
-      "Designed around a compact 300×300×300mm packing target so fulfilment can be arranged cleanly after order.",
+      "Designed around compact packing dimensions so fulfilment can be arranged cleanly after order.",
     ],
   ];
 
@@ -225,8 +225,8 @@ export function ProductDetail({ product }: { product: Product }) {
                 </div>
               ) : null}
               <p className="mt-4 text-xs leading-6 text-deep-brown/50">
-                Finish tone photography is paired as no-light and illuminated views. Colour,
-                translucency, and layer texture may shift with LED temperature, room light, and
+                Finish tone photography is paired as quiet and illuminated views. Colour,
+                translucency, and surface rhythm may shift with LED temperature, room light, and
                 small-batch finishing.
               </p>
             </div>
@@ -250,12 +250,12 @@ export function ProductDetail({ product }: { product: Product }) {
                   <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-dune-grass" />
                   <div>
                     <h2 className="text-sm font-semibold text-charcoal">
-                      E27 as the primary system
+                      Part of the shared lighting system
                     </h2>
                     <p className="mt-2 text-sm leading-7 text-deep-brown/65">
-                      This piece is supplied around ArcVane&apos;s E27 lighting model. There is no
-                      complex adapter selection on the current collection; use only compatible E27
-                      hardware and low-power LED bulbs.
+                      This piece belongs to ArcVane&apos;s modular lighting apparatus. There is no
+                      complex adapter language in the current collection; use compatible E27
+                      hardware and low-heat LED bulbs only.
                     </p>
                   </div>
                 </div>
@@ -263,7 +263,7 @@ export function ProductDetail({ product }: { product: Product }) {
 
               {product.colours.length > 0 && (
                 <div className="mt-8 border-t border-charcoal/10 pt-7">
-                  <label className="text-sm font-semibold text-charcoal">Finish tone</label>
+                  <label className="text-sm font-semibold text-charcoal">Material finish</label>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {product.colours.map((colour) => (
                       <button
@@ -285,12 +285,12 @@ export function ProductDetail({ product }: { product: Product }) {
                     ))}
                   </div>
                   <p className="mt-3 text-xs leading-6 text-deep-brown/50">
-                    Finish tones are selected as studio directions, not exact industrial colour
+                    Material finishes are selected as studio directions, not exact industrial colour
                     matches. Small differences between batches are expected.
                   </p>
                   {selectedToneImages && !selectedToneImages.complete ? (
                     <p className="mt-2 text-xs leading-6 text-warm-amber">
-                      This finish tone is missing one of its paired views, so the available product
+                      This finish is missing one of its paired views, so the available product
                       photography is being reused.
                     </p>
                   ) : null}
@@ -298,7 +298,7 @@ export function ProductDetail({ product }: { product: Product }) {
               )}
 
               <div className="mt-8 border-t border-charcoal/10 pt-7">
-                <h2 className="text-sm font-semibold text-charcoal">Product details</h2>
+                <h2 className="text-sm font-semibold text-charcoal">Object details</h2>
                 <dl className="mt-4 divide-y divide-charcoal/10 rounded-2xl border border-charcoal/10 bg-off-white">
                   {details.map(([label, value]) => (
                     <div
@@ -317,10 +317,10 @@ export function ProductDetail({ product }: { product: Product }) {
               <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="rounded-2xl border border-warm-amber/25 bg-warm-amber/5 p-5">
                   <ShieldCheck className="h-5 w-5 text-warm-amber" />
-                  <h2 className="mt-4 text-sm font-semibold text-charcoal">LED-only safety</h2>
+                  <h2 className="mt-4 text-sm font-semibold text-charcoal">Low-heat LED only</h2>
                   <p className="mt-2 text-sm leading-7 text-deep-brown/65">
-                    Use modern low-power LED bulbs only. Do not use incandescent, halogen, heat
-                    lamp, or other high-temperature bulbs with PLA lighting objects.
+                    Use modern low-heat LED bulbs only. Do not use incandescent, halogen, heat
+                    lamp, or other high-temperature bulbs with printed lighting objects.
                   </p>
                   <Link
                     href="/safety"
@@ -333,7 +333,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 <div className="rounded-2xl border border-charcoal/10 bg-shell/60 p-5">
                   <PackageCheck className="h-5 w-5 text-weathered-post" />
                   <h2 className="mt-4 text-sm font-semibold text-charcoal">
-                    Shade-pack compatibility
+                    Layering and compatibility
                   </h2>
                   <p className="mt-2 text-sm leading-7 text-deep-brown/65">
                     {getShadeCompatibilityLine(product)}
@@ -345,8 +345,8 @@ export function ProductDetail({ product }: { product: Product }) {
                 <div className="flex items-start gap-3">
                   <Info className="mt-0.5 h-5 w-5 shrink-0 text-weathered-post" />
                   <p className="text-sm leading-7 text-deep-brown/70">
-                    Small-batch finishing is part of the object. Fine FDM layer lines, variable
-                    clear PLA opacity, and subtle tone changes are expected and treated as natural
+                    Small-batch finishing is part of the object. Fine layer rhythm, variable
+                    translucency, and subtle tone changes are expected and treated as natural
                     texture, not defects.
                   </p>
                 </div>
