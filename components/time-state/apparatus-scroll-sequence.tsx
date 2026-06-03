@@ -79,41 +79,49 @@ export function ApparatusScrollSequence() {
   const isActive = (step: number) => !reducedMotion && activeStep === step;
 
   const partClassName = (step: number) => {
-    const base = "transition-all duration-700 ease-out motion-reduce:transition-none";
+    const base = "transition-all duration-900 ease-out motion-reduce:transition-none";
 
     if (!isVisible(step)) {
-      return `${base} translate-y-3 opacity-0`;
+      return `${base} opacity-0`;
     }
 
     if (isActive(step)) {
-      return `${base} translate-y-0 text-ts-accent opacity-100`;
+      return `${base} text-ts-accent opacity-100`;
     }
 
-    return `${base} translate-y-0 text-ts-muted opacity-75`;
+    return `${base} text-ts-muted opacity-75`;
   };
 
   const annotationClassName = (step: number) => {
     const base = "transition-all duration-700 ease-out motion-reduce:transition-none";
 
     if (!isVisible(step)) {
-      return `${base} translate-x-3 opacity-0`;
+      return `${base} opacity-0`;
     }
 
     if (isActive(step)) {
-      return `${base} translate-x-0 text-ts-accent opacity-100`;
+      return `${base} text-ts-accent opacity-100`;
     }
 
-    return `${base} translate-x-0 text-ts-muted opacity-70`;
+    return `${base} text-ts-muted opacity-75`;
+  };
+
+  const partTransform = (step: number, hiddenOffset: number) => {
+    if (isVisible(step)) {
+      return "translate(0 0)";
+    }
+
+    return `translate(0 ${hiddenOffset})`;
   };
 
   return (
     <section
       ref={sectionRef}
       aria-labelledby="apparatus-heading"
-      className="relative min-h-[360vh] bg-ts-bg px-6 text-ts-text sm:px-8 lg:px-12"
+      className="relative min-h-[460vh] bg-ts-bg px-6 text-ts-text sm:px-8 lg:px-12"
     >
       <div className="sticky top-16 flex min-h-[calc(100vh-4rem)] items-center py-14 sm:top-20 lg:py-20">
-        <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[0.75fr_1.25fr] lg:items-center">
+        <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
           <div className="max-w-xl space-y-6">
             <p className="text-xs font-semibold uppercase tracking-[0.34em] text-ts-accent">
               Apparatus
@@ -132,109 +140,162 @@ export function ApparatusScrollSequence() {
               {steps.map((step, index) => (
                 <span
                   key={step}
-                  className={`h-1.5 rounded-full transition-all duration-500 motion-reduce:transition-none ${
+                  className={`h-1 rounded-full transition-all duration-500 motion-reduce:transition-none ${
                     activeStep >= index
-                      ? "w-10 bg-ts-accent opacity-100"
-                      : "w-5 bg-ts-muted opacity-30"
+                      ? "w-8 bg-ts-accent opacity-100"
+                      : "w-4 bg-ts-muted opacity-30"
                   }`}
                 />
               ))}
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-[2.5rem] border border-ts-accent/20 bg-ts-surface/70 p-4 shadow-[0_28px_95px_rgba(0,0,0,0.12)] sm:p-6 lg:p-8">
-            <div className="absolute inset-x-10 bottom-8 top-16 rounded-full bg-ts-accent/10 blur-3xl" aria-hidden="true" />
+          <div className="relative overflow-hidden rounded-[2.5rem] border border-ts-accent/20 bg-ts-surface/70 p-3 shadow-[0_28px_95px_rgba(0,0,0,0.12)] sm:p-5 lg:p-7">
+            <div className="absolute inset-x-12 bottom-8 top-16 rounded-full bg-ts-accent/10 blur-3xl" aria-hidden="true" />
             <svg
-              viewBox="0 0 760 620"
+              viewBox="0 0 920 660"
               role="img"
-              aria-label="Scroll-led drawing of the ArcVane stand, bulb, diffuser, shade, and room light field assembling together."
+              aria-label="Scroll-led drawing of the ArcVane tripod stand, LED fitting, diffuser, ribbed shade, locking ring, and room light field assembling together."
               className="relative h-auto w-full"
             >
               <defs>
-                <radialGradient id="apparatusGlow" cx="50%" cy="45%" r="52%">
-                  <stop offset="0%" stopColor="currentColor" stopOpacity="0.24" />
-                  <stop offset="55%" stopColor="currentColor" stopOpacity="0.08" />
+                <radialGradient id="apparatusGlow" cx="50%" cy="42%" r="58%">
+                  <stop offset="0%" stopColor="currentColor" stopOpacity="0.2" />
+                  <stop offset="55%" stopColor="currentColor" stopOpacity="0.07" />
                   <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
                 </radialGradient>
               </defs>
 
-              <g className="text-ts-muted opacity-35" stroke="currentColor" strokeWidth="1" fill="none">
-                <path d="M128 520 H632" strokeDasharray="6 10" />
-                <path d="M170 120 V520" strokeDasharray="4 12" />
-                <path d="M590 120 V520" strokeDasharray="4 12" />
-                <path d="M170 542 H590" />
-                <path d="M170 534 v16 M590 534 v16" />
+              <g className="text-ts-muted opacity-25" stroke="currentColor" strokeWidth="1" fill="none">
+                <path d="M290 114 H628" strokeDasharray="2 12" />
+                <path d="M290 186 H628" strokeDasharray="2 12" />
+                <path d="M290 306 H628" strokeDasharray="2 12" />
+                <path d="M290 438 H628" strokeDasharray="2 12" />
+                <path d="M290 566 H628" strokeDasharray="2 12" />
+                <path d="M332 92 V586" strokeDasharray="3 14" />
+                <path d="M586 92 V586" strokeDasharray="3 14" />
+                <path d="M332 610 H586" />
+                <path d="M332 602 v16 M586 602 v16" />
               </g>
 
-              <g className={partClassName(4)}>
-                <ellipse cx="380" cy="320" rx="260" ry="230" fill="url(#apparatusGlow)" />
-                <g stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none">
-                  <path d="M245 170 C188 118 132 92 82 82" />
-                  <path d="M515 170 C572 118 628 92 678 82" />
-                  <path d="M224 414 C162 452 114 491 78 534" />
-                  <path d="M536 414 C598 452 646 491 682 534" />
-                  <path d="M214 245 C145 226 95 211 58 198" opacity="0.55" />
-                  <path d="M546 245 C615 226 665 211 702 198" opacity="0.55" />
+              <g className={partClassName(4)} transform={partTransform(4, -18)}>
+                <ellipse cx="460" cy="330" rx="246" ry="260" fill="url(#apparatusGlow)" />
+                <g stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" fill="none">
+                  <path d="M402 222 C346 156 292 117 237 99" opacity="0.58" />
+                  <path d="M518 222 C574 156 628 117 683 99" opacity="0.58" />
+                  <path d="M378 352 C292 342 222 323 168 294" opacity="0.48" />
+                  <path d="M542 352 C628 342 698 323 752 294" opacity="0.48" />
+                  <path d="M386 448 C326 497 270 536 218 565" opacity="0.42" />
+                  <path d="M534 448 C594 497 650 536 702 565" opacity="0.42" />
                 </g>
               </g>
 
-              <g className={partClassName(0)} stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none">
-                <path d="M380 505 V345" />
-                <path d="M316 505 H444" />
-                <path d="M335 532 H425" />
-                <path d="M330 505 C336 522 424 522 430 505" strokeWidth="2" />
+              <g
+                className={partClassName(0)}
+                transform={partTransform(0, 28)}
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+              >
+                <path d="M460 438 L334 586" />
+                <path d="M460 438 L586 586" />
+                <path d="M460 438 L460 596" />
+                <path d="M407 586 H513" opacity="0.65" />
+                <ellipse cx="460" cy="430" rx="48" ry="10" fill="currentColor" fillOpacity="0.04" />
+                <circle cx="460" cy="430" r="15" fill="currentColor" fillOpacity="0.08" />
+                <path d="M418 444 C430 454 490 454 502 444" strokeWidth="1.5" opacity="0.65" />
               </g>
 
-              <g className={partClassName(1)} stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" fill="none">
-                <circle cx="380" cy="322" r="42" />
-                <path d="M356 331 C364 303 376 303 380 331 C384 303 396 303 404 331" />
-                <path d="M364 371 H396" />
-                <path d="M370 384 H390" strokeWidth="2" />
-                <circle cx="380" cy="322" r="68" opacity="0.18" strokeWidth="14" />
+              <g
+                className={partClassName(1)}
+                transform={partTransform(1, -18)}
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+              >
+                <path d="M434 372 Q434 356 450 356 H470 Q486 356 486 372 V422 H434 Z" fill="currentColor" fillOpacity="0.035" />
+                <path d="M444 382 H476" opacity="0.55" />
+                <path d="M446 394 H474" opacity="0.55" />
+                <path d="M451 356 C453 338 467 338 469 356" />
+                <circle cx="460" cy="352" r="54" opacity="0.13" strokeWidth="12" />
               </g>
 
-              <g className={partClassName(2)} stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" fillOpacity="0.04">
-                <path d="M326 260 C340 236 420 236 434 260 L412 406 C406 430 354 430 348 406 Z" />
-                <path d="M342 280 C360 292 400 292 418 280" fill="none" opacity="0.7" />
-                <path d="M350 394 C365 405 395 405 410 394" fill="none" opacity="0.7" />
+              <g
+                className={partClassName(2)}
+                transform={partTransform(2, -24)}
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="currentColor"
+                fillOpacity="0.025"
+              >
+                <path d="M392 262 C414 244 506 244 528 262 C522 308 511 365 498 414 C486 433 434 433 422 414 C409 365 398 308 392 262 Z" />
+                <path d="M408 286 C430 300 490 300 512 286" fill="none" opacity="0.55" />
+                <path d="M416 396 C435 408 485 408 504 396" fill="none" opacity="0.55" />
               </g>
 
-              <g className={partClassName(3)} stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" fillOpacity="0.035">
-                <path d="M270 214 C304 160 456 160 490 214 L548 444 C503 478 257 478 212 444 Z" />
-                <path d="M270 214 C310 247 450 247 490 214" fill="none" opacity="0.65" />
-                <path d="M212 444 C270 414 490 414 548 444" fill="none" opacity="0.65" />
-                <path d="M292 226 L248 437 M468 226 L512 437" fill="none" opacity="0.35" strokeWidth="1.5" />
+              <g
+                className={partClassName(3)}
+                transform={partTransform(3, -34)}
+                stroke="currentColor"
+                strokeWidth="2.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="currentColor"
+                fillOpacity="0.03"
+              >
+                <path d="M370 118 C400 98 520 98 550 118" fill="none" opacity="0.55" />
+                <ellipse cx="460" cy="126" rx="89" ry="12" fill="currentColor" fillOpacity="0.035" />
+                <path d="M375 144 C394 124 526 124 545 144" fill="none" opacity="0.72" />
+                <path d="M376 144 C338 194 339 360 374 430 C397 462 523 462 546 430 C581 360 582 194 544 144 C516 162 404 162 376 144 Z" />
+                <path d="M374 196 C404 214 516 214 546 196" fill="none" opacity="0.7" />
+                <path d="M357 250 C392 273 528 273 563 250" fill="none" opacity="0.7" />
+                <path d="M350 306 C388 331 532 331 570 306" fill="none" opacity="0.7" />
+                <path d="M356 364 C390 386 530 386 564 364" fill="none" opacity="0.7" />
+                <path d="M376 420 C406 438 514 438 544 420" fill="none" opacity="0.7" />
+                <path d="M376 144 C410 162 510 162 544 144" fill="none" opacity="0.5" />
+                <ellipse cx="460" cy="116" rx="72" ry="7" fill="none" strokeWidth="1.7" />
               </g>
 
-              <g className={partClassName(4)} stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" fill="none">
-                <path d="M250 232 C291 116 469 116 510 232" opacity="0.52" />
-                <path d="M232 246 C278 88 482 88 528 246" opacity="0.35" />
-                <path d="M286 242 C320 184 440 184 474 242" opacity="0.45" />
+              <g className="text-ts-muted" stroke="currentColor" strokeWidth="1" strokeLinecap="round" fill="none" strokeDasharray="4 7">
+                <g className={annotationClassName(4)}>
+                  <path d="M460 62 C460 82 460 96 460 110" />
+                </g>
+                <g className={annotationClassName(3)}>
+                  <path d="M664 154 C626 165 590 184 556 212" />
+                </g>
+                <g className={annotationClassName(1)}>
+                  <path d="M664 348 C598 348 535 365 486 382" />
+                </g>
+                <g className={annotationClassName(2)}>
+                  <path d="M250 336 C301 327 350 304 397 276" />
+                </g>
+                <g className={annotationClassName(0)}>
+                  <path d="M642 574 C591 559 548 536 514 503" />
+                </g>
               </g>
 
-              <g className={annotationClassName(0)} fontSize="18" fontStyle="italic" fill="currentColor">
-                <text x="458" y="522">stand — sets posture and scale</text>
-                <path d="M440 505 C468 492 482 480 494 460" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-              </g>
-
-              <g className={annotationClassName(1)} fontSize="18" fontStyle="italic" fill="currentColor">
-                <text x="438" y="320">bulb — the source</text>
-                <path d="M424 320 H407" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-              </g>
-
-              <g className={annotationClassName(2)} fontSize="18" fontStyle="italic" fill="currentColor">
-                <text x="72" y="306">diffuser — softens the source</text>
-                <path d="M300 302 C322 294 337 288 352 278" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-              </g>
-
-              <g className={annotationClassName(3)} fontSize="18" fontStyle="italic" fill="currentColor">
-                <text x="474" y="190">shade — shapes the edge</text>
-                <path d="M460 198 C438 210 415 217 392 219" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-              </g>
-
-              <g className={annotationClassName(4)} fontSize="18" fontStyle="italic" fill="currentColor">
-                <text x="78" y="116">room — completes the light field</text>
-                <path d="M246 130 C274 148 294 168 309 190" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+              <g fontSize="17" fontStyle="italic" fill="currentColor">
+                <g className={annotationClassName(4)}>
+                  <text x="338" y="48">room — completes the light field</text>
+                </g>
+                <g className={annotationClassName(3)}>
+                  <text x="678" y="150">shade — shapes the edge</text>
+                </g>
+                <g className={annotationClassName(1)}>
+                  <text x="678" y="352">bulb — the source</text>
+                </g>
+                <g className={annotationClassName(2)}>
+                  <text x="34" y="340">diffuser — softens the source</text>
+                </g>
+                <g className={annotationClassName(0)}>
+                  <text x="656" y="580">stand — sets posture and scale</text>
+                </g>
               </g>
             </svg>
           </div>
