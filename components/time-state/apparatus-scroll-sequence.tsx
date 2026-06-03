@@ -79,9 +79,10 @@ export function ApparatusScrollSequence() {
 
   const isVisible = (step: number) => reducedMotion || activeStep >= step;
   const isActive = (step: number) => !reducedMotion && activeStep === step;
+  const settledOffsets = [22, 10, -8, -24, -40, -56, -56] as const;
 
   const partClassName = (step: number) => {
-    const base = "transition-all duration-700 ease-out motion-reduce:transition-none";
+    const base = "transition-all duration-[1100ms] ease-out motion-reduce:transition-none";
 
     if (!isVisible(step)) {
       return `${base} opacity-0`;
@@ -95,7 +96,7 @@ export function ApparatusScrollSequence() {
   };
 
   const annotationClassName = (step: number) => {
-    const base = "transition-all duration-700 ease-out motion-reduce:transition-none";
+    const base = "transition-all duration-[1100ms] ease-out motion-reduce:transition-none";
 
     if (!isVisible(step)) {
       return `${base} opacity-0`;
@@ -109,11 +110,13 @@ export function ApparatusScrollSequence() {
   };
 
   const partTransform = (step: number, hiddenOffset: number) => {
+    const settledOffset = settledOffsets[step] ?? 0;
+
     if (isVisible(step)) {
-      return "translate(0 0)";
+      return `translate(0 ${settledOffset})`;
     }
 
-    return `translate(0 ${hiddenOffset})`;
+    return `translate(0 ${settledOffset + hiddenOffset})`;
   };
 
   return (
@@ -142,7 +145,7 @@ export function ApparatusScrollSequence() {
               {steps.map((step, index) => (
                 <span
                   key={step}
-                  className={`h-1 rounded-full transition-all duration-500 motion-reduce:transition-none ${
+                  className={`h-1 rounded-full transition-all duration-1000 motion-reduce:transition-none ${
                     activeStep >= index
                       ? "w-8 bg-ts-accent opacity-100"
                       : "w-4 bg-ts-muted opacity-30"
@@ -155,7 +158,7 @@ export function ApparatusScrollSequence() {
           <div className="relative overflow-hidden rounded-[2.5rem] border border-ts-accent/20 bg-ts-surface/70 p-3 shadow-[0_28px_95px_rgba(0,0,0,0.12)] sm:p-5 lg:p-7">
             <div className="absolute inset-x-12 bottom-8 top-16 rounded-full bg-ts-accent/10 blur-3xl" aria-hidden="true" />
             <svg
-              viewBox="0 0 980 700"
+              viewBox="0 0 1040 760"
               role="img"
               aria-label="Scroll-led drawing of the ArcVane tripod stand, socket adapter with cord, E27 LED bulb, diffuser, accent shade, outer shade, and interchangeable shade profiles assembling together."
               className="relative h-auto w-full"
@@ -181,12 +184,11 @@ export function ApparatusScrollSequence() {
               </g>
 
               <g className={partClassName(6)} transform={partTransform(6, -16)}>
-                <g stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" fill="none" opacity="0.72">
+                <g stroke="currentColor" strokeWidth="0.85" strokeLinecap="round" fill="none" opacity="0.26">
                   <path d="M350 128 C374 112 414 107 442 119 C415 176 413 415 444 485 C407 492 373 482 351 456 C322 380 320 207 350 128 Z" strokeDasharray="6 8" />
                   <path d="M535 119 C566 100 633 112 660 139 C690 220 684 397 655 470 C626 490 574 495 541 481 C574 404 574 193 535 119 Z" strokeDasharray="4 9" />
-                  <path d="M402 151 L582 151 L622 460 L362 460 Z" strokeDasharray="5 8" />
                 </g>
-                <g className="text-ts-accent" stroke="currentColor" strokeWidth="1" strokeLinecap="round" fill="none" opacity="0.5">
+                <g className="text-ts-accent" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.24">
                   <path d="M276 474 C330 494 391 506 458 510" />
                   <path d="M704 472 C648 494 589 506 522 510" />
                 </g>
@@ -347,24 +349,24 @@ export function ApparatusScrollSequence() {
                 </g>
               </g>
 
-              <g fontSize="16" fontStyle="italic" fill="currentColor">
+              <g fontSize="14" fontStyle="italic" fill="currentColor">
                 <g className={annotationClassName(6)}>
-                  <text x="120" y="58">alternate profiles — nested, swapped, layered</text>
+                  <text x="142" y="58">profiles — nested, layered</text>
                 </g>
                 <g className={annotationClassName(5)}>
-                  <text x="758" y="134">shade — interchangeable, additive</text>
+                  <text x="758" y="134">shade — interchangeable</text>
                 </g>
                 <g className={annotationClassName(4)}>
-                  <text x="748" y="290">accent — shapes the inner glow</text>
+                  <text x="758" y="290">accent — inner glow</text>
                 </g>
                 <g className={annotationClassName(3)}>
-                  <text x="46" y="344">diffuser — softens the source</text>
+                  <text x="70" y="344">diffuser — softens the source</text>
                 </g>
                 <g className={annotationClassName(2)}>
-                  <text x="748" y="424">LED bulb — 6000K, high CRI, low heat</text>
+                  <text x="758" y="424">bulb — 6000K LED</text>
                 </g>
                 <g className={annotationClassName(1)}>
-                  <text x="42" y="564">socket adapter — AU plug, inline switch</text>
+                  <text x="96" y="564">socket — AU plug</text>
                 </g>
                 <g className={annotationClassName(0)}>
                   <text x="708" y="638">stand — the base</text>
