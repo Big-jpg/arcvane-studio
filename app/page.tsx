@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { ProductImage } from "@/components/product-image";
 import { ChapterPanel } from "@/components/time-state/chapter-panel";
+import { HomeTimeStateObserver } from "@/components/time-state/home-time-state-observer";
 import { StartEveningButton } from "@/components/time-state/start-evening-button";
 import { getProducts } from "@/lib/catalogue";
 import { timeChapters } from "@/lib/time-chapters";
@@ -108,6 +109,7 @@ export default async function HomePage() {
 
   return (
     <main>
+      <HomeTimeStateObserver />
       <section className="bg-ts-bg px-6 pb-20 pt-24 text-ts-text transition-colors duration-300 sm:px-8 sm:pt-28 lg:px-12 lg:pb-28 lg:pt-36">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-14 text-center">
           <div className="max-w-4xl space-y-8">
