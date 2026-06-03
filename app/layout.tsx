@@ -7,6 +7,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { CartProvider } from "@/lib/cart-context";
 import { CartDrawer } from "@/components/cart-drawer";
 import { SessionProvider } from "@/components/session-provider";
+import { TimeStateProvider } from "@/components/time-state-provider";
 import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
@@ -86,14 +87,16 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans">
-        <SessionProvider>
-          <CartProvider>
-            <SiteHeader />
-            <main className="flex-1">{children}</main>
-            <SiteFooter />
-            <CartDrawer />
-          </CartProvider>
-        </SessionProvider>
+        <TimeStateProvider>
+          <SessionProvider>
+            <CartProvider>
+              <SiteHeader />
+              <main className="flex-1">{children}</main>
+              <SiteFooter />
+              <CartDrawer />
+            </CartProvider>
+          </SessionProvider>
+        </TimeStateProvider>
       </body>
       <Analytics />
     </html>
