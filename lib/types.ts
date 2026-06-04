@@ -33,6 +33,17 @@ export interface ProductMetadata {
   print_profile?: string;
 }
 
+export interface ProductComponentScope {
+  /** Physical ArcVane components supplied with the product. */
+  included: string[];
+  /** Electrical or system components intentionally not supplied by ArcVane. */
+  notIncluded: string[];
+  /** Components the customer must source separately for intended illuminated use. */
+  customerSupplied: string[];
+  /** Practical fit note for this product's intended E27-compatible use. */
+  compatibility: string;
+}
+
 export interface Product {
   /** App-level product ID. For Shopify products, this is the Shopify global ID. */
   id: string;
@@ -53,6 +64,8 @@ export interface Product {
   images: string[];
   /** Compatible adapter types for this product. E27 is the primary/default system. */
   adapters: AdapterType[];
+  /** Explicit separation between ArcVane physical components and customer-supplied electrical components. */
+  componentScope?: ProductComponentScope | null;
   inStock: boolean;
 
   // --- Shopify-specific identifiers (preserved for downstream use) ---
