@@ -33,10 +33,19 @@ export interface ProductMetadata {
   print_profile?: string;
 }
 
+export type ProductSupplyModel =
+  | "decorative-components-only"
+  | "certified-electrical-kit"
+  | "complete-assembled-system";
+
 export interface ProductComponentScope {
+  /** Current supply model for this listing; defaults to decorative-components-only. */
+  supplyModel?: ProductSupplyModel;
   /** Physical ArcVane components supplied with the product. */
   included: string[];
-  /** Electrical or system components intentionally not supplied by ArcVane. */
+  /** Certified electrical components supplied by ArcVane, reserved for future kit/system listings. */
+  electricalIncluded?: string[];
+  /** Electrical or system components intentionally not supplied by ArcVane for this listing. */
   notIncluded: string[];
   /** Components the customer must source separately for intended illuminated use. */
   customerSupplied: string[];

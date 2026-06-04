@@ -20,6 +20,7 @@ export const products: Product[] = [
     images: ["/products/product-01.png"],
     adapters: ["E27"],
     componentScope: {
+      supplyModel: "decorative-components-only",
       included: ["Shell Fan shade"],
       notIncluded: [
         "E27 lamp holder",
@@ -57,6 +58,7 @@ export const products: Product[] = [
     images: ["/products/product-02.png"],
     adapters: ["E27"],
     componentScope: {
+      supplyModel: "decorative-components-only",
       included: ["Coral Veil shade"],
       notIncluded: [
         "E27 lamp holder",
@@ -94,6 +96,7 @@ export const products: Product[] = [
     images: ["/products/product-03.png"],
     adapters: ["E27"],
     componentScope: {
+      supplyModel: "decorative-components-only",
       included: ["Dune Rib shade"],
       notIncluded: [
         "E27 lamp holder",
@@ -131,6 +134,7 @@ export const products: Product[] = [
     images: ["/products/product-04.png"],
     adapters: ["E27"],
     componentScope: {
+      supplyModel: "decorative-components-only",
       included: ["Limestone Bloom shade", "matte tripod stand", "mechanical shade support"],
       notIncluded: [
         "E27 lamp holder",
@@ -168,6 +172,7 @@ export const products: Product[] = [
     images: ["/products/product-05.png"],
     adapters: ["E27"],
     componentScope: {
+      supplyModel: "decorative-components-only",
       included: ["Tidepool Diffuser shade"],
       notIncluded: [
         "E27 lamp holder",
@@ -205,6 +210,7 @@ export const products: Product[] = [
     images: ["/products/product-06.png"],
     adapters: ["E27"],
     componentScope: {
+      supplyModel: "decorative-components-only",
       included: ["Beach Post Tripod stand"],
       notIncluded: [
         "shade",
@@ -248,6 +254,7 @@ export const products: Product[] = [
     images: ["/products/product-07.png"],
     adapters: ["E27"],
     componentScope: {
+      supplyModel: "decorative-components-only",
       included: ["three Amber Ember shades"],
       notIncluded: [
         "stand",
@@ -286,6 +293,7 @@ export const products: Product[] = [
     images: ["/products/product-08.png"],
     adapters: ["E27"],
     componentScope: {
+      supplyModel: "decorative-components-only",
       included: ["five Clear PLA Coastal shades"],
       notIncluded: [
         "stand",

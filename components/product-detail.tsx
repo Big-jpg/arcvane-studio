@@ -11,7 +11,7 @@ import {
   ShieldCheck,
   ShoppingBag,
 } from "lucide-react";
-import type { Product, AdapterType } from "@/lib/types";
+import type { AdapterType, Product, ProductSupplyModel } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 import type { CartItem } from "@/lib/cart-types";
@@ -35,6 +35,7 @@ function getComponentScope(product: Product): NonNullable<Product["componentScop
 
   if (product.category === "Accessories") {
     return {
+      supplyModel: "decorative-components-only",
       included: ["ArcVane mechanical accessory"],
       notIncluded: [
         "E27 lamp holder",
@@ -52,6 +53,7 @@ function getComponentScope(product: Product): NonNullable<Product["componentScop
   }
 
   return {
+    supplyModel: "decorative-components-only",
     included: ["ArcVane decorative shade or diffuser"],
     notIncluded: [
       "E27 lamp holder",
@@ -70,6 +72,36 @@ function getComponentScope(product: Product): NonNullable<Product["componentScop
 
 function formatComponentList(values: string[]): string {
   return values.join(", ");
+}
+
+type ProductDetailRow = [string, string];
+
+function isProductDetailRow(row: ProductDetailRow | null): row is ProductDetailRow {
+  return row !== null;
+}
+
+function getComponentScopeNotice(supplyModel: ProductSupplyModel): {
+  title: string;
+  body: string;
+} {
+  if (supplyModel === "certified-electrical-kit") {
+    return {
+      title: "Certified kit scope",
+      body: "This listing separates ArcVane physical components from any certified electrical components named below. Components not listed remain customer-supplied.",
+    };
+  }
+
+  if (supplyModel === "complete-assembled-system") {
+    return {
+      title: "Complete assembled system scope",
+      body: "This listing separates the assembled ArcVane system from any optional or replacement components that remain outside the supplied set.",
+    };
+  }
+
+  return {
+    title: "Decorative component, not electrical assembly",
+    body: "This listing covers the ArcVane physical components only. E27 lamp holders, sockets, cords, switches, plugs, wiring, and LED bulbs are sourced separately by the customer.",
+  };
 }
 
 function getShadeCompatibilityLine(product: Product): string {
@@ -118,6 +150,8 @@ export function ProductDetail({ product }: { product: Product }) {
   const selectedImage = toneImageForMode(selectedToneImages, selectedImageMode, fallbackImage);
   const productTimeState = formatTimeState(product.timeState);
   const componentScope = useMemo(() => getComponentScope(product), [product]);
+  const supplyModel = componentScope.supplyModel ?? "decorative-components-only";
+  const scopeNotice = getComponentScopeNotice(supplyModel);
   const canAdd = selectedColour.length > 0;
 
   const sendBuyerEvent = useCallback(
@@ -180,12 +214,15 @@ export function ProductDetail({ product }: { product: Product }) {
     sendBuyerEvent,
   ]);
 
-  const details = [
+  const detailRows: Array<ProductDetailRow | null> = [
     ["Scale and dimensions", product.dimensions],
     ["Material and finish", product.material],
     ["Colour options", product.colours.join(", ")],
     ["Compatibility basis", `${primaryAdapter}-compatible / low-heat LED only`],
     ["Included by ArcVane", formatComponentList(componentScope.included)],
+    componentScope.electricalIncluded?.length
+      ? ["Electrical components supplied", formatComponentList(componentScope.electricalIncluded)]
+      : null,
     ["Not included", formatComponentList(componentScope.notIncluded)],
     ["Customer supplies", formatComponentList(componentScope.customerSupplied)],
     [
@@ -197,6 +234,7 @@ export function ProductDetail({ product }: { product: Product }) {
       "Designed around compact packing dimensions so fulfilment can be arranged cleanly after order.",
     ],
   ];
+  const details = detailRows.filter(isProductDetailRow);
 
   return (
     <>
@@ -299,14 +337,8 @@ export function ProductDetail({ product }: { product: Product }) {
                 <div className="flex items-start gap-3">
                   <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-ts-accent" />
                   <div>
-                    <h2 className="text-sm font-semibold text-ts-text">
-                      Decorative component, not electrical assembly
-                    </h2>
-                    <p className="mt-2 text-sm leading-7 text-ts-muted">
-                      This listing covers the ArcVane physical components only. E27 lamp holders,
-                      sockets, cords, switches, plugs, wiring, and LED bulbs are sourced separately
-                      by the customer.
-                    </p>
+                    <h2 className="text-sm font-semibold text-ts-text">{scopeNotice.title}</h2>
+                    <p className="mt-2 text-sm leading-7 text-ts-muted">{scopeNotice.body}</p>
                   </div>
                 </div>
               </div>
