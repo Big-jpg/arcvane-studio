@@ -417,7 +417,8 @@ export function ProductDetail({ product }: { product: Product }) {
               </button>
 
               <p className="mt-4 text-center text-xs leading-6 text-ts-muted">
-                Need a fit or finish clarification? Contact ArcVane before ordering.
+                Added pieces appear in your selection for review before checkout. Fit, finish, and
+                low-heat LED acknowledgement are confirmed before ordering.
               </p>
             </div>
           </div>

@@ -34,7 +34,7 @@ export function CartPageContent() {
     setCheckoutError(null);
 
     if (!state.ledAcknowledged) {
-      setCheckoutError("You must acknowledge LED bulb usage before checkout.");
+      setCheckoutError("You must acknowledge low-heat LED-only use before checkout.");
       return;
     }
 
@@ -265,8 +265,8 @@ export function CartPageContent() {
                     className="mt-0.5 h-4 w-4 shrink-0 rounded border-charcoal/30 accent-charcoal"
                   />
                   <span className="text-xs leading-relaxed text-charcoal/80">
-                    I confirm I will use LED bulbs only with these lampshades. These products are
-                    not designed for incandescent or halogen bulbs.
+                    I confirm I will use low-heat LED bulbs only with these lampshades. These
+                    products are not designed for incandescent, halogen, heat lamp, or appliance bulbs.
                   </span>
                 </label>
               </div>
@@ -284,12 +284,16 @@ export function CartPageContent() {
                     : "cursor-not-allowed bg-charcoal/20 text-charcoal/40",
                 )}
               >
-                {isCheckingOut
-                  ? "Starting secure checkout..."
-                  : state.ledAcknowledged
-                    ? "Proceed to secure checkout"
-                    : "Confirm LED bulb usage to continue"}
+                  {isCheckingOut
+                    ? "Starting secure checkout..."
+                    : state.ledAcknowledged
+                      ? "Proceed to secure checkout"
+                      : "Confirm low-heat LED use to continue"}
               </button>
+
+              <p className="mt-3 text-center text-xs leading-6 text-charcoal/45">
+                After confirmation, checkout opens to review delivery and payment details securely.
+              </p>
 
               {checkoutError && (
                 <p className="mt-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-center text-xs text-red-700">
@@ -299,7 +303,7 @@ export function CartPageContent() {
 
               {!state.ledAcknowledged && !checkoutError && (
                 <p className="mt-2 text-center text-xs text-charcoal/40">
-                  You must acknowledge LED bulb usage before checkout.
+                  You must acknowledge low-heat LED-only use before checkout.
                 </p>
               )}
             </div>
