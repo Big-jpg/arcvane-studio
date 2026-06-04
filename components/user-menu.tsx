@@ -46,7 +46,7 @@ export function UserMenu() {
     return (
       <Link
         href="/login"
-        className="text-sm font-medium text-charcoal/70 transition-colors hover:text-charcoal"
+        className="text-sm font-medium text-ts-muted transition-colors hover:text-ts-text"
       >
         Sign in
       </Link>
@@ -64,27 +64,27 @@ export function UserMenu() {
         onClick={() => setOpen(!open)}
         className={cn(
           "flex items-center gap-1.5 rounded-full py-1 pl-1 pr-2 text-sm transition-colors",
-          "hover:bg-charcoal/5",
-          open && "bg-charcoal/5",
+          "hover:bg-ts-bg/60",
+          open && "bg-ts-bg/60",
         )}
         aria-expanded={open}
         aria-haspopup="true"
       >
-        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-charcoal text-xs font-bold text-warm-white">
+        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-ts-text text-xs font-bold text-ts-bg">
           {initial}
         </span>
         <ChevronDown
-          className={cn("h-3.5 w-3.5 text-charcoal/50 transition-transform", open && "rotate-180")}
+          className={cn("h-3.5 w-3.5 text-ts-muted transition-transform", open && "rotate-180")}
         />
       </button>
 
       {/* Dropdown */}
       {open && (
-        <div className="absolute right-0 top-full z-50 mt-2 w-64 rounded-xl border border-charcoal/10 bg-warm-white shadow-lg">
+        <div className="absolute right-0 top-full z-50 mt-2 w-64 rounded-xl border border-ts-accent/15 bg-ts-surface text-ts-text shadow-lg">
           {/* User info */}
-          <div className="border-b border-charcoal/10 px-4 py-3">
-            <p className="text-xs font-medium text-charcoal/50">Signed in as</p>
-            <p className="text-sm font-medium text-charcoal truncate">{email}</p>
+          <div className="border-b border-ts-accent/15 px-4 py-3">
+            <p className="text-xs font-medium text-ts-muted">Signed in as</p>
+            <p className="truncate text-sm font-medium text-ts-text">{email}</p>
           </div>
 
           {/* Menu items */}
@@ -92,7 +92,7 @@ export function UserMenu() {
             <Link
               href="/account"
               onClick={() => setOpen(false)}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm text-charcoal/70 transition-colors hover:bg-charcoal/5 hover:text-charcoal"
+              className="flex items-center gap-3 px-4 py-2.5 text-sm text-ts-muted transition-colors hover:bg-ts-bg/60 hover:text-ts-text"
             >
               <User className="h-4 w-4" />
               Account
@@ -100,7 +100,7 @@ export function UserMenu() {
             <Link
               href="/account/orders"
               onClick={() => setOpen(false)}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm text-charcoal/70 transition-colors hover:bg-charcoal/5 hover:text-charcoal"
+              className="flex items-center gap-3 px-4 py-2.5 text-sm text-ts-muted transition-colors hover:bg-ts-bg/60 hover:text-ts-text"
             >
               <Package className="h-4 w-4" />
               Orders
@@ -108,14 +108,14 @@ export function UserMenu() {
           </div>
 
           {/* Sign out */}
-          <div className="border-t border-charcoal/10 py-1">
+          <div className="border-t border-ts-accent/15 py-1">
             <button
               type="button"
               onClick={() => {
                 setOpen(false);
                 signOut({ callbackUrl: "/" });
               }}
-              className="flex w-full items-center gap-3 px-4 py-2.5 text-sm text-charcoal/70 transition-colors hover:bg-charcoal/5 hover:text-charcoal"
+              className="flex w-full items-center gap-3 px-4 py-2.5 text-sm text-ts-muted transition-colors hover:bg-ts-bg/60 hover:text-ts-text"
             >
               <LogOut className="h-4 w-4" />
               Sign out

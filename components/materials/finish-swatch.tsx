@@ -68,7 +68,7 @@ export function FinishSwatch({ name, variants }: FinishSwatchProps) {
   }
 
   return (
-    <article className="group relative z-0 overflow-hidden rounded-[1.6rem] border border-ts-accent/15 bg-ts-surface/70 p-3 shadow-[0_14px_45px_rgba(0,0,0,0.08)] transition-[transform,box-shadow,border-color,background-color] duration-300 ease-out hover:z-20 hover:-translate-y-1.5 hover:scale-[1.025] hover:border-ts-accent/35 hover:shadow-[0_24px_80px_rgba(0,0,0,0.16)] focus-within:z-20 focus-within:-translate-y-1.5 focus-within:scale-[1.025] focus-within:border-ts-accent/35 focus-within:shadow-[0_24px_80px_rgba(0,0,0,0.16)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100 motion-reduce:focus-within:translate-y-0 motion-reduce:focus-within:scale-100">
+    <article className="group relative z-0 overflow-hidden rounded-[1.6rem] border border-ts-accent/15 bg-ts-surface/70 p-3 shadow-[0_14px_45px_rgba(0,0,0,0.08)] transition-[transform,box-shadow,border-color,background-color] duration-300 ease-out hover:z-20 hover:-translate-y-1.5 hover:scale-[1.025] hover:border-ts-accent/35 hover:shadow-[0_24px_80px_rgba(0,0,0,0.16)] focus-within:z-20 focus-within:-translate-y-1.5 focus-within:scale-[1.025] focus-within:border-ts-accent/35 focus-within:shadow-[0_24px_80px_rgba(0,0,0,0.16)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:focus-within:translate-y-0">
       <div
         role="img"
         aria-label={`${name}, ${activeVariant.view}`}

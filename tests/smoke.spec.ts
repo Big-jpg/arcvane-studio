@@ -21,13 +21,9 @@ test.describe("ArcVane public smoke coverage", () => {
     );
     await expect(primaryNav.getByRole("link", { name: "Process" })).toHaveAttribute(
       "href",
-      "/production",
+      "/process",
     );
     await expect(primaryNav.getByRole("link", { name: "About" })).toHaveAttribute("href", "/about");
-    await expect(primaryNav.getByRole("link", { name: "Contact" })).toHaveAttribute(
-      "href",
-      "/contact",
-    );
 
     await expect(primaryNav.getByRole("link", { name: "Custom" })).toHaveCount(0);
     await expect(primaryNav.getByRole("link", { name: "Fitting Guide" })).toHaveCount(0);
@@ -35,56 +31,84 @@ test.describe("ArcVane public smoke coverage", () => {
     await expect(primaryNav.getByRole("link", { name: "Shop" })).toHaveCount(0);
   });
 
-  test("home page loads coastal lighting content", async ({ page }) => {
+  test("home page loads and scroll-driven time-state changes are applied", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/");
 
-    await expect(page.getByRole("heading", { name: "Light first." })).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: /Not a lamp\. A lighting language/i }),
+      page.getByRole("heading", { name: "Light, shaped for the room it enters." }),
     ).toBeVisible();
-    await expect(page.getByText(/Western Australian coast/i)).toBeVisible();
-    await expect(page.getByRole("link", { name: /Explore the collection/i })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /A lighting system, not a single object/i }),
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: /Explore the light/i })).toBeVisible();
+
+    await page.locator("#chapter-dawn").scrollIntoViewIfNeeded();
+    await expect.poll(() => page.evaluate(() => document.documentElement.dataset.time)).toBe("dawn");
+
+    await page.locator("#chapter-midday").scrollIntoViewIfNeeded();
+    await expect.poll(() => page.evaluate(() => document.documentElement.dataset.time)).toBe("midday");
+
+    await page.locator("#chapter-dusk").scrollIntoViewIfNeeded();
+    await expect.poll(() => page.evaluate(() => document.documentElement.dataset.time)).toBe("dusk");
+
+    await page.locator("#chapter-evening").scrollIntoViewIfNeeded();
+    await expect.poll(() => page.evaluate(() => document.documentElement.dataset.time)).toBe("evening");
   });
 
-  test("collection page loads current product names", async ({ page }) => {
+  test("reduced motion keeps homepage assembly visible without sequential reveal", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto("/");
+
+    await expect(
+      page.getByRole("img", { name: /Scroll-led drawing of the ArcVane tripod stand/i }),
+    ).toBeVisible();
+    await expect
+      .poll(() => page.locator('svg[aria-label^="Scroll-led drawing"] .opacity-0').count())
+      .toBe(0);
+  });
+
+  test("collection page loads product cards with time-state labels", async ({ page }) => {
     await page.goto("/products");
 
     await expect(
-      page.getByRole("heading", { name: /Coastal lighting pieces, released in small runs/i }),
+      page.getByRole("heading", { name: /Objects for shaping domestic light/i }),
     ).toBeVisible();
     await expect(page.getByRole("link", { name: /Shell Fan/i })).toBeVisible();
     await expect(page.getByRole("link", { name: /Coral Veil/i })).toBeVisible();
     await expect(page.getByRole("link", { name: /Dune Rib/i })).toBeVisible();
+    await expect(page.getByText(/Dawn \/ Midday/i).first()).toBeVisible();
+    await expect(page.getByText(/Dusk \/ Evening/i).first()).toBeVisible();
   });
 
-  test("product detail page loads", async ({ page }) => {
+  test("product detail page loads finish selector, object details, and cart action", async ({ page }) => {
     await page.goto("/products/shell-fan");
 
     await expect(page.getByRole("heading", { name: "Shell Fan" })).toBeVisible();
-    await expect(page.getByText(/Clear PLA, translucent shell-diffusion finish/i)).toBeVisible();
-    await expect(page.getByRole("heading", { name: "LED-only safety" })).toBeVisible();
+    await expect(page.getByText(/Best in Dawn \/ Midday/i)).toBeVisible();
+    await expect(page.getByText("Material finish", { exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Object details" })).toBeVisible();
+    await expect(page.getByRole("button", { name: /Add to selection/i })).toBeVisible();
   });
 
-  test("materials page loads", async ({ page }) => {
+  test("materials page loads the swatch grid", async ({ page }) => {
     await page.goto("/materials");
 
-    await expect(
-      page.getByRole("heading", { name: /Translucent PLA, treated like a coastal material/i }),
-    ).toBeVisible();
-    await expect(page.getByText(/ArcVane uses clear PLA, matte finishes/i)).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Material finishes/i })).toBeVisible();
+    await expect(page.getByText(/Every form begins with a material decision/i)).toBeVisible();
+    await expect(page.locator("article")).toHaveCount(6);
   });
 
-  test("process page loads", async ({ page }) => {
-    await page.goto("/production");
+  test("process page loads through the canonical process route", async ({ page }) => {
+    await page.goto("/process");
 
     await expect(
       page.getByRole("heading", {
         name: /Made slowly, packed simply, released in small runs/i,
       }),
     ).toBeVisible();
-    await expect(
-      page.getByText(/No offshore catalogue\. No sprawling options matrix/i),
-    ).toBeVisible();
+    await expect(page.getByText(/No offshore catalogue\. No sprawling options matrix/i)).toBeVisible();
   });
 
   test("about page loads", async ({ page }) => {
@@ -117,20 +141,27 @@ test.describe("ArcVane public smoke coverage", () => {
     await expect(page.getByText(/arranged local pickup/i)).toBeVisible();
   });
 
-  test("demoted public routes redirect to canonical pages", async ({ page }) => {
-    await page.goto("/custom");
-    await expect(page).toHaveURL(/\/contact$/);
+  test("cart page remains available", async ({ page }) => {
+    await page.goto("/cart");
 
-    await page.goto("/pickup");
-    await expect(page).toHaveURL(/\/shipping$/);
+    await expect(page.getByRole("heading", { name: "Your Selection", exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Your selection is empty", exact: true })).toBeVisible();
   });
 
-  test("sitemap omits demoted public routes", async ({ request }) => {
+  test("admin-lite routes do not inherit the storefront data-time attribute", async ({ page }) => {
+    await page.goto("/admin-lite");
+
+    await expect.poll(() => page.evaluate(() => document.documentElement.dataset.time ?? null)).toBeNull();
+  });
+
+  test("sitemap uses the canonical process route and omits demoted public routes", async ({ request }) => {
     const response = await request.get("/sitemap.xml");
     expect(response.ok()).toBe(true);
 
     const sitemap = await response.text();
+    expect(sitemap).toContain("/process");
     expect(sitemap).toContain("/shipping");
+    expect(sitemap).not.toContain("/production");
     expect(sitemap).not.toContain("/custom");
     expect(sitemap).not.toContain("/pickup");
   });

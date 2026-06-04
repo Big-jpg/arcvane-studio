@@ -169,11 +169,11 @@ export function ProductDetail({ product }: { product: Product }) {
 
   return (
     <>
-      <div className="border-b border-charcoal/10 bg-off-white">
+      <div className="border-b border-ts-accent/20 bg-ts-bg">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <Link
             href="/products"
-            className="inline-flex items-center gap-2 text-sm text-deep-brown/55 transition-colors hover:text-charcoal"
+            className="inline-flex items-center gap-2 text-sm text-ts-muted transition-colors hover:text-ts-text"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             Back to collection
@@ -181,11 +181,11 @@ export function ProductDetail({ product }: { product: Product }) {
         </div>
       </div>
 
-      <section className="bg-off-white py-10 sm:py-16">
+      <section className="bg-ts-bg py-10 text-ts-text transition-colors duration-300 sm:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1.08fr)_minmax(380px,0.92fr)] lg:gap-16">
             <div>
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-charcoal/10 bg-shell shadow-sm shadow-charcoal/5">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-ts-accent/20 bg-ts-surface shadow-sm ">
                 <ProductImage
                   src={selectedImage}
                   alt={`${product.title} in ${selectedColour || "selected finish"}, ${TONE_IMAGE_MODE_LABELS[selectedImageMode].toLowerCase()}`}
@@ -208,25 +208,25 @@ export function ProductDetail({ product }: { product: Product }) {
                         type="button"
                         onClick={() => setSelectedImageMode(mode)}
                         className={cn(
-                          "group rounded-2xl border bg-shell p-2 text-left transition-all",
+                          "group rounded-2xl border bg-ts-surface p-2 text-left transition-all motion-reduce:transition-none",
                           active
-                            ? "border-charcoal shadow-sm shadow-charcoal/10"
-                            : "border-charcoal/10 hover:border-charcoal/30",
+                            ? "border-ts-text shadow-sm "
+                            : "border-ts-accent/20 hover:border-ts-text/30",
                         )}
                       >
-                        <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-off-white">
+                        <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-ts-bg">
                           <ProductImage
                             src={image}
                             alt={`${product.title} ${selectedToneImages.tone} ${TONE_IMAGE_MODE_LABELS[mode].toLowerCase()} view`}
                             fill
-                            className="object-contain p-3 transition duration-300 group-hover:scale-[1.02]"
+                            className="object-contain p-3 transition duration-300 group-hover:scale-[1.02] motion-reduce:transition-none"
                             sizes="(max-width: 640px) 50vw, 220px"
                           />
                         </div>
                         <span
                           className={cn(
                             "mt-2 block text-xs font-semibold uppercase tracking-[0.16em]",
-                            active ? "text-charcoal" : "text-deep-brown/45",
+                            active ? "text-ts-text" : "text-ts-muted",
                           )}
                         >
                           {TONE_IMAGE_MODE_LABELS[mode]}
@@ -236,7 +236,7 @@ export function ProductDetail({ product }: { product: Product }) {
                   })}
                 </div>
               ) : null}
-              <p className="mt-4 text-xs leading-6 text-deep-brown/50">
+              <p className="mt-4 text-xs leading-6 text-ts-muted">
                 Finish tone photography is paired as quiet and illuminated views. Colour,
                 translucency, and surface rhythm may shift with LED temperature, room light, and
                 small-batch finishing.
@@ -245,33 +245,33 @@ export function ProductDetail({ product }: { product: Product }) {
 
             <div className="flex flex-col">
               <div className="flex flex-wrap items-center gap-3">
-                <p className="text-xs font-semibold uppercase tracking-[0.26em] text-warm-amber">
+                <p className="text-xs font-semibold uppercase tracking-[0.26em] text-ts-accent">
                   {product.category}
                 </p>
                 {productTimeState ? (
-                  <span className="rounded-full border border-warm-amber/25 bg-warm-amber/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-weathered-post">
+                  <span className="rounded-full border border-ts-accent/25 bg-ts-accent/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-ts-muted">
                     Best in {productTimeState}
                   </span>
                 ) : null}
               </div>
-              <h1 className="mt-4 text-4xl font-semibold tracking-tight text-charcoal sm:text-5xl">
+              <h1 className="mt-4 text-4xl font-semibold tracking-tight text-ts-text sm:text-5xl">
                 {product.title}
               </h1>
-              <p className="mt-5 text-2xl font-semibold text-charcoal">
+              <p className="mt-5 text-2xl font-semibold text-ts-text">
                 ${product.price}{" "}
-                <span className="text-base font-normal text-deep-brown/45">{product.currency}</span>
+                <span className="text-base font-normal text-ts-muted">{product.currency}</span>
               </p>
 
-              <p className="mt-7 text-base leading-8 text-deep-brown/70">{product.description}</p>
+              <p className="mt-7 text-base leading-8 text-ts-muted">{product.description}</p>
 
-              <div className="mt-8 rounded-2xl border border-charcoal/10 bg-shell/70 p-5">
+              <div className="mt-8 rounded-2xl border border-ts-accent/20 bg-ts-surface/70 p-5">
                 <div className="flex items-start gap-3">
-                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-dune-grass" />
+                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-ts-accent" />
                   <div>
-                    <h2 className="text-sm font-semibold text-charcoal">
+                    <h2 className="text-sm font-semibold text-ts-text">
                       Part of the shared lighting system
                     </h2>
-                    <p className="mt-2 text-sm leading-7 text-deep-brown/65">
+                    <p className="mt-2 text-sm leading-7 text-ts-muted">
                       This piece belongs to ArcVane&apos;s modular lighting apparatus. There is no
                       complex adapter language in the current collection; use compatible E27
                       hardware and low-heat LED bulbs only.
@@ -281,8 +281,8 @@ export function ProductDetail({ product }: { product: Product }) {
               </div>
 
               {product.colours.length > 0 && (
-                <div className="mt-8 border-t border-charcoal/10 pt-7">
-                  <label className="text-sm font-semibold text-charcoal">Material finish</label>
+                <div className="mt-8 border-t border-ts-accent/20 pt-7">
+                  <label className="text-sm font-semibold text-ts-text">Material finish</label>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {product.colours.map((colour) => (
                       <button
@@ -295,20 +295,20 @@ export function ProductDetail({ product }: { product: Product }) {
                         className={cn(
                           "rounded-full border px-4 py-2 text-sm font-medium transition-all",
                           selectedColour === colour
-                            ? "border-charcoal bg-charcoal text-off-white"
-                            : "border-charcoal/15 text-deep-brown/65 hover:border-charcoal/35 hover:text-charcoal",
+                            ? "border-ts-text bg-ts-text text-ts-bg"
+                            : "border-ts-accent/25 text-ts-muted hover:border-ts-text/35 hover:text-ts-text",
                         )}
                       >
                         {colour}
                       </button>
                     ))}
                   </div>
-                  <p className="mt-3 text-xs leading-6 text-deep-brown/50">
+                  <p className="mt-3 text-xs leading-6 text-ts-muted">
                     Material finishes are selected as studio directions, not exact industrial colour
                     matches. Small differences between batches are expected.
                   </p>
                   {selectedToneImages && !selectedToneImages.complete ? (
-                    <p className="mt-2 text-xs leading-6 text-warm-amber">
+                    <p className="mt-2 text-xs leading-6 text-ts-accent">
                       This finish is missing one of its paired views, so the available product
                       photography is being reused.
                     </p>
@@ -316,54 +316,54 @@ export function ProductDetail({ product }: { product: Product }) {
                 </div>
               )}
 
-              <div className="mt-8 border-t border-charcoal/10 pt-7">
-                <h2 className="text-sm font-semibold text-charcoal">Object details</h2>
-                <dl className="mt-4 divide-y divide-charcoal/10 rounded-2xl border border-charcoal/10 bg-off-white">
+              <div className="mt-8 border-t border-ts-accent/20 pt-7">
+                <h2 className="text-sm font-semibold text-ts-text">Object details</h2>
+                <dl className="mt-4 divide-y divide-ts-accent/15 rounded-2xl border border-ts-accent/20 bg-ts-bg">
                   {details.map(([label, value]) => (
                     <div
                       key={label}
                       className="grid grid-cols-1 gap-2 px-4 py-4 sm:grid-cols-[150px_1fr]"
                     >
-                      <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-weathered-post">
+                      <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-ts-muted">
                         {label}
                       </dt>
-                      <dd className="text-sm leading-7 text-deep-brown/70">{value}</dd>
+                      <dd className="text-sm leading-7 text-ts-muted">{value}</dd>
                     </div>
                   ))}
                 </dl>
               </div>
 
               <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div className="rounded-2xl border border-warm-amber/25 bg-warm-amber/5 p-5">
-                  <ShieldCheck className="h-5 w-5 text-warm-amber" />
-                  <h2 className="mt-4 text-sm font-semibold text-charcoal">Low-heat LED only</h2>
-                  <p className="mt-2 text-sm leading-7 text-deep-brown/65">
+                <div className="rounded-2xl border border-ts-accent/25 bg-ts-accent/5 p-5">
+                  <ShieldCheck className="h-5 w-5 text-ts-accent" />
+                  <h2 className="mt-4 text-sm font-semibold text-ts-text">Low-heat LED only</h2>
+                  <p className="mt-2 text-sm leading-7 text-ts-muted">
                     Use modern low-heat LED bulbs only. Do not use incandescent, halogen, heat
                     lamp, or other high-temperature bulbs with printed lighting objects.
                   </p>
                   <Link
                     href="/safety"
-                    className="mt-3 inline-flex text-sm font-semibold text-charcoal underline underline-offset-4"
+                    className="mt-3 inline-flex text-sm font-semibold text-ts-text underline underline-offset-4"
                   >
                     Read safety note
                   </Link>
                 </div>
 
-                <div className="rounded-2xl border border-charcoal/10 bg-shell/60 p-5">
-                  <PackageCheck className="h-5 w-5 text-weathered-post" />
-                  <h2 className="mt-4 text-sm font-semibold text-charcoal">
+                <div className="rounded-2xl border border-ts-accent/20 bg-ts-surface/60 p-5">
+                  <PackageCheck className="h-5 w-5 text-ts-muted" />
+                  <h2 className="mt-4 text-sm font-semibold text-ts-text">
                     Layering and compatibility
                   </h2>
-                  <p className="mt-2 text-sm leading-7 text-deep-brown/65">
+                  <p className="mt-2 text-sm leading-7 text-ts-muted">
                     {getShadeCompatibilityLine(product)}
                   </p>
                 </div>
               </div>
 
-              <div className="mt-6 rounded-2xl border border-charcoal/10 bg-horizon-blue/20 p-5">
+              <div className="mt-6 rounded-2xl border border-ts-accent/20 bg-ts-surface/70 p-5">
                 <div className="flex items-start gap-3">
-                  <Info className="mt-0.5 h-5 w-5 shrink-0 text-weathered-post" />
-                  <p className="text-sm leading-7 text-deep-brown/70">
+                  <Info className="mt-0.5 h-5 w-5 shrink-0 text-ts-muted" />
+                  <p className="text-sm leading-7 text-ts-muted">
                     Small-batch finishing is part of the object. Fine layer rhythm, variable
                     translucency, and subtle tone changes are expected and treated as natural
                     texture, not defects.
@@ -378,15 +378,15 @@ export function ProductDetail({ product }: { product: Product }) {
                 className={cn(
                   "mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-4 text-sm font-semibold transition-all",
                   canAdd
-                    ? "bg-charcoal text-off-white hover:bg-deep-brown"
-                    : "cursor-not-allowed bg-charcoal/15 text-charcoal/40",
+                    ? "bg-ts-text text-ts-bg hover:bg-ts-accent"
+                    : "cursor-not-allowed bg-ts-text/15 text-ts-text/40",
                 )}
               >
                 <ShoppingBag className="h-4 w-4" />
                 Add to selection
               </button>
 
-              <p className="mt-4 text-center text-xs leading-6 text-deep-brown/50">
+              <p className="mt-4 text-center text-xs leading-6 text-ts-muted">
                 Need a fit or finish clarification? Contact ArcVane before ordering.
               </p>
             </div>
