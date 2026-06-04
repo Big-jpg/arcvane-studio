@@ -35,11 +35,11 @@
 }
 
 :root[data-time="dusk"] {
-  --bg: #201f24;
-  --surface: #2b2930;
-  --text: #f3eadc;
-  --muted: #b8ab9a;
-  --accent: #c7773f;
+  --bg: #c4c4e1;
+  --surface: #d4d4ec;
+  --text: #1e1e2e;
+  --muted: #5a5a7a;
+  --accent: #8b6cc4;
 }
 
 :root[data-time="evening"] {
