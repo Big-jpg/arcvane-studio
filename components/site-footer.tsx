@@ -51,8 +51,8 @@ export function SiteFooter() {
               </span>
             </Link>
             <p className="max-w-sm text-sm leading-relaxed text-shell/75">
-              A Western Australian lighting atelier for translucent PLA diffusion, modular E27 shade
-              systems, and small-run coastal objects.
+              A Western Australian lighting atelier for translucent PLA diffusion, decorative shade
+              systems, stands, diffusers, and modular accessories.
             </p>
           </div>
 

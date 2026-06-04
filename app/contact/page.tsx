@@ -71,8 +71,8 @@ export default function ContactPage() {
 
                 <div className="mt-6 grid gap-4 text-sm leading-7 text-deep-brown/70 sm:grid-cols-2">
                   <p>
-                    Product availability, current pieces, shade sets, E27 compatibility, low-power
-                    LED use, materials, colours, and finish variation.
+                    Product availability, current pieces, shade sets, E27 compatibility, customer-sourced
+                    low-power LED use, materials, colours, and finish variation.
                   </p>
 
                   <p>
@@ -89,9 +89,9 @@ export default function ContactPage() {
               </h2>
 
               <p className="mt-5 max-w-3xl text-sm leading-7 text-deep-brown/70">
-                ArcVane is currently focused on a narrow collection of finished pieces and
+                ArcVane is currently focused on a narrow collection of decorative components and
                 compatible shade systems. Product, fitting, colour, availability, order, and
-                fulfilment questions are welcome where they help match an existing piece to a real
+                fulfilment questions are welcome where they help match an ArcVane piece to a real
                 room.
               </p>
 

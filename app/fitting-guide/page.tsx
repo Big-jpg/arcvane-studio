@@ -9,9 +9,9 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "E27 Fitting Guide",
+  title: "E27 Compatibility Guide",
   description:
-    "ArcVane Studio fitting guide for E27 lighting hardware, included product hardware, and LED-only use.",
+    "ArcVane Studio guide for E27 compatibility, customer-sourced electrical components, and LED-only use with decorative shade systems.",
   robots: {
     index: false,
     follow: false,
@@ -21,18 +21,18 @@ export const metadata: Metadata = {
 const notes = [
   {
     icon: Lightbulb,
-    title: "E27 by default",
-    text: "The current collection is built around E27 lighting hardware, not multiple public adapter pathways.",
+    title: "E27-compatible forms",
+    text: "The current collection is shaped for common E27 lamp holders and low-power LED bulbs sourced separately by the customer.",
   },
   {
     icon: CheckCircle2,
-    title: "Check what is included",
-    text: "Each product should state whether it includes a socket, cord, LED bulb, shade hardware, or accessory parts.",
+    title: "Check what ArcVane supplies",
+    text: "Each product should state whether it includes a shade, stand, diffuser, mechanical adapter, or modular accessory. Electrical components are not included.",
   },
   {
     icon: AlertTriangle,
     title: "Low-power LED only",
-    text: "Do not use incandescent, halogen, heat lamp, appliance, or other high-temperature bulbs with PLA lighting pieces.",
+    text: "Use only low-power LED bulbs with ArcVane PLA shades, diffusers, and accessories; avoid incandescent, halogen, heat lamp, appliance, and other high-temperature bulbs.",
   },
 ];
 
@@ -46,13 +46,13 @@ export default function FittingGuidePage() {
           </p>
 
           <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-charcoal sm:text-6xl">
-            A simple E27 system.
+            A simple E27-compatible system.
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
-            ArcVane pieces are designed around E27 hardware and compatible
-            low-power LED bulbs. Product pages should make the included
-            hardware clear before ordering.
+            ArcVane pieces are designed as decorative components for compatible
+            E27 lamp holders and low-power LED bulbs sourced separately. Product pages
+            should make the supplied physical components clear before ordering.
           </p>
         </div>
       </section>
@@ -92,10 +92,10 @@ export default function FittingGuidePage() {
                 </h2>
 
                 <p className="mt-5 max-w-3xl text-sm leading-7 text-deep-brown/70">
-                  Check the product dimensions, shade diameter, included
-                  hardware, bulb requirements, and whether the listing is for a
-                  finished lamp, shade set, single shade, or accessory. If you
-                  are matching an existing lamp base, contact the studio before
+                  Check the product dimensions, shade diameter, supplied
+                  ArcVane components, bulb requirements, and whether the listing is for a
+                  shade, shade set, stand, diffuser, adapter, or accessory. If you
+                  are matching an existing E27 lamp holder or base, contact the studio before
                   ordering.
                 </p>
 
@@ -125,8 +125,8 @@ export default function FittingGuidePage() {
 
             <p className="mt-5 max-w-3xl text-sm leading-7 text-deep-brown/70">
               ArcVane shades and adapters are mechanical product components.
-              They do not alter wiring, contacts, insulation, earthing, or fixed
-              electrical infrastructure. If a fitting is damaged, loose,
+              They do not include or alter sockets, cords, switches, plugs, wiring,
+              contacts, insulation, earthing, or fixed electrical infrastructure. If a fitting is damaged, loose,
               discoloured, overheating, or otherwise questionable, have it
               checked by a qualified electrician before use.
             </p>

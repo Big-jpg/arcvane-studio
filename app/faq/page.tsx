@@ -5,19 +5,19 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "FAQ",
   description:
-    "ArcVane Studio FAQ covering E27 fittings, LED-only use, PLA materials, small-run production, fulfilment, and returns.",
+    "ArcVane Studio FAQ covering E27 compatibility, LED-only use, PLA materials, small-run production, fulfilment, and returns.",
 };
 
 const faqs = [
   {
-    question: "What fitting system do ArcVane products use?",
+    question: "What electrical components do I need?",
     answer:
-      "The current collection is built around E27 hardware. Product pages should state what is included before ordering.",
+      "The current collection is shaped for compatible E27 lamp holders and low-power LED bulbs sourced separately by the customer. Product pages state the ArcVane shade, stand, diffuser, adapter, or accessory components supplied.",
   },
   {
     question: "Can I use incandescent or halogen bulbs?",
     answer:
-      "No. ArcVane products are LED-only. Do not use incandescent, halogen, heat lamp, appliance, or other high-temperature bulbs with PLA lighting pieces.",
+      "Use only low-power LED bulbs with ArcVane PLA shades, diffusers, and accessories. Do not use incandescent, halogen, heat lamp, appliance, or other high-temperature bulbs.",
   },
   {
     question: "Why use PLA?",
@@ -68,8 +68,8 @@ export default function FAQPage() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
-            E27 hardware, low-power LED bulbs, compact fulfilment, small-run production, and PLA
-            materials.
+            E27 compatibility, customer-sourced low-power LED bulbs, compact fulfilment,
+            small-run production, and PLA materials.
           </p>
         </div>
       </section>
@@ -95,7 +95,7 @@ export default function FAQPage() {
 
             <p className="mt-4 text-sm leading-7 text-deep-brown/70">
               For fit, finish, delivery, order, or material questions, contact the studio before
-              ordering. For bulb and heat limits, read the safety note.
+              ordering. For LED bulb dimensions, heat limits, and clearances, read the safety note.
             </p>
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">

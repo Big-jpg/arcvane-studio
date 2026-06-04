@@ -66,7 +66,7 @@ export default function PickupPage() {
             </h2>
 
             <p className="mt-5 max-w-3xl text-sm leading-7 text-deep-brown/70">
-              Finished shades, shade sets, and compact table-lamp parts are
+              Finished shades, shade sets, stands, and compact modular accessories are
               sized for efficient packing and delivery. The constraint keeps
               the work practical without pushing it into disposable flat-pack
               territory.

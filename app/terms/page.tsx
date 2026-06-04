@@ -82,14 +82,14 @@ export default function TermsPage() {
               </h2>
 
               <p className="mt-4">
-                The current collection is designed around E27 hardware and
-                compatible low-power LED bulbs. Product listings should state
-                what hardware is included with each item.
+                The current collection is designed as decorative ArcVane components
+                for compatible E27 lamp holders and low-power LED bulbs sourced separately by customers. Product listings should state
+                which shades, stands, diffusers, mechanical adapters, or accessories are included with each item.
               </p>
 
               <p className="mt-4">
                 Customers are responsible for checking dimensions, fitting
-                suitability, bulb compatibility, and room context before
+                suitability, electrical-component compatibility, bulb dimensions, and room context before
                 ordering.
               </p>
 
@@ -106,20 +106,20 @@ export default function TermsPage() {
               </h2>
 
               <p className="mt-4">
-                ArcVane products are designed exclusively for use with modern
+                ArcVane PLA shades, diffusers, and accessories are designed exclusively for use with modern
                 low-power LED bulbs.
               </p>
 
               <p className="mt-4">
                 Incandescent, halogen, heat lamp, appliance, or other
-                high-temperature bulbs must not be used with PLA lighting
-                pieces.
+                high-temperature bulbs must not be used with PLA shades, diffusers,
+                or accessories.
               </p>
 
               <p className="mt-4">
                 ArcVane Studio accepts no responsibility for damage, deformation,
                 or unsafe conditions resulting from incompatible bulbs,
-                unsuitable installation, or misuse.
+                unsuitable customer-sourced electrical components, installation, or misuse.
               </p>
             </section>
 
@@ -181,7 +181,7 @@ export default function TermsPage() {
 
               <p className="mt-4">
                 Adapters and shade fittings are mechanical support components
-                only. They do not alter electrical wiring, insulation,
+                only. They do not include or alter sockets, lamp holders, cords, switches, plugs, wiring, insulation,
                 earthing, or fixed electrical infrastructure.
               </p>
 

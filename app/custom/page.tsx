@@ -17,7 +17,7 @@ const enquiryTypes = [
   {
     icon: Ruler,
     title: "Fit clarification",
-    text: "Use this route for practical questions about dimensions, E27 hardware assumptions, shade-pack compatibility, or whether a listed piece suits a known setting.",
+    text: "Use this route for practical questions about dimensions, E27 compatibility assumptions, shade-pack fit, or whether a listed piece suits a known setting.",
   },
   {
     icon: MessageSquare,
@@ -43,7 +43,7 @@ export default function StudioEnquiriesPage() {
             A quiet enquiry route, not the core product offer.
           </h1>
           <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
-            ArcVane now centres on a curated collection of finished E27 lighting objects. This page
+            ArcVane now centres on a curated collection of decorative lighting components and E27-compatible shade systems. This page
             remains available for practical studio questions, not as a primary custom-design service.
           </p>
         </div>
@@ -73,8 +73,8 @@ export default function StudioEnquiriesPage() {
             <div className="mt-5 max-w-3xl space-y-4 text-sm leading-7 text-deep-brown/70">
               <p>
                 The previous custom pathway has been demoted because the rebrand positions ArcVane as
-                a small studio collection rather than a bespoke configuration tool. Finished products,
-                shade sets, table lamps, and accessories are the primary commercial offer.
+                a small studio collection rather than a bespoke configuration tool. Finished decorative components,
+                shade sets, shade-and-stand objects, and accessories are the primary commercial offer.
               </p>
               <p>
                 If your question is about a listed product, include the product name, intended use,

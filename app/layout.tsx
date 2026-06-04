@@ -18,7 +18,7 @@ const inter = Inter({
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://arcvane-studio.com";
 const siteDescription =
-  "A Western Australian lighting atelier creating small-run coastal lighting objects, translucent PLA diffusers, and modular E27 shade systems.";
+  "A Western Australian lighting atelier creating small-run decorative shades, lighting forms, translucent PLA diffusers, stands, and modular accessories for customer-sourced E27 components.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -35,11 +35,11 @@ export const metadata: Metadata = {
   keywords: [
     "Western Australian lighting atelier",
     "coastal lighting design",
-    "E27 shade system",
+    "E27-compatible shade system",
     "PLA diffusion",
     "modular lighting components",
-    "small-run lighting",
-    "domestic lighting objects",
+    "small-run decorative lighting forms",
+    "domestic decorative lighting objects",
   ],
   alternates: {
     canonical: "/",

@@ -82,8 +82,8 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             </h1>
 
             <p className="mt-6 max-w-2xl text-base leading-8 text-ts-muted sm:text-lg">
-              A lighting system, not a single object: shades, diffusers, stands, and finishes designed
-              to change with the room from dawn to evening.
+              A decorative component system, not a complete electrical lamp: shades, diffusers, stands,
+              adapters, and finishes designed to change with the room from dawn to evening.
             </p>
           </div>
 
@@ -92,7 +92,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               <span className="block text-xs font-semibold uppercase tracking-[0.22em] text-ts-muted">
                 Apparatus
               </span>
-              Shared E27 base, diffuser, shade, and low-heat LED source.
+              ArcVane shades, diffusers, stands, and adapters; E27 electrical parts are sourced separately.
             </p>
 
             <p>
@@ -161,8 +161,8 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             </div>
 
             <p className="max-w-md text-sm leading-7 text-ts-muted">
-              Each listing belongs to the same modular lighting system. Finish, opacity, and
-              reflected colour may shift with material, LED temperature, and time of day.
+              Each listing belongs to the same modular decorative system. Finish, opacity, and
+              reflected colour may shift with material, customer-supplied LED temperature, and time of day.
             </p>
           </div>
 

@@ -23,7 +23,7 @@ const productionSteps = [
   {
     icon: Box,
     title: "Compact by design",
-    text: "Forms are built around domestic scale, shared E27 hardware, and practical delivery.",
+    text: "Forms are built around domestic scale, modular ArcVane components, and practical delivery.",
   },
 ];
 
@@ -31,7 +31,7 @@ const timelines = [
   ["Production", "Usually completed within the 5-7 business day dispatch window."],
   [
     "Quality check",
-    "Fit, finish, visible defects, and LED-only suitability are checked before packing.",
+    "Fit, finish, visible defects, and compatibility notes are checked before packing.",
   ],
   [
     "Packing",
@@ -96,8 +96,8 @@ export default function ProductionPage() {
                 </h2>
 
                 <p className="mt-5 text-sm leading-7 text-ts-muted">
-                  Most orders follow the same rhythm: make or finish the piece, check the hardware
-                  fit, pack it properly, then send it out.
+                  Most orders follow the same rhythm: make or finish the piece, check the supplied
+                  component fit, pack it properly, then send it out.
                 </p>
               </div>
 
@@ -130,8 +130,8 @@ export default function ProductionPage() {
               </p>
 
               <p>
-                For finish, hardware, or delivery questions, contact the studio before ordering. The
-                current focus is a curated collection and compatible shade system.
+                For finish, component fit, or delivery questions, contact the studio before ordering. The
+                current focus is a curated collection of decorative components and compatible shade systems.
               </p>
             </div>
 
