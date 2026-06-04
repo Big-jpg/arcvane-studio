@@ -12,6 +12,8 @@ export const products: Product[] = [
     category: "Single Shades",
     description:
       "A shell-ribbed shade that gathers the source into a soft perimeter glow, changing from quiet surface to luminous edge as the room darkens.",
+    timeState: "dawn / midday",
+    behaviourNote: "Translucent ribs keep the source bright but softened.",
     material: "Translucent shell finish with fine rib diffusion",
     dimensions: "Ø 280mm × H 210mm",
     colours: ["Clear PLA", "Shell"],
@@ -32,6 +34,8 @@ export const products: Product[] = [
     category: "Single Shades",
     description:
       "A veiled ribbed form that softens the source before it reaches the room, leaving a slow coral-like texture across nearby surfaces.",
+    timeState: "midday",
+    behaviourNote: "Fine ribs spread clear daylight into a quieter field.",
     material: "Translucent ribbed diffusion finish",
     dimensions: "Ø 270mm × H 220mm",
     colours: ["Clear PLA", "Coastal Blue"],
@@ -52,6 +56,8 @@ export const products: Product[] = [
     category: "Single Shades",
     description:
       "A striated dune shade whose close ribs temper glare and turn the source into bands of sand-coloured shadow and downward warmth.",
+    timeState: "dawn",
+    behaviourNote: "Matte ridges hold glare down and make shadow legible.",
     material: "Matte striated dune finish",
     dimensions: "Ø 260mm × H 190mm",
     colours: ["Sand", "Limestone"],
@@ -72,6 +78,8 @@ export const products: Product[] = [
     category: "Table Lamps",
     description:
       "A complete table lamp pairing a limestone bloom shade with the tripod base, designed to pool low-heat LED light without exposing a hard source.",
+    timeState: "evening",
+    behaviourNote: "A complete lamp for low, settled room light.",
     material: "Limestone-toned diffuser with matte tripod stand",
     dimensions: "Ø 240mm × H 340mm",
     colours: ["Limestone", "Shell", "Warm Amber"],
@@ -92,6 +100,8 @@ export const products: Product[] = [
     category: "Single Shades",
     description:
       "An organic pooling form that holds brightness near the socket and lets light drift through thicker and thinner tidepool-like edges.",
+    timeState: "dusk / evening",
+    behaviourNote: "Variable walls turn the bulb into a slower gradient.",
     material: "Variable-opacity organic diffusion finish",
     dimensions: "Ø 255mm × H 175mm",
     colours: ["Clear PLA", "Shell", "Coastal Blue"],
@@ -112,6 +122,8 @@ export const products: Product[] = [
     category: "Accessories",
     description:
       "A matte tripod stand with a weathered-post calm, giving compatible ArcVane shades a stable base and a grounded contrast to translucent finishes.",
+    timeState: "midday",
+    behaviourNote: "A neutral base that lets shade material carry the light.",
     material: "Matte soft-touch tripod stand finish",
     dimensions: "Ø 180mm footprint × H 165mm",
     colours: ["Sand", "Limestone"],
@@ -132,6 +144,8 @@ export const products: Product[] = [
     category: "Shade Sets",
     description:
       "A three-piece shade set tuned for additive domestic glow, allowing each layer to catch the LED differently as evening light settles in the room.",
+    timeState: "dusk / evening",
+    behaviourNote: "Layered amber forms build warmth as the room dims.",
     material: "Warm amber translucent diffusion finish",
     dimensions: "3 shades, each approx. Ø 220–260mm × H 160–200mm",
     colours: ["Warm Amber", "Sand", "Shell"],
@@ -152,6 +166,8 @@ export const products: Product[] = [
     category: "Shade Sets",
     description:
       "A five-piece shade set exploring shell, rib, dune, and tidepool surfaces, giving one shared E27 system a quiet range of optical behaviours.",
+    timeState: "dawn / midday",
+    behaviourNote: "A shared system for testing translucent daylight behaviour.",
     material: "Mixed translucent coastal diffusion finishes",
     dimensions: "5 shades, each approx. Ø 200–280mm × H 150–220mm",
     colours: ["Clear PLA", "Shell", "Limestone"],

@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { ProductImage } from "@/components/product-image";
 import { getProducts, getCategories } from "@/lib/catalogue";
-import type { ProductCategory } from "@/lib/types";
+import type { Product, ProductCategory } from "@/lib/types";
 
 export const metadata: Metadata = {
   title: "Lighting Collection",
@@ -45,6 +45,17 @@ function isProductCategory(
 
 function categoryHref(category: ProductCategory): string {
   return `/products?category=${encodeURIComponent(category)}`;
+}
+
+function formatTimeState(timeState?: Product["timeState"]) {
+  if (!timeState) {
+    return null;
+  }
+
+  return timeState
+    .split(" / ")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" / ");
 }
 
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
@@ -179,7 +190,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                   <div className="mt-5 flex items-start justify-between gap-5">
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-weathered-post">
-                        {product.category}
+                        {formatTimeState(product.timeState) ?? product.category}
                       </p>
 
                       <h3 className="mt-2 text-xl font-semibold tracking-tight text-charcoal">
@@ -194,7 +205,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                   </div>
 
                   <p className="mt-3 line-clamp-3 text-sm leading-7 text-deep-brown/65">
-                    {product.description}
+                    {product.behaviourNote ?? product.description}
                   </p>
 
                   <div className="mt-5 flex flex-wrap gap-2">
