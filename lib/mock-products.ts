@@ -21,7 +21,7 @@ export const products: Product[] = [
     adapters: ["E27"],
     componentScope: {
       supplyModel: "decorative-components-only",
-      included: ["Shell Fan shade"],
+      included: ["Printed Shell Fan shade"],
       notIncluded: [
         "E27 lamp holder",
         "electrical socket",
@@ -31,7 +31,11 @@ export const products: Product[] = [
         "wiring",
         "light bulb",
       ],
-      customerSupplied: ["Compatible E27 lamp holder or lamp base", "low-power E27 LED bulb"],
+      customerSupplied: [
+        "compatible E27 lamp holder",
+        "low-heat LED bulb only",
+        "stable compliant lamp base or customer-supplied fitting",
+      ],
       compatibility:
         "Designed as a decorative shade for compatible E27 lamp holders where diameter, neck clearance, and LED heat output suit the shade.",
     },
@@ -59,7 +63,7 @@ export const products: Product[] = [
     adapters: ["E27"],
     componentScope: {
       supplyModel: "decorative-components-only",
-      included: ["Coral Veil shade"],
+      included: ["Printed Coral Veil shade"],
       notIncluded: [
         "E27 lamp holder",
         "electrical socket",
@@ -69,7 +73,11 @@ export const products: Product[] = [
         "wiring",
         "light bulb",
       ],
-      customerSupplied: ["Compatible E27 lamp holder or lamp base", "low-power E27 LED bulb"],
+      customerSupplied: [
+        "compatible E27 lamp holder",
+        "low-heat LED bulb only",
+        "stable compliant lamp base or customer-supplied fitting",
+      ],
       compatibility:
         "Designed as a decorative shade for compatible E27 lamp holders with adequate clearance around the LED bulb and shade neck.",
     },
@@ -97,7 +105,7 @@ export const products: Product[] = [
     adapters: ["E27"],
     componentScope: {
       supplyModel: "decorative-components-only",
-      included: ["Dune Rib shade"],
+      included: ["Printed Dune Rib shade"],
       notIncluded: [
         "E27 lamp holder",
         "electrical socket",
@@ -107,7 +115,11 @@ export const products: Product[] = [
         "wiring",
         "light bulb",
       ],
-      customerSupplied: ["Compatible E27 lamp holder or lamp base", "low-power E27 LED bulb"],
+      customerSupplied: [
+        "compatible E27 lamp holder",
+        "low-heat LED bulb only",
+        "stable compliant lamp base or customer-supplied fitting",
+      ],
       compatibility:
         "Designed as a decorative shade for compatible E27 lamp holders where the rib profile has clear air space around a low-power LED bulb.",
     },
@@ -135,7 +147,7 @@ export const products: Product[] = [
     adapters: ["E27"],
     componentScope: {
       supplyModel: "decorative-components-only",
-      included: ["Limestone Bloom shade", "matte tripod stand", "mechanical shade support"],
+      included: ["Printed Limestone Bloom shade", "printed matte tripod stand", "mechanical shade support"],
       notIncluded: [
         "E27 lamp holder",
         "electrical socket",
@@ -145,7 +157,11 @@ export const products: Product[] = [
         "wiring",
         "light bulb",
       ],
-      customerSupplied: ["Compatible E27 lamp holder assembly", "low-power E27 LED bulb"],
+      customerSupplied: [
+        "compatible E27 lamp holder",
+        "low-heat LED bulb only",
+        "stable compliant lamp base or customer-supplied fitting",
+      ],
       compatibility:
         "A decorative shade-and-stand object intended to be used with separately sourced compatible E27 electrical components and a low-power LED bulb.",
     },
@@ -173,7 +189,7 @@ export const products: Product[] = [
     adapters: ["E27"],
     componentScope: {
       supplyModel: "decorative-components-only",
-      included: ["Tidepool Diffuser shade"],
+      included: ["Printed Tidepool Diffuser shade"],
       notIncluded: [
         "E27 lamp holder",
         "electrical socket",
@@ -183,7 +199,11 @@ export const products: Product[] = [
         "wiring",
         "light bulb",
       ],
-      customerSupplied: ["Compatible E27 lamp holder or lamp base", "low-power E27 LED bulb"],
+      customerSupplied: [
+        "compatible E27 lamp holder",
+        "low-heat LED bulb only",
+        "stable compliant lamp base or customer-supplied fitting",
+      ],
       compatibility:
         "Designed as a decorative diffuser shade for compatible E27 lamp holders with sufficient clearance for the thicker organic edge profile.",
     },
@@ -211,7 +231,7 @@ export const products: Product[] = [
     adapters: ["E27"],
     componentScope: {
       supplyModel: "decorative-components-only",
-      included: ["Beach Post Tripod stand"],
+      included: ["Printed Beach Post Tripod stand"],
       notIncluded: [
         "shade",
         "diffuser",
@@ -224,9 +244,10 @@ export const products: Product[] = [
         "light bulb",
       ],
       customerSupplied: [
-        "Compatible ArcVane shade or diffuser",
-        "compatible E27 lamp holder assembly",
-        "low-power E27 LED bulb",
+        "compatible ArcVane shade or diffuser",
+        "compatible E27 lamp holder",
+        "low-heat LED bulb only",
+        "stable compliant lamp base or customer-supplied fitting",
       ],
       compatibility:
         "Mechanical stand for compatible ArcVane shades and diffusers; electrical components remain separate and must suit the chosen shade clearance.",
@@ -255,7 +276,7 @@ export const products: Product[] = [
     adapters: ["E27"],
     componentScope: {
       supplyModel: "decorative-components-only",
-      included: ["three Amber Ember shades"],
+      included: ["Three printed Amber Ember shades"],
       notIncluded: [
         "stand",
         "E27 lamp holder",
@@ -266,7 +287,11 @@ export const products: Product[] = [
         "wiring",
         "light bulb",
       ],
-      customerSupplied: ["Compatible E27 lamp holder or lamp base", "low-power E27 LED bulb"],
+      customerSupplied: [
+        "compatible E27 lamp holder",
+        "low-heat LED bulb only",
+        "stable compliant lamp base or customer-supplied fitting",
+      ],
       compatibility:
         "Three decorative shades designed to rotate through compatible E27 settings where scale, bulb diameter, and shade clearance match.",
     },
@@ -294,7 +319,7 @@ export const products: Product[] = [
     adapters: ["E27"],
     componentScope: {
       supplyModel: "decorative-components-only",
-      included: ["five Clear PLA Coastal shades"],
+      included: ["Five printed Clear PLA Coastal shades"],
       notIncluded: [
         "stand",
         "E27 lamp holder",
@@ -305,7 +330,11 @@ export const products: Product[] = [
         "wiring",
         "light bulb",
       ],
-      customerSupplied: ["Compatible E27 lamp holder or lamp base", "low-power E27 LED bulb"],
+      customerSupplied: [
+        "compatible E27 lamp holder",
+        "low-heat LED bulb only",
+        "stable compliant lamp base or customer-supplied fitting",
+      ],
       compatibility:
         "Five decorative shades intended for compatible E27 settings so material, opacity, and silhouette can be compared without changing electrical components.",
     },
