@@ -23,6 +23,7 @@ const footerSections = [
     title: "Care",
     links: [
       { href: "/shipping", label: "Fulfilment" },
+      { href: "/compatibility", label: "Compatibility" },
       { href: "/safety", label: "Safety" },
       { href: "/returns", label: "Returns" },
       { href: "/faq", label: "FAQ" },
