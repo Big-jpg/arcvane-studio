@@ -167,7 +167,7 @@ export default function PickupPage() {
               </p>
 
               <Link
-                href="/production"
+                href="/process"
                 className="mt-4 inline-flex text-sm font-semibold text-charcoal underline underline-offset-4"
               >
                 Read production timing

@@ -129,11 +129,11 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="bg-shell px-6 py-24 text-charcoal sm:px-8 lg:px-12 lg:py-32">
+      <section className="bg-ts-bg px-6 py-24 text-ts-text transition-colors duration-300 sm:px-8 lg:px-12 lg:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl space-y-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.34em] text-warm-amber">
+              <p className="text-xs font-semibold uppercase tracking-[0.34em] text-ts-accent">
                 Collection entry
               </p>
               <h2 className="text-4xl font-medium tracking-[-0.04em] sm:text-5xl lg:text-6xl">
@@ -142,7 +142,7 @@ export default async function HomePage() {
             </div>
             <Link
               href="/products"
-              className="inline-flex w-fit items-center justify-center rounded-full border border-deep-brown/20 px-6 py-3 text-sm font-semibold text-deep-brown transition duration-300 hover:-translate-y-0.5 hover:border-deep-brown hover:bg-off-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-warm-amber motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+              className="inline-flex w-fit items-center justify-center rounded-full border border-ts-accent/30 px-6 py-3 text-sm font-semibold text-ts-text transition duration-300 hover:-translate-y-0.5 hover:border-ts-text hover:bg-ts-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts-accent motion-reduce:transition-none motion-reduce:hover:translate-y-0"
             >
               View all shades
             </Link>
@@ -153,9 +153,9 @@ export default async function HomePage() {
               {previewProducts.map((product) => (
                   <article
                     key={product.id}
-                    className="overflow-hidden rounded-[2.25rem] border border-sand/50 bg-off-white shadow-[0_24px_80px_rgba(61,48,40,0.08)]"
+                    className="overflow-hidden rounded-[2.25rem] border border-ts-accent/20 bg-ts-surface shadow-[0_24px_80px_rgba(0,0,0,0.10)]"
                   >
-                    <div className="relative aspect-[4/3] bg-horizon-blue/30">
+                    <div className="relative aspect-[4/3] bg-ts-bg/60">
                       <ProductImage
                         src={product.images[0]}
                         alt={product.title}
@@ -166,19 +166,19 @@ export default async function HomePage() {
                     </div>
                     <div className="space-y-5 p-6 sm:p-7">
                       <div className="space-y-2">
-                        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-warm-amber">
+                        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-ts-accent">
                           {formatTimeState(product.timeState) ?? product.category}
                         </p>
-                        <h3 className="text-2xl font-medium tracking-[-0.03em] text-deep-brown">
+                        <h3 className="text-2xl font-medium tracking-[-0.03em] text-ts-text">
                           {product.title}
                         </h3>
                       </div>
-                      <p className="text-sm leading-7 text-weathered-post">{product.behaviourNote ?? product.description}</p>
-                      <div className="flex items-center justify-between gap-4 border-t border-sand/45 pt-5">
-                        <p className="text-base font-semibold text-deep-brown">{formatPrice(product)}</p>
+                      <p className="text-sm leading-7 text-ts-muted">{product.behaviourNote ?? product.description}</p>
+                      <div className="flex items-center justify-between gap-4 border-t border-ts-accent/20 pt-5">
+                        <p className="text-base font-semibold text-ts-text">{formatPrice(product)}</p>
                         <Link
                           href={`/products/${product.handle}`}
-                          className="inline-flex items-center justify-center rounded-full bg-deep-brown px-5 py-2.5 text-sm font-semibold text-off-white transition duration-300 hover:-translate-y-0.5 hover:bg-warm-amber hover:text-charcoal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-warm-amber motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                          className="inline-flex items-center justify-center rounded-full bg-ts-text px-5 py-2.5 text-sm font-semibold text-ts-bg transition duration-300 hover:-translate-y-0.5 hover:bg-ts-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts-accent motion-reduce:transition-none motion-reduce:hover:translate-y-0"
                         >
                           View
                         </Link>
@@ -188,7 +188,7 @@ export default async function HomePage() {
                 ))}
             </div>
           ) : (
-            <div className="mt-14 rounded-[2rem] border border-dashed border-limestone bg-off-white/70 p-10 text-center text-weathered-post">
+            <div className="mt-14 rounded-[2rem] border border-dashed border-ts-accent/35 bg-ts-surface/70 p-10 text-center text-ts-muted">
               The public catalogue is being prepared. Visit the collection again shortly for
               current shade availability.
             </div>

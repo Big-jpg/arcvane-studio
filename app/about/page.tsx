@@ -30,24 +30,24 @@ const principles = [
 export default function AboutPage() {
   return (
     <>
-      <section className="bg-shell py-20 text-charcoal sm:py-28">
+      <section className="bg-ts-bg py-20 text-ts-text transition-colors duration-300 sm:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-warm-amber">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-ts-accent">
             About ArcVane
           </p>
 
-          <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-charcoal sm:text-6xl">
+          <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-ts-text sm:text-6xl">
             Coastal lighting from a small Western Australian studio.
           </h1>
 
-          <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
+          <p className="mt-6 max-w-2xl text-base leading-8 text-ts-muted sm:text-lg">
             ArcVane makes compact lighting pieces shaped by shell, limestone,
             dune, and tidepool forms. Warm light, quiet texture, small runs.
           </p>
         </div>
       </section>
 
-      <section className="bg-off-white py-16 sm:py-24">
+      <section className="bg-ts-bg py-16 text-ts-text transition-colors duration-300 sm:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {principles.map((principle) => {
@@ -56,15 +56,15 @@ export default function AboutPage() {
               return (
                 <article
                   key={principle.title}
-                  className="rounded-[1.75rem] border border-charcoal/10 bg-shell/65 p-6 shadow-sm shadow-charcoal/5 sm:p-8"
+                  className="rounded-[1.75rem] border border-ts-accent/20 bg-ts-surface/65 p-6 shadow-sm sm:p-8"
                 >
-                  <Icon className="h-6 w-6 text-weathered-post" />
+                  <Icon className="h-6 w-6 text-ts-muted" />
 
-                  <h2 className="mt-6 text-2xl font-semibold tracking-tight text-charcoal">
+                  <h2 className="mt-6 text-2xl font-semibold tracking-tight text-ts-text">
                     {principle.title}
                   </h2>
 
-                  <p className="mt-4 text-sm leading-7 text-deep-brown/70">
+                  <p className="mt-4 text-sm leading-7 text-ts-muted">
                     {principle.text}
                   </p>
                 </article>
@@ -72,8 +72,8 @@ export default function AboutPage() {
             })}
           </div>
 
-          <section className="mt-12 rounded-[2rem] border border-charcoal/10 bg-horizon-blue/20 p-6 sm:p-10">
-            <div className="max-w-3xl space-y-5 text-sm leading-7 text-deep-brown/72">
+          <section className="mt-12 rounded-[2rem] border border-ts-accent/20 bg-ts-surface/70 p-6 sm:p-10">
+            <div className="max-w-3xl space-y-5 text-sm leading-7 text-ts-muted">
               <p>
                 ArcVane works from coastal references into finished lighting
                 objects: shell-like diffusion, matte stands, warm LED glow, and
@@ -95,14 +95,14 @@ export default function AboutPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/products"
-                className="rounded-full bg-charcoal px-5 py-3 text-center text-sm font-semibold text-off-white transition-colors hover:bg-deep-brown"
+                className="rounded-full bg-ts-text px-5 py-3 text-center text-sm font-semibold text-ts-bg transition-colors hover:bg-ts-accent"
               >
                 View the collection
               </Link>
 
               <Link
                 href="/materials"
-                className="rounded-full border border-charcoal/15 px-5 py-3 text-center text-sm font-semibold text-charcoal transition-colors hover:border-charcoal/35"
+                className="rounded-full border border-ts-accent/25 px-5 py-3 text-center text-sm font-semibold text-ts-text transition-colors hover:border-ts-accent/50"
               >
                 Read material story
               </Link>

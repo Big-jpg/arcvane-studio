@@ -15,7 +15,7 @@ const footerSections = [
     title: "Atelier",
     links: [
       { href: "/materials", label: "Materials" },
-      { href: "/production", label: "Production" },
+      { href: "/process", label: "Production" },
       { href: "/about", label: "About" },
     ],
   },

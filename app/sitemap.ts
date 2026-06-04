@@ -14,7 +14,7 @@ const publicRoutes: Array<{
   { path: "/", changeFrequency: "weekly", priority: 1 },
   { path: "/products", changeFrequency: "weekly", priority: 0.9 },
   { path: "/materials", changeFrequency: "monthly", priority: 0.75 },
-  { path: "/production", changeFrequency: "monthly", priority: 0.75 },
+  { path: "/process", changeFrequency: "monthly", priority: 0.75 },
   { path: "/fitting-guide", changeFrequency: "yearly", priority: 0.15 },
   { path: "/safety", changeFrequency: "monthly", priority: 0.7 },
   { path: "/about", changeFrequency: "monthly", priority: 0.6 },

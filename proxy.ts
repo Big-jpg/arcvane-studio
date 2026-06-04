@@ -1,5 +1,5 @@
-// middleware.ts
-// ArcVane Studio — Next.js middleware for route protection.
+// proxy.ts
+// ArcVane Studio — Next.js proxy for route protection.
 // Protects /account/* and /admin/* routes by redirecting unauthenticated users to /login.
 // Admin email allowlist enforcement happens server-side via Auth.js session checks.
 // Guest checkout (/cart, /checkout/*) is NOT protected.
@@ -13,7 +13,7 @@ import type { NextRequest } from "next/server";
 // and authjs.session-token in development.
 const SESSION_COOKIE_NAMES = ["authjs.session-token", "__Secure-authjs.session-token"];
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Only protect account and admin routes.
