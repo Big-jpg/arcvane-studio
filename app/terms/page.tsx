@@ -83,8 +83,8 @@ export default function TermsPage() {
 
               <p className="mt-4">
                 The current collection is designed as decorative ArcVane components
-                for compatible E27 lamp holders and low-power LED bulbs sourced separately by customers. Product listings should state
-                which shades, stands, diffusers, mechanical adapters, or accessories are included with each item.
+                for compatible E27 lamp holders, low-heat LED bulbs, and stable compliant lamp bases or fittings sourced separately by customers. Product listings should state
+                which shades, stands, diffusers, mechanical adapters, or accessories are included with each item, and what is not included.
               </p>
 
               <p className="mt-4">
@@ -107,7 +107,7 @@ export default function TermsPage() {
 
               <p className="mt-4">
                 ArcVane PLA shades, diffusers, and accessories are designed exclusively for use with modern
-                low-power LED bulbs.
+                low-heat LED bulbs.
               </p>
 
               <p className="mt-4">
@@ -119,7 +119,7 @@ export default function TermsPage() {
               <p className="mt-4">
                 ArcVane Studio accepts no responsibility for damage, deformation,
                 or unsafe conditions resulting from incompatible bulbs,
-                unsuitable customer-sourced electrical components, installation, or misuse.
+                unsuitable customer-supplied electrical components, installation, or misuse.
               </p>
             </section>
 
@@ -181,8 +181,8 @@ export default function TermsPage() {
 
               <p className="mt-4">
                 Adapters and shade fittings are mechanical support components
-                only. They do not include or alter sockets, lamp holders, cords, switches, plugs, wiring, insulation,
-                earthing, or fixed electrical infrastructure.
+                only. They do not include or alter electrical sockets, lamp holders, cords, switches, plugs, wiring, insulation,
+                earthing, complete lamp bases, or fixed electrical infrastructure.
               </p>
 
               <p className="mt-4">

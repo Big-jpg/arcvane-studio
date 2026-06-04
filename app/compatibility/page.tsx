@@ -6,19 +6,19 @@ import { CheckCircle2, Lightbulb, Ruler, ThermometerSun } from "lucide-react";
 export const metadata: Metadata = {
   title: "Compatibility Guide",
   description:
-    "Practical compatibility guidance for ArcVane Studio shades, stands, diffusers, mechanical adapters, E27 holders, low-power LED bulbs, heat, and shade clearances.",
+    "Practical compatibility guidance for ArcVane Studio shades, stands, diffusers, mechanical adapters, customer-supplied E27 lamp holders, low-heat LED bulbs, heat, and shade clearances.",
 };
 
 const guideCards = [
   {
     icon: CheckCircle2,
     title: "E27 setting",
-    text: "Current ArcVane shades and shade-and-stand objects are designed around compatible E27 lamp holders or E27 lamp bases sourced separately by the customer.",
+    text: "Current ArcVane shades and shade-and-stand objects are designed around compatible E27 lamp holders and stable compliant lamp bases or fittings sourced separately by the customer.",
   },
   {
     icon: Lightbulb,
-    title: "LED only",
-    text: "Use modern low-power E27 LED bulbs only. Do not use incandescent, halogen, heat lamp, appliance, or other high-temperature bulb types.",
+    title: "Low-heat LED only",
+    text: "Use modern low-heat E27 LED bulbs only. Do not use incandescent, halogen, heat lamp, appliance, or other high-temperature bulb types.",
   },
   {
     icon: Ruler,
@@ -28,7 +28,7 @@ const guideCards = [
   {
     icon: ThermometerSun,
     title: "Heat and clearance",
-    text: "Leave visible clearance between the bulb and PLA surfaces. If a bulb runs hot to the touch, crowds the shade, or touches any printed surface, choose a smaller and lower-power LED before use.",
+    text: "Leave visible clearance between the bulb and PLA surfaces. If a bulb runs hot to the touch, crowds the shade, or touches any printed surface, choose a smaller and lower-heat LED before use.",
   },
 ];
 
@@ -41,17 +41,17 @@ const includedRows = [
   {
     label: "Customer supplies",
     value:
-      "Compatible E27 lamp holder, lamp base, socket assembly, cord, switch, plug, wiring, and low-power E27 LED bulb suitable for the selected ArcVane component.",
+      "Compatible E27 lamp holder, low-heat E27 LED bulb, and stable compliant lamp base or customer-supplied fitting. The customer also supplies any electrical socket, cord, plug, switch, and wiring required for that fitting.",
   },
   {
     label: "ArcVane does not currently supply",
     value:
-      "Electrical sockets, lamp holders, power cords, switches, electrical wiring, plugs, or light bulbs.",
+      "Bulbs, electrical sockets, cords, plugs, lamp holders, wiring, complete lamp bases, or electrical assemblies unless a future product page explicitly states otherwise.",
   },
 ];
 
 const bulbGuidance = [
-  "Prefer low-power E27 LED bulbs with modest physical dimensions and a broad, diffused light output.",
+  "Prefer low-heat E27 LED bulbs with modest physical dimensions and a broad, diffused light output.",
   "Typical bulb styles to consider are compact A60, G45, P45, or small opal globe LEDs, provided the listed dimensions leave clearance inside the selected shade.",
   "Check the bulb envelope diameter, total bulb height, and neck shape against the dimensions shown on the product page; 45–60 mm diameter and 80–110 mm height is a useful working range for many compact E27 LEDs.",
   "Avoid oversized decorative globes, exposed-filament incandescent bulbs, halogen bulbs, heat lamps, and appliance bulbs.",
@@ -72,9 +72,9 @@ export default function CompatibilityPage() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
-            ArcVane objects shape light through printed form, surface, and clearance. The electrical
-            holder and bulb are selected separately, so the best result comes from treating fit,
-            heat, and scale as part of the same decision.
+            ArcVane objects shape light through printed form, surface, and clearance. The lamp
+            holder, base or fitting, and bulb are selected separately, so the best result comes
+            from treating fit, heat, and scale as part of the same decision.
           </p>
         </div>
       </section>
@@ -139,8 +139,8 @@ export default function CompatibilityPage() {
 
             <p className="mt-5 max-w-3xl text-sm leading-7 text-deep-brown/70">
               Review the product page for supplied ArcVane components, dimensions, adapter notes,
-              and clearance language. If you are matching an existing E27 holder, confirm the holder
-              neck, bulb envelope, shade opening, and airflow before purchase.
+              and clearance language. If you are matching an existing E27 lamp holder or base, confirm
+              the holder neck, bulb envelope, shade opening, and airflow before purchase.
             </p>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">

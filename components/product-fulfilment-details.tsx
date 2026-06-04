@@ -55,7 +55,7 @@ export function ProductFulfilmentDetails({
     ["Compatible use", componentScope.compatibility],
     [
       "Safety constraints",
-      "Indoor use only. Low-power, low-heat LED bulbs only; not for incandescent, halogen, heat lamp, appliance bulb, or unknown high-temperature use.",
+      "Indoor use only. Low-heat LED bulbs only; not for incandescent, halogen, heat lamp, appliance bulb, or unknown high-temperature use.",
     ],
     [
       "Care guidance",

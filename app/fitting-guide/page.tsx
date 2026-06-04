@@ -11,7 +11,7 @@ import {
 export const metadata: Metadata = {
   title: "E27 Compatibility Guide",
   description:
-    "ArcVane Studio guide for E27 compatibility, customer-sourced electrical components, and LED-only use with decorative shade systems.",
+    "ArcVane Studio guide for E27 compatibility, customer-supplied electrical components, and low-heat LED-only use with decorative shade systems.",
   robots: {
     index: false,
     follow: false,
@@ -22,7 +22,7 @@ const notes = [
   {
     icon: Lightbulb,
     title: "E27-compatible forms",
-    text: "The current collection is shaped for common E27 lamp holders and low-power LED bulbs sourced separately by the customer.",
+    text: "The current collection is shaped for compatible E27 lamp holders, low-heat LED bulbs, and stable compliant lamp bases or fittings sourced separately by the customer.",
   },
   {
     icon: CheckCircle2,
@@ -31,8 +31,8 @@ const notes = [
   },
   {
     icon: AlertTriangle,
-    title: "Low-power LED only",
-    text: "Use only low-power LED bulbs with ArcVane PLA shades, diffusers, and accessories; avoid incandescent, halogen, heat lamp, appliance, and other high-temperature bulbs.",
+    title: "Low-heat LED only",
+    text: "Use only low-heat LED bulbs with ArcVane PLA shades, diffusers, and accessories; avoid incandescent, halogen, heat lamp, appliance, and other high-temperature bulbs.",
   },
 ];
 
@@ -51,7 +51,7 @@ export default function FittingGuidePage() {
 
           <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
             ArcVane pieces are designed as decorative components for compatible
-            E27 lamp holders and low-power LED bulbs sourced separately. Product pages
+            E27 lamp holders, low-heat LED bulbs, and stable compliant lamp bases or fittings sourced separately. Product pages
             should make the supplied physical components clear before ordering.
           </p>
         </div>
@@ -125,8 +125,8 @@ export default function FittingGuidePage() {
 
             <p className="mt-5 max-w-3xl text-sm leading-7 text-deep-brown/70">
               ArcVane shades and adapters are mechanical product components.
-              They do not include or alter sockets, cords, switches, plugs, wiring,
-              contacts, insulation, earthing, or fixed electrical infrastructure. If a fitting is damaged, loose,
+              They do not include or alter electrical sockets, lamp holders, cords, switches, plugs, wiring,
+              contacts, insulation, earthing, complete lamp bases, or fixed electrical infrastructure. If a fitting is damaged, loose,
               discoloured, overheating, or otherwise questionable, have it
               checked by a qualified electrician before use.
             </p>

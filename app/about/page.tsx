@@ -88,7 +88,7 @@ export default function AboutPage() {
 
               <p>
                 The collection is intentionally narrow: shades, shade
-                sets, stands, diffusers, and accessories shaped for customer-sourced E27 components.
+                sets, stands, diffusers, and accessories shaped for customer-supplied E27 components.
               </p>
             </div>
 

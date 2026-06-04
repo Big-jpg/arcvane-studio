@@ -10,10 +10,10 @@ export const metadata: Metadata = {
 };
 
 const safeUse = [
-  "Use modern low-power LED bulbs only.",
-  "Check the wattage, temperature, and clearance limits on your customer-supplied E27 holder or existing fixture.",
+  "Use modern low-heat LED bulbs only.",
+  "Check the wattage, operating temperature, and clearance limits on your customer-supplied E27 lamp holder, base, or existing fitting.",
   "Use any ArcVane mechanical adapter only to support the shade or diffuser.",
-  "Ask an electrician if the holder, wiring, cord, plug, or room conditions look damaged or unusual.",
+  "Ask an electrician if the lamp holder, wiring, cord, plug, base, or room conditions look damaged or unusual.",
 ];
 
 const unsafeUse = [
@@ -33,11 +33,11 @@ export default function SafetyPage() {
           </p>
 
           <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-charcoal sm:text-6xl">
-            Low-power LED only.
+            Low-heat LED only.
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
-            ArcVane shades, diffusers, and shade-and-stand objects are designed for low-power LED
+            ArcVane shades, diffusers, and shade-and-stand objects are designed for low-heat LED
             bulbs only. This is a product requirement, not a styling preference.
           </p>
         </div>
@@ -108,14 +108,15 @@ export default function SafetyPage() {
               <p>
                 Where an ArcVane adapter is included or selected, it is a mechanical support for the
                 shade or diffuser. It helps the decorative component sit correctly on a compatible
-                customer-supplied E27 holder or existing fixture.
+                customer-supplied E27 lamp holder, base, or existing fitting.
               </p>
 
               <p>
-                It does not include, replace, or change lamp holders, sockets, cords, switches,
-                plugs, wiring, contacts, insulation, earthing, or fixed electrical infrastructure.
-                If the holder or fixture is loose, damaged, cracked, discoloured, overheating, or
-                otherwise questionable, have it checked before using any decorative shade.
+                It does not include, replace, or change lamp holders, electrical sockets, cords,
+                switches, plugs, wiring, contacts, insulation, earthing, complete lamp bases, or
+                fixed electrical infrastructure. If the lamp holder, base, or fitting is loose,
+                damaged, cracked, discoloured, overheating, or otherwise questionable, have it
+                checked before using any decorative shade.
               </p>
             </div>
           </section>

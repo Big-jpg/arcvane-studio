@@ -97,13 +97,13 @@ function getComponentScopeNotice(supplyModel: ProductSupplyModel): {
 
   return {
     title: "Decorative component, not electrical assembly",
-    body: "This listing covers the ArcVane physical components only. E27 lamp holders, sockets, cords, switches, plugs, wiring, and LED bulbs are sourced separately by the customer.",
+    body: "This listing covers the ArcVane physical components only. Bulbs, electrical sockets, cords, plugs, lamp holders, complete lamp bases, and other electrical assemblies are sourced separately by the customer unless explicitly stated.",
   };
 }
 
 function getShadeCompatibilityLine(product: Product): string {
   if (product.category === "Shade Sets") {
-    return "Shade packs rotate through compatible E27 settings so light character can change while customer-supplied electrical components remain separate.";
+    return "Shade packs rotate through compatible E27 lamp holders and bases so light character can change while customer-supplied electrical assemblies remain separate.";
   }
 
   if (product.category === "Single Shades") {

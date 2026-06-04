@@ -52,8 +52,8 @@ export function SiteFooter() {
               </span>
             </Link>
             <p className="max-w-sm text-sm leading-relaxed text-shell/75">
-              A Western Australian lighting atelier for translucent PLA diffusion, decorative shade
-              systems, stands, diffusers, and modular accessories.
+              A Western Australian lighting atelier for translucent PLA shades, diffusers, stands,
+              and modular accessories for customer-supplied E27 components.
             </p>
           </div>
 
@@ -81,7 +81,7 @@ export function SiteFooter() {
 
         <div className="mt-12 border-t border-shell/10 pt-8">
           <p className="text-center text-xs text-shell/50">
-            &copy; {new Date().getFullYear()} ArcVane Studio. All rights reserved. LED bulbs only.
+            &copy; {new Date().getFullYear()} ArcVane Studio. All rights reserved. Low-heat LED bulbs only.
           </p>
         </div>
       </div>
