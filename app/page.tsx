@@ -15,7 +15,7 @@ import type { Product } from "@/lib/types";
 export const metadata: Metadata = {
   title: "ArcVane Studio",
   description:
-    "Modular lighting apparatus for homes that value atmosphere, material, and restraint.",
+    "Modular decorative lighting components for homes that value atmosphere, material, and restraint.",
 };
 
 export const dynamic = "force-dynamic";
@@ -59,7 +59,7 @@ export default async function HomePage() {
               Light, shaped for the room it enters.
             </h1>
             <p className="mx-auto max-w-2xl text-lg leading-8 text-ts-muted sm:text-xl sm:leading-9">
-              ArcVane creates modular lighting apparatus for homes that value atmosphere,
+              ArcVane creates modular decorative lighting components for homes that value atmosphere,
               material, and restraint.
             </p>
             <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
