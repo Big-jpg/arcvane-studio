@@ -1,5 +1,4 @@
 // components/product-fulfilment-details.tsx
-import { CheckCircle2 } from "lucide-react";
 import type { Product, ProductComponentScope } from "@/lib/types";
 
 function normaliseDimensions(dimensions: string): string {
@@ -26,13 +25,11 @@ function formatList(values: string[]): string {
 type ProductFulfilmentDetailsProps = {
   product: Product;
   componentScope: ProductComponentScope;
-  primaryAdapter: string;
 };
 
 export function ProductFulfilmentDetails({
   product,
   componentScope,
-  primaryAdapter,
 }: ProductFulfilmentDetailsProps) {
   const practicalGroups = [
     {
@@ -49,28 +46,7 @@ export function ProductFulfilmentDetails({
     },
   ];
 
-  const factRows = [
-    ["Dimensions", normaliseDimensions(product.dimensions)],
-    ["Material", product.material],
-    ["Compatible use", componentScope.compatibility],
-    [
-      "Safety constraints",
-      "Indoor use only. Low-heat LED bulbs only; not for incandescent, halogen, heat lamp, appliance bulb, or unknown high-temperature use.",
-    ],
-    [
-      "Care guidance",
-      "Dust with a soft dry cloth. Keep away from heat, moisture, abrasive cleaners, and prolonged direct heat exposure.",
-    ],
-    ["Made / supplied", productionStatus(product)],
-  ] as const;
-
-  const trustAnchors = [
-    "Made in small batches",
-    "Indoor use only",
-    "Low-heat LED only",
-    "Designed and produced by ArcVane Studio",
-    "Small additive-production variations are expected",
-  ];
+  const quietFacts = [normaliseDimensions(product.dimensions), product.material, productionStatus(product)];
 
   return (
     <div className="mt-8 border-t border-ts-accent/20 pt-7">
@@ -86,35 +62,7 @@ export function ProductFulfilmentDetails({
         ))}
       </div>
 
-      <div className="mt-5 rounded-2xl border border-ts-accent/20 bg-ts-bg">
-        <dl className="divide-y divide-ts-accent/15">
-          {factRows.map(([label, value]) => (
-            <div key={label} className="grid grid-cols-1 gap-2 px-4 py-4 sm:grid-cols-[150px_1fr]">
-              <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-ts-muted">
-                {label}
-              </dt>
-              <dd className="text-sm leading-7 text-ts-muted">{value}</dd>
-            </div>
-          ))}
-        </dl>
-      </div>
-
-      <div className="mt-4 flex flex-wrap gap-2" aria-label="Product trust and safety markers">
-        {trustAnchors.map((anchor) => (
-          <span
-            key={anchor}
-            className="inline-flex items-center gap-1.5 rounded-full border border-ts-accent/20 bg-ts-surface/60 px-3 py-1.5 text-xs text-ts-muted"
-          >
-            <CheckCircle2 className="h-3 w-3 text-ts-accent" />
-            {anchor}
-          </span>
-        ))}
-      </div>
-
-      <p className="mt-4 text-xs leading-6 text-ts-muted">
-        The {primaryAdapter} compatibility note describes the intended mechanical and dimensional fit; it
-        does not mean ArcVane supplies or modifies the customer&apos;s electrical assembly.
-      </p>
+      <p className="mt-4 text-xs leading-6 text-ts-muted/70">{quietFacts.join(" · ")}</p>
     </div>
   );
 }

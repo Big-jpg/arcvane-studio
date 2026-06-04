@@ -3,14 +3,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 import Link from "next/link";
-import {
-  ArrowLeft,
-  CheckCircle2,
-  Info,
-  PackageCheck,
-  ShieldCheck,
-  ShoppingBag,
-} from "lucide-react";
+import { ArrowLeft, CheckCircle2, ShoppingBag } from "lucide-react";
 import type { AdapterType, Product, ProductSupplyModel } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
@@ -99,22 +92,6 @@ function getComponentScopeNotice(supplyModel: ProductSupplyModel): {
     title: "Decorative component, not electrical assembly",
     body: "This listing covers the ArcVane physical components only. Bulbs, electrical sockets, cords, plugs, lamp holders, complete lamp bases, and other electrical assemblies are sourced separately by the customer unless explicitly stated.",
   };
-}
-
-function getShadeCompatibilityLine(product: Product): string {
-  if (product.category === "Shade Sets") {
-    return "Shade packs rotate through compatible E27 lamp holders and bases so light character can change while customer-supplied electrical assemblies remain separate.";
-  }
-
-  if (product.category === "Single Shades") {
-    return "Single shades can be paired with compatible E27 lamp holders or ArcVane stands where scale, neck fit, and bulb clearance match.";
-  }
-
-  if (product.category === "Lighting Objects") {
-    return "This shade-and-stand object uses the same mechanical interface as the shade packs, so compatible ArcVane diffusers can be rotated through where scale allows.";
-  }
-
-  return "Built around ArcVane's shared decorative component system for calm compatibility across the restrained collection.";
 }
 
 function formatTimeState(timeState?: Product["timeState"]): string | null {
@@ -354,52 +331,12 @@ export function ProductDetail({ product }: { product: Product }) {
                 </div>
               )}
 
-              <ProductFulfilmentDetails
-                product={product}
-                componentScope={componentScope}
-                primaryAdapter={primaryAdapter}
-              />
+              <ProductFulfilmentDetails product={product} componentScope={componentScope} />
 
-              <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div className="rounded-2xl border border-ts-accent/25 bg-ts-accent/5 p-5">
-                  <ShieldCheck className="h-5 w-5 text-ts-accent" />
-                  <h2 className="mt-4 text-sm font-semibold text-ts-text">Low-heat LED only</h2>
-                  <p className="mt-2 text-sm leading-7 text-ts-muted">
-                    Use modern low-heat LED bulbs only. Do not use incandescent, halogen, heat lamp,
-                    or other high-temperature bulbs with printed shades, diffusers, or accessories.
-                  </p>
-                  <Link
-                    href="/safety"
-                    className="mt-3 inline-flex text-sm font-semibold text-ts-text underline underline-offset-4"
-                  >
-                    Read safety note
-                  </Link>
-                </div>
-
-                <div className="rounded-2xl border border-ts-accent/20 bg-ts-surface/60 p-5">
-                  <PackageCheck className="h-5 w-5 text-ts-muted" />
-                  <h2 className="mt-4 text-sm font-semibold text-ts-text">
-                    Layering and compatibility
-                  </h2>
-                  <p className="mt-2 text-sm leading-7 text-ts-muted">
-                    {componentScope.compatibility}
-                  </p>
-                  <p className="mt-3 text-sm leading-7 text-ts-muted">
-                    {getShadeCompatibilityLine(product)}
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-6 rounded-2xl border border-ts-accent/20 bg-ts-surface/70 p-5">
-                <div className="flex items-start gap-3">
-                  <Info className="mt-0.5 h-5 w-5 shrink-0 text-ts-muted" />
-                  <p className="text-sm leading-7 text-ts-muted">
-                    Small-batch finishing is part of the object. Fine layer rhythm, variable
-                    translucency, and subtle tone changes are expected and treated as natural
-                    texture, not defects.
-                  </p>
-                </div>
-              </div>
+              <p className="mt-6 text-xs leading-6 text-ts-muted/70">
+                Small-batch finishing is part of the object. Fine layer rhythm, variable translucency,
+                and subtle tone changes are natural texture, not defects.
+              </p>
 
               <button
                 type="button"
@@ -416,7 +353,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 Add to selection
               </button>
 
-              <p className="mt-4 text-center text-xs leading-6 text-ts-muted">
+              <p className="mt-4 text-center text-xs leading-6 text-ts-muted/60">
                 Added pieces appear in your selection for review before checkout. Fit, finish, and
                 low-heat LED acknowledgement are confirmed before ordering.
               </p>

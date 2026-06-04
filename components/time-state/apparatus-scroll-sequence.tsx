@@ -14,12 +14,6 @@ const steps = [
   "Shade set",
 ] as const;
 
-const compatibilityNotes = [
-  ["ArcVane supplies", "printed shades, diffusers, stands, and mechanical adapters where listed"],
-  ["Customer supplies", "a compatible E27 lamp holder, low-heat LED bulb, and stable compliant base or fitting"],
-  ["Not a complete lamp", "electrical socket, cord, plug, lamp holder, bulb, and wiring remain separate"],
-] as const;
-
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
@@ -160,14 +154,6 @@ export function ApparatusScrollSequence() {
               ))}
             </div>
 
-            <dl className="grid gap-3 pt-1 text-xs leading-6 text-ts-muted sm:grid-cols-3">
-              {compatibilityNotes.map(([label, value]) => (
-                <div key={label} className="rounded-2xl border border-ts-accent/15 bg-ts-surface/55 p-3">
-                  <dt className="font-semibold uppercase tracking-[0.16em] text-ts-text/75">{label}</dt>
-                  <dd className="mt-1">{value}</dd>
-                </div>
-              ))}
-            </dl>
           </div>
 
           <div className="relative overflow-hidden rounded-[2.5rem] border border-ts-accent/20 bg-ts-surface/70 p-3 shadow-[0_28px_95px_rgba(0,0,0,0.12)] sm:p-5 lg:p-7">
