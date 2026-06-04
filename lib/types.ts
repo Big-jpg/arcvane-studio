@@ -3,7 +3,7 @@
 export type AdapterType = "E27" | "B22" | "Other / not sure";
 
 export type ProductCategory =
-  | "Table Lamps"
+  | "Lighting Objects"
   | "Shade Sets"
   | "Single Shades"
   | "Coastal Forms"

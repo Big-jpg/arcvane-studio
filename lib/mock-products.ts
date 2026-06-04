@@ -120,7 +120,7 @@ export const products: Product[] = [
     title: "Limestone Bloom",
     price: 140,
     currency: "AUD",
-    category: "Table Lamps",
+    category: "Lighting Objects",
     description:
       "A shade-and-stand lighting object pairing a limestone bloom shade with the tripod base, designed to pool customer-supplied low-heat LED light without exposing a hard source.",
     timeState: "evening",

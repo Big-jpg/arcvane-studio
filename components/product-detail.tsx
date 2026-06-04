@@ -81,7 +81,7 @@ function getShadeCompatibilityLine(product: Product): string {
     return "Single shades can be paired with compatible E27 lamp holders or ArcVane stands where scale, neck fit, and bulb clearance match.";
   }
 
-  if (product.category === "Table Lamps") {
+  if (product.category === "Lighting Objects") {
     return "This shade-and-stand object uses the same mechanical interface as the shade packs, so compatible ArcVane diffusers can be rotated through where scale allows.";
   }
 

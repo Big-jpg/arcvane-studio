@@ -4,7 +4,7 @@
 import type { AdapterType, ProductCategory } from "./types";
 
 export const PRODUCT_CATEGORIES: ProductCategory[] = [
-  "Table Lamps",
+  "Lighting Objects",
   "Shade Sets",
   "Single Shades",
   "Coastal Forms",
