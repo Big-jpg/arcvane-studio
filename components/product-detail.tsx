@@ -3,14 +3,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 import Link from "next/link";
-import {
-  ArrowLeft,
-  CheckCircle2,
-  Info,
-  PackageCheck,
-  ShieldCheck,
-  ShoppingBag,
-} from "lucide-react";
+import { ArrowLeft, CheckCircle2, ShoppingBag } from "lucide-react";
 import type { AdapterType, Product, ProductSupplyModel } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
@@ -23,6 +16,7 @@ import {
 } from "@/lib/product-tone-images";
 import { Toast } from "@/components/toast";
 import { ProductImage } from "@/components/product-image";
+import { ProductFulfilmentDetails } from "@/components/product-fulfilment-details";
 
 function getPrimaryAdapter(product: Product): AdapterType {
   return product.adapters.includes("E27") ? "E27" : (product.adapters[0] ?? "E27");
@@ -36,48 +30,44 @@ function getComponentScope(product: Product): NonNullable<Product["componentScop
   if (product.category === "Accessories") {
     return {
       supplyModel: "decorative-components-only",
-      included: ["ArcVane mechanical accessory"],
+      included: ["ArcVane printed mechanical accessory"],
       notIncluded: [
-        "E27 lamp holder",
+        "bulb",
         "electrical socket",
-        "power cord",
-        "switch",
+        "cord",
         "plug",
-        "wiring",
-        "light bulb",
+        "lamp holder",
+        "any electrical fitting unless explicitly stated on this product page",
       ],
-      customerSupplied: ["compatible E27 electrical components", "low-power E27 LED bulb"],
+      customerSupplied: [
+        "compatible E27 lamp holder",
+        "low-heat LED bulb only",
+        "stable compliant lamp base or customer-supplied fitting",
+      ],
       compatibility:
-        "Use only with compatible ArcVane shades, sufficient clearances, and separately sourced E27 electrical components.",
+        "Use only with compatible ArcVane shades, sufficient clearances, and customer-supplied compliant E27 components.",
     };
   }
 
   return {
     supplyModel: "decorative-components-only",
-    included: ["ArcVane decorative shade or diffuser"],
+    included: ["ArcVane printed shade or diffuser"],
     notIncluded: [
-      "E27 lamp holder",
+      "bulb",
       "electrical socket",
-      "power cord",
-      "switch",
+      "cord",
       "plug",
-      "wiring",
-      "light bulb",
+      "lamp holder",
+      "any electrical fitting unless explicitly stated on this product page",
     ],
-    customerSupplied: ["compatible E27 lamp holder or lamp base", "low-power E27 LED bulb"],
+    customerSupplied: [
+      "compatible E27 lamp holder",
+      "low-heat LED bulb only",
+      "stable compliant lamp base or customer-supplied fitting",
+    ],
     compatibility:
       "Designed for compatible E27 settings where shade diameter, bulb dimensions, heat output, and clearances suit the object.",
   };
-}
-
-function formatComponentList(values: string[]): string {
-  return values.join(", ");
-}
-
-type ProductDetailRow = [string, string];
-
-function isProductDetailRow(row: ProductDetailRow | null): row is ProductDetailRow {
-  return row !== null;
 }
 
 function getComponentScopeNotice(supplyModel: ProductSupplyModel): {
@@ -100,24 +90,8 @@ function getComponentScopeNotice(supplyModel: ProductSupplyModel): {
 
   return {
     title: "Decorative component, not electrical assembly",
-    body: "This listing covers the ArcVane physical components only. E27 lamp holders, sockets, cords, switches, plugs, wiring, and LED bulbs are sourced separately by the customer.",
+    body: "This listing covers the ArcVane physical components only. Bulbs, electrical sockets, cords, plugs, lamp holders, complete lamp bases, and other electrical assemblies are sourced separately by the customer unless explicitly stated.",
   };
-}
-
-function getShadeCompatibilityLine(product: Product): string {
-  if (product.category === "Shade Sets") {
-    return "Shade packs rotate through compatible E27 settings so light character can change while customer-supplied electrical components remain separate.";
-  }
-
-  if (product.category === "Single Shades") {
-    return "Single shades can be paired with compatible E27 lamp holders or ArcVane stands where scale, neck fit, and bulb clearance match.";
-  }
-
-  if (product.category === "Lighting Objects") {
-    return "This shade-and-stand object uses the same mechanical interface as the shade packs, so compatible ArcVane diffusers can be rotated through where scale allows.";
-  }
-
-  return "Built around ArcVane's shared decorative component system for calm compatibility across the restrained collection.";
 }
 
 function formatTimeState(timeState?: Product["timeState"]): string | null {
@@ -213,28 +187,6 @@ export function ProductDetail({ product }: { product: Product }) {
     selectedImage,
     sendBuyerEvent,
   ]);
-
-  const detailRows: Array<ProductDetailRow | null> = [
-    ["Scale and dimensions", product.dimensions],
-    ["Material and finish", product.material],
-    ["Colour options", product.colours.join(", ")],
-    ["Compatibility basis", `${primaryAdapter}-compatible / low-heat LED only`],
-    ["Included by ArcVane", formatComponentList(componentScope.included)],
-    componentScope.electricalIncluded?.length
-      ? ["Electrical components supplied", formatComponentList(componentScope.electricalIncluded)]
-      : null,
-    ["Not included", formatComponentList(componentScope.notIncluded)],
-    ["Customer supplies", formatComponentList(componentScope.customerSupplied)],
-    [
-      "Production window",
-      product.productionNotes ?? "Ready for fulfilment within 5–7 business days",
-    ],
-    [
-      "Packing guide",
-      "Designed around compact packing dimensions so fulfilment can be arranged cleanly after order.",
-    ],
-  ];
-  const details = detailRows.filter(isProductDetailRow);
 
   return (
     <>
@@ -379,63 +331,12 @@ export function ProductDetail({ product }: { product: Product }) {
                 </div>
               )}
 
-              <div className="mt-8 border-t border-ts-accent/20 pt-7">
-                <h2 className="text-sm font-semibold text-ts-text">Object details</h2>
-                <dl className="mt-4 divide-y divide-ts-accent/15 rounded-2xl border border-ts-accent/20 bg-ts-bg">
-                  {details.map(([label, value]) => (
-                    <div
-                      key={label}
-                      className="grid grid-cols-1 gap-2 px-4 py-4 sm:grid-cols-[150px_1fr]"
-                    >
-                      <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-ts-muted">
-                        {label}
-                      </dt>
-                      <dd className="text-sm leading-7 text-ts-muted">{value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
+              <ProductFulfilmentDetails product={product} componentScope={componentScope} />
 
-              <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div className="rounded-2xl border border-ts-accent/25 bg-ts-accent/5 p-5">
-                  <ShieldCheck className="h-5 w-5 text-ts-accent" />
-                  <h2 className="mt-4 text-sm font-semibold text-ts-text">Low-heat LED only</h2>
-                  <p className="mt-2 text-sm leading-7 text-ts-muted">
-                    Use modern low-heat LED bulbs only. Do not use incandescent, halogen, heat lamp,
-                    or other high-temperature bulbs with printed shades, diffusers, or accessories.
-                  </p>
-                  <Link
-                    href="/safety"
-                    className="mt-3 inline-flex text-sm font-semibold text-ts-text underline underline-offset-4"
-                  >
-                    Read safety note
-                  </Link>
-                </div>
-
-                <div className="rounded-2xl border border-ts-accent/20 bg-ts-surface/60 p-5">
-                  <PackageCheck className="h-5 w-5 text-ts-muted" />
-                  <h2 className="mt-4 text-sm font-semibold text-ts-text">
-                    Layering and compatibility
-                  </h2>
-                  <p className="mt-2 text-sm leading-7 text-ts-muted">
-                    {componentScope.compatibility}
-                  </p>
-                  <p className="mt-3 text-sm leading-7 text-ts-muted">
-                    {getShadeCompatibilityLine(product)}
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-6 rounded-2xl border border-ts-accent/20 bg-ts-surface/70 p-5">
-                <div className="flex items-start gap-3">
-                  <Info className="mt-0.5 h-5 w-5 shrink-0 text-ts-muted" />
-                  <p className="text-sm leading-7 text-ts-muted">
-                    Small-batch finishing is part of the object. Fine layer rhythm, variable
-                    translucency, and subtle tone changes are expected and treated as natural
-                    texture, not defects.
-                  </p>
-                </div>
-              </div>
+              <p className="mt-6 text-xs leading-6 text-ts-muted/70">
+                Small-batch finishing is part of the object. Fine layer rhythm, variable translucency,
+                and subtle tone changes are natural texture, not defects.
+              </p>
 
               <button
                 type="button"
@@ -452,8 +353,9 @@ export function ProductDetail({ product }: { product: Product }) {
                 Add to selection
               </button>
 
-              <p className="mt-4 text-center text-xs leading-6 text-ts-muted">
-                Need a fit or finish clarification? Contact ArcVane before ordering.
+              <p className="mt-4 text-center text-xs leading-6 text-ts-muted/60">
+                Added pieces appear in your selection for review before checkout. Fit, finish, and
+                low-heat LED acknowledgement are confirmed before ordering.
               </p>
             </div>
           </div>

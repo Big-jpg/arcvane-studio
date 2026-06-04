@@ -18,7 +18,7 @@ const inter = Inter({
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://arcvane-studio.com";
 const siteDescription =
-  "A Western Australian lighting atelier creating small-run decorative shades, lighting forms, translucent PLA diffusers, stands, and modular accessories for customer-sourced E27 components.";
+  "A Western Australian lighting atelier creating small-run decorative shades, lighting forms, translucent PLA diffusers, stands, and modular accessories for customer-supplied E27 components.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

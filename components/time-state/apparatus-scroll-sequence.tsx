@@ -6,8 +6,8 @@ import { useEffect, useRef, useState } from "react";
 
 const steps = [
   "Stand",
-  "Customer-supplied E27 holder",
-  "Customer-supplied LED bulb",
+  "Customer E27 holder",
+  "Low-heat LED bulb",
   "Diffuser",
   "Accent shade",
   "Shade",
@@ -138,8 +138,8 @@ export function ApparatusScrollSequence() {
               Decorative parts, electrically separate.
             </h2>
             <p className="max-w-md text-base leading-7 text-ts-muted sm:text-lg sm:leading-8">
-              ArcVane supplies the physical shade, stand, diffuser, and adapter language.
-              Compatible E27 holders, cords, plugs, wiring, and LED bulbs are sourced separately.
+              ArcVane supplies the physical shade, stand, diffuser, and mechanical adapter parts where
+              listed. The lamp holder, bulb, socket, cord, plug, and wiring remain separate.
             </p>
             <div className="flex flex-wrap gap-2 pt-2" aria-label="Decorative component assembly progress">
               {steps.map((step, index) => (
@@ -153,6 +153,7 @@ export function ApparatusScrollSequence() {
                 />
               ))}
             </div>
+
           </div>
 
           <div className="relative overflow-hidden rounded-[2.5rem] border border-ts-accent/20 bg-ts-surface/70 p-3 shadow-[0_28px_95px_rgba(0,0,0,0.12)] sm:p-5 lg:p-7">
@@ -160,7 +161,7 @@ export function ApparatusScrollSequence() {
             <svg
               viewBox="0 0 1040 760"
               role="img"
-              aria-label="Scroll-led drawing of ArcVane decorative components assembled around a customer-supplied compatible E27 holder, cord path, and low-power LED bulb."
+              aria-label="Scroll-led drawing of ArcVane decorative components assembled around a customer-supplied compatible E27 lamp holder, cord path, and low-heat LED bulb."
               className="relative h-auto w-full"
             >
               <defs>
@@ -363,10 +364,10 @@ export function ApparatusScrollSequence() {
                   <text x="70" y="344">diffuser — softens LED light</text>
                 </g>
                 <g className={annotationClassName(2)}>
-                  <text x="758" y="424">customer LED — low heat</text>
+                  <text x="758" y="424">low-heat LED — customer supplied</text>
                 </g>
                 <g className={annotationClassName(1)}>
-                  <text x="96" y="564">customer E27 holder</text>
+                  <text x="96" y="564">E27 holder — customer supplied</text>
                 </g>
                 <g className={annotationClassName(0)}>
                   <text x="708" y="638">stand — the base</text>

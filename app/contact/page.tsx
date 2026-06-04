@@ -71,8 +71,8 @@ export default function ContactPage() {
 
                 <div className="mt-6 grid gap-4 text-sm leading-7 text-deep-brown/70 sm:grid-cols-2">
                   <p>
-                    Product availability, current pieces, shade sets, E27 compatibility, customer-sourced
-                    low-power LED use, materials, colours, and finish variation.
+                    Product availability, current pieces, shade sets, E27 compatibility, customer-supplied
+                    low-heat LED use, materials, colours, and finish variation.
                   </p>
 
                   <p>

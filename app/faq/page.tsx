@@ -12,12 +12,12 @@ const faqs = [
   {
     question: "What electrical components do I need?",
     answer:
-      "The current collection is shaped for compatible E27 lamp holders and low-power LED bulbs sourced separately by the customer. Product pages state the ArcVane shade, stand, diffuser, adapter, or accessory components supplied.",
+      "The current collection is shaped for compatible E27 lamp holders, low-heat LED bulbs, and stable compliant lamp bases or fittings sourced separately by the customer. Product pages state the ArcVane shade, stand, diffuser, adapter, or accessory components supplied, and list what is not included.",
   },
   {
     question: "Can I use incandescent or halogen bulbs?",
     answer:
-      "Use only low-power LED bulbs with ArcVane PLA shades, diffusers, and accessories. Do not use incandescent, halogen, heat lamp, appliance, or other high-temperature bulbs.",
+      "Use only low-heat LED bulbs with ArcVane PLA shades, diffusers, and accessories. Do not use incandescent, halogen, heat lamp, appliance, or other high-temperature bulbs.",
   },
   {
     question: "Why use PLA?",
@@ -68,7 +68,7 @@ export default function FAQPage() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
-            E27 compatibility, customer-sourced low-power LED bulbs, compact fulfilment,
+            E27 compatibility, customer-supplied low-heat LED bulbs, compact fulfilment,
             small-run production, and PLA materials.
           </p>
         </div>
