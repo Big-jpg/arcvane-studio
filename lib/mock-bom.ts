@@ -55,14 +55,14 @@ export const bomComponents: BomComponent[] = [
     notes: "Representative costing placeholder only; not a procurement source of truth.",
   },
   {
-    id: "comp-led-bulb-low-power",
-    name: "Low-power LED bulb",
+    id: "comp-led-bulb-low-heat",
+    name: "Low-heat LED bulb",
     category: "Electrical",
     unit: "each",
     unitCost: 5.5,
     currency: "AUD",
     supplier: null,
-    notes: "Optional kit component for later product bundles.",
+    notes: "Optional low-heat LED placeholder for later product bundles; not supplied in current decorative-component listings.",
   },
   {
     id: "comp-bearing-608",
