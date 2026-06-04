@@ -6,7 +6,7 @@ import { MapPin, Shell, Waves } from "lucide-react";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "ArcVane Studio is a small Western Australian design studio making coastal lighting pieces with PLA, warm LED light, and shared E27 hardware.",
+    "ArcVane Studio is a small Western Australian design studio making decorative lighting forms, PLA diffusion pieces, stands, and E27-compatible accessories.",
 };
 
 const principles = [
@@ -41,8 +41,8 @@ export default function AboutPage() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-8 text-ts-muted sm:text-lg">
-            ArcVane makes compact lighting pieces shaped by shell, limestone,
-            dune, and tidepool forms. Warm light, quiet texture, small runs.
+            ArcVane makes compact decorative lighting pieces shaped by shell, limestone,
+            dune, and tidepool forms. Soft diffusion, quiet texture, small runs.
           </p>
         </div>
       </section>
@@ -75,8 +75,8 @@ export default function AboutPage() {
           <section className="mt-12 rounded-[2rem] border border-ts-accent/20 bg-ts-surface/70 p-6 sm:p-10">
             <div className="max-w-3xl space-y-5 text-sm leading-7 text-ts-muted">
               <p>
-                ArcVane works from coastal references into finished lighting
-                objects: shell-like diffusion, matte stands, warm LED glow, and
+                ArcVane works from coastal references into decorative lighting
+                components: shell-like diffusion, matte stands, mechanical adapters, and
                 forms that sit calmly in domestic rooms.
               </p>
 
@@ -87,8 +87,8 @@ export default function AboutPage() {
               </p>
 
               <p>
-                The collection is intentionally narrow: finished lamps, shade
-                sets, and accessories built around a shared E27 system.
+                The collection is intentionally narrow: shades, shade
+                sets, stands, diffusers, and accessories shaped for customer-sourced E27 components.
               </p>
             </div>
 

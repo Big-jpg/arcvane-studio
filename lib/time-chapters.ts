@@ -26,7 +26,7 @@ export const timeChapters: TimeChapter[] = [
     title: "Midday",
     subtitle: "The object, clearly seen.",
     description:
-      "In daylight, the shade becomes a sculptural object: printed geometry, layered material, and a visible relationship between bulb, diffuser, and shell.",
+      "In daylight, the shade becomes a sculptural object: printed geometry, layered material, and the visible relationship between a customer-supplied LED bulb, diffuser, and shell.",
     bestFor: "shelves, desks, sideboards, display lighting.",
     cta: { label: "View materials", href: "/materials" },
     image: "/products/product-02.png",

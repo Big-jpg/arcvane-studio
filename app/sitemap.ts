@@ -16,6 +16,7 @@ const publicRoutes: Array<{
   { path: "/materials", changeFrequency: "monthly", priority: 0.75 },
   { path: "/process", changeFrequency: "monthly", priority: 0.75 },
   { path: "/fitting-guide", changeFrequency: "yearly", priority: 0.15 },
+  { path: "/compatibility", changeFrequency: "monthly", priority: 0.7 },
   { path: "/safety", changeFrequency: "monthly", priority: 0.7 },
   { path: "/about", changeFrequency: "monthly", priority: 0.6 },
   { path: "/contact", changeFrequency: "monthly", priority: 0.6 },

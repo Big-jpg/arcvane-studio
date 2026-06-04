@@ -6,14 +6,14 @@ import { AlertTriangle, CheckCircle2, ShieldCheck, ThermometerSun } from "lucide
 export const metadata: Metadata = {
   title: "LED Bulb Safety",
   description:
-    "Safety guidance for ArcVane Studio shades, including LED-only use, heat limits, and fitting adapter notes.",
+    "Safety guidance for ArcVane Studio shades and decorative components, including LED-only use, heat limits, and mechanical adapter notes.",
 };
 
 const safeUse = [
-  "Use modern LED bulbs only.",
-  "Check the wattage and temperature limits on your existing fixture.",
-  "Use the supplied adapter only to support the shade.",
-  "Ask an electrician if the fitting, wiring, or room conditions look damaged or unusual.",
+  "Use modern low-power LED bulbs only.",
+  "Check the wattage, temperature, and clearance limits on your customer-supplied E27 holder or existing fixture.",
+  "Use any ArcVane mechanical adapter only to support the shade or diffuser.",
+  "Ask an electrician if the holder, wiring, cord, plug, or room conditions look damaged or unusual.",
 ];
 
 const unsafeUse = [
@@ -37,8 +37,8 @@ export default function SafetyPage() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-8 text-deep-brown/70 sm:text-lg">
-            ArcVane shades are designed for low-heat LED bulbs. This is a product requirement, not a
-            styling preference.
+            ArcVane shades, diffusers, and shade-and-stand objects are designed for low-power LED
+            bulbs only. This is a product requirement, not a styling preference.
           </p>
         </div>
       </section>
@@ -56,8 +56,8 @@ export default function SafetyPage() {
 
                 <p className="mt-3 text-sm leading-7 text-deep-brown/75">
                   Incandescent, halogen, heat lamp, appliance, or unknown high-temperature bulbs
-                  must not be used with ArcVane shades. Heat can deform PLA, shorten product life,
-                  and create an unsafe fitting condition.
+                  must not be used with ArcVane shades or diffusers. Heat can deform PLA, shorten
+                  product life, and create an unsafe fitting condition.
                 </p>
               </div>
             </div>
@@ -101,19 +101,21 @@ export default function SafetyPage() {
             <ShieldCheck className="h-6 w-6 text-weathered-post" />
 
             <h2 className="mt-5 text-3xl font-semibold tracking-tight text-charcoal">
-              What the adapter does.
+              What a mechanical adapter does.
             </h2>
 
             <div className="mt-5 max-w-3xl space-y-4 text-sm leading-7 text-deep-brown/70">
               <p>
-                The supplied adapter is a mechanical support for the shade. It helps the shade sit
-                correctly on the compatible fitting type.
+                Where an ArcVane adapter is included or selected, it is a mechanical support for the
+                shade or diffuser. It helps the decorative component sit correctly on a compatible
+                customer-supplied E27 holder or existing fixture.
               </p>
 
               <p>
-                It does not change wiring, contacts, insulation, earthing, or fixed electrical
-                infrastructure. If the fitting is loose, damaged, cracked, discoloured, overheating,
-                or otherwise questionable, have it checked before using any decorative shade.
+                It does not include, replace, or change lamp holders, sockets, cords, switches,
+                plugs, wiring, contacts, insulation, earthing, or fixed electrical infrastructure.
+                If the holder or fixture is loose, damaged, cracked, discoloured, overheating, or
+                otherwise questionable, have it checked before using any decorative shade.
               </p>
             </div>
           </section>

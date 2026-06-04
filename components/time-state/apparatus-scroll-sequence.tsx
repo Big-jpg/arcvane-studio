@@ -6,8 +6,8 @@ import { useEffect, useRef, useState } from "react";
 
 const steps = [
   "Stand",
-  "Socket",
-  "LED bulb",
+  "Customer-supplied E27 holder",
+  "Customer-supplied LED bulb",
   "Diffuser",
   "Accent shade",
   "Shade",
@@ -129,19 +129,19 @@ export function ApparatusScrollSequence() {
         <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
           <div className="max-w-xl space-y-6">
             <p className="text-xs font-semibold uppercase tracking-[0.34em] text-ts-accent">
-              Apparatus
+              Component system
             </p>
             <h2
               id="apparatus-heading"
               className="text-4xl font-medium tracking-[-0.04em] text-ts-text sm:text-5xl lg:text-6xl"
             >
-              A lighting system, not a single object.
+              Decorative parts, electrically separate.
             </h2>
             <p className="max-w-md text-base leading-7 text-ts-muted sm:text-lg sm:leading-8">
-              A simple apparatus for shaping domestic light: parts are introduced one by
-              one, then understood as an interchangeable system.
+              ArcVane supplies the physical shade, stand, diffuser, and adapter language.
+              Compatible E27 holders, cords, plugs, wiring, and LED bulbs are sourced separately.
             </p>
-            <div className="flex flex-wrap gap-2 pt-2" aria-label="Apparatus assembly progress">
+            <div className="flex flex-wrap gap-2 pt-2" aria-label="Decorative component assembly progress">
               {steps.map((step, index) => (
                 <span
                   key={step}
@@ -160,7 +160,7 @@ export function ApparatusScrollSequence() {
             <svg
               viewBox="0 0 1040 760"
               role="img"
-              aria-label="Scroll-led drawing of the ArcVane tripod stand, socket adapter with cord, E27 LED bulb, diffuser, accent shade, outer shade, and interchangeable shade profiles assembling together."
+              aria-label="Scroll-led drawing of ArcVane decorative components assembled around a customer-supplied compatible E27 holder, cord path, and low-power LED bulb."
               className="relative h-auto w-full"
             >
               <defs>
@@ -360,13 +360,13 @@ export function ApparatusScrollSequence() {
                   <text x="758" y="290">accent — inner glow</text>
                 </g>
                 <g className={annotationClassName(3)}>
-                  <text x="70" y="344">diffuser — softens the source</text>
+                  <text x="70" y="344">diffuser — softens LED light</text>
                 </g>
                 <g className={annotationClassName(2)}>
-                  <text x="758" y="424">bulb — 6000K LED</text>
+                  <text x="758" y="424">customer LED — low heat</text>
                 </g>
                 <g className={annotationClassName(1)}>
-                  <text x="96" y="564">socket — AU plug</text>
+                  <text x="96" y="564">customer E27 holder</text>
                 </g>
                 <g className={annotationClassName(0)}>
                   <text x="708" y="638">stand — the base</text>

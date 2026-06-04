@@ -3,7 +3,7 @@
 export type AdapterType = "E27" | "B22" | "Other / not sure";
 
 export type ProductCategory =
-  | "Table Lamps"
+  | "Lighting Objects"
   | "Shade Sets"
   | "Single Shades"
   | "Coastal Forms"
@@ -33,6 +33,26 @@ export interface ProductMetadata {
   print_profile?: string;
 }
 
+export type ProductSupplyModel =
+  | "decorative-components-only"
+  | "certified-electrical-kit"
+  | "complete-assembled-system";
+
+export interface ProductComponentScope {
+  /** Current supply model for this listing; defaults to decorative-components-only. */
+  supplyModel?: ProductSupplyModel;
+  /** Physical ArcVane components supplied with the product. */
+  included: string[];
+  /** Certified electrical components supplied by ArcVane, reserved for future kit/system listings. */
+  electricalIncluded?: string[];
+  /** Electrical or system components intentionally not supplied by ArcVane for this listing. */
+  notIncluded: string[];
+  /** Components the customer must source separately for intended illuminated use. */
+  customerSupplied: string[];
+  /** Practical fit note for this product's intended E27-compatible use. */
+  compatibility: string;
+}
+
 export interface Product {
   /** App-level product ID. For Shopify products, this is the Shopify global ID. */
   id: string;
@@ -53,6 +73,8 @@ export interface Product {
   images: string[];
   /** Compatible adapter types for this product. E27 is the primary/default system. */
   adapters: AdapterType[];
+  /** Explicit separation between ArcVane physical components and customer-supplied electrical components. */
+  componentScope?: ProductComponentScope | null;
   inStock: boolean;
 
   // --- Shopify-specific identifiers (preserved for downstream use) ---
