@@ -2,6 +2,7 @@
 
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 const steps = [
@@ -154,7 +155,23 @@ export function ApparatusScrollSequence() {
                 />
               ))}
             </div>
-
+            <div className="flex flex-col items-start gap-3 pt-2">
+              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-ts-muted">
+                A longer scroll study · 7 parts
+              </p>
+              <Link
+                href="#materials"
+                className="group inline-flex items-center gap-3 rounded-full border border-ts-accent/35 px-5 py-2.5 text-sm font-semibold text-ts-text transition duration-300 hover:-translate-y-0.5 hover:border-ts-text hover:bg-ts-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts-accent motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+              >
+                Skip to materials
+                <span
+                  aria-hidden="true"
+                  className="transition-transform duration-300 group-hover:translate-y-0.5 motion-reduce:transition-none"
+                >
+                  ↓
+                </span>
+              </Link>
+            </div>
           </div>
 
           <div className="relative overflow-hidden rounded-[2.5rem] border border-ts-accent/20 bg-ts-surface/70 p-3 shadow-[0_28px_95px_rgba(0,0,0,0.12)] sm:p-5 lg:p-7">

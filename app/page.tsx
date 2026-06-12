@@ -105,7 +105,10 @@ export default async function HomePage() {
 
       <ApparatusScrollSequence />
 
-      <section className="bg-ts-bg px-6 py-24 text-ts-text transition-colors duration-300 sm:px-8 lg:px-12 lg:py-32">
+      <section
+        id="materials"
+        className="scroll-mt-20 bg-ts-bg px-6 py-24 text-ts-text transition-colors duration-300 sm:px-8 lg:px-12 lg:py-32"
+      >
         <div className="mx-auto max-w-3xl space-y-8">
           <p className="text-xs font-semibold uppercase tracking-[0.34em] text-ts-accent">
             MATERIALS
@@ -123,16 +126,38 @@ export default async function HomePage() {
             more geological under low light. Every finish is a deliberate decision about
             how light behaves in your room.
           </p>
-          <Link
-            href="/materials"
-            className="inline-flex w-fit text-sm font-semibold text-ts-accent underline-offset-8 transition duration-300 hover:text-ts-text hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts-accent motion-reduce:transition-none"
-          >
-            Explore all finishes →
-          </Link>
+          <div className="flex flex-col items-start gap-4">
+            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-ts-muted">
+              Next · see the light take form
+            </p>
+            <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+              <Link
+                href="#collection"
+                className="group inline-flex items-center justify-center gap-3 rounded-full bg-ts-accent px-6 py-3 text-sm font-semibold text-ts-bg shadow-[0_16px_40px_rgba(0,0,0,0.14)] transition duration-300 hover:-translate-y-0.5 hover:bg-ts-text hover:text-ts-bg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts-accent motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+              >
+                Continue to the collection
+                <span
+                  aria-hidden="true"
+                  className="transition-transform duration-300 group-hover:translate-y-0.5 motion-reduce:transition-none"
+                >
+                  ↓
+                </span>
+              </Link>
+              <Link
+                href="/materials"
+                className="inline-flex w-fit text-sm font-semibold text-ts-accent underline-offset-8 transition duration-300 hover:text-ts-text hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts-accent motion-reduce:transition-none"
+              >
+                Explore materials in detail →
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="bg-ts-bg px-6 py-24 text-ts-text transition-colors duration-300 sm:px-8 lg:px-12 lg:py-32">
+      <section
+        id="collection"
+        className="scroll-mt-20 bg-ts-bg px-6 py-24 text-ts-text transition-colors duration-300 sm:px-8 lg:px-12 lg:py-32"
+      >
         <div className="mx-auto max-w-6xl">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl space-y-5">
@@ -196,10 +221,31 @@ export default async function HomePage() {
               current shade availability.
             </div>
           )}
+
+          <div className="mt-14 flex flex-col items-center gap-3 text-center">
+            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-ts-muted">
+              One final thought
+            </p>
+            <Link
+              href="#begin-with-atmosphere"
+              className="group inline-flex items-center justify-center gap-3 rounded-full border border-ts-accent/35 px-6 py-3 text-sm font-semibold text-ts-text transition duration-300 hover:-translate-y-0.5 hover:border-ts-text hover:bg-ts-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts-accent motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+            >
+              Continue with the light
+              <span
+                aria-hidden="true"
+                className="transition-transform duration-300 group-hover:translate-y-0.5 motion-reduce:transition-none"
+              >
+                ↓
+              </span>
+            </Link>
+          </div>
         </div>
       </section>
 
-      <section className="bg-ts-bg px-6 py-24 text-ts-text transition-colors duration-300 sm:px-8 lg:px-12 lg:py-32">
+      <section
+        id="begin-with-atmosphere"
+        className="scroll-mt-20 bg-ts-bg px-6 py-24 text-ts-text transition-colors duration-300 sm:px-8 lg:px-12 lg:py-32"
+      >
         <div className="mx-auto max-w-5xl rounded-[2.5rem] border border-ts-accent/20 bg-ts-surface/70 px-6 py-14 text-center shadow-[0_28px_95px_rgba(0,0,0,0.14)] transition-colors duration-300 sm:px-10 lg:px-16 lg:py-20">
           <p className="text-xs font-semibold uppercase tracking-[0.34em] text-ts-accent">
             Begin with atmosphere
