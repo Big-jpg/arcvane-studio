@@ -1,5 +1,7 @@
 // app/materials/page.tsx
 import type { Metadata } from "next";
+import Link from "next/link";
+import { ArrowDown, ArrowRight, Layers3, MoonStar, SunMedium } from "lucide-react";
 
 import { FinishSwatch, type FinishSwatchProps } from "@/components/materials/finish-swatch";
 
@@ -12,6 +14,10 @@ export const metadata: Metadata = {
 const finishes: FinishSwatchProps[] = [
   {
     name: "Translucent PLA",
+    summary:
+      "A soft, shell-like diffusion that keeps the printed structure visible without leaving the light source exposed.",
+    behaviour: "Spreads glow through the wall",
+    bestAt: "Dawn and warm evening light",
     variants: [
       {
         label: "Side glow",
@@ -35,6 +41,10 @@ const finishes: FinishSwatchProps[] = [
   },
   {
     name: "Transparent PETG",
+    summary:
+      "Clearer and cooler than PLA, with a glass-like edge that catches highlights and lets layered forms remain legible.",
+    behaviour: "Carries highlights to the edge",
+    bestAt: "Daylight and low-angle light",
     variants: [
       {
         label: "Clear wall",
@@ -58,6 +68,10 @@ const finishes: FinishSwatchProps[] = [
   },
   {
     name: "Glow in the Dark",
+    summary:
+      "Photoluminescent mineral stores light, then returns a quiet green afterglow as the room darkens.",
+    behaviour: "Charges, then slowly releases light",
+    bestAt: "The transition into darkness",
     variants: [
       {
         label: "Charged",
@@ -87,6 +101,10 @@ const finishes: FinishSwatchProps[] = [
   },
   {
     name: "UV Reactive",
+    summary:
+      "Restrained in ordinary light, then unexpectedly vivid under ultraviolet illumination.",
+    behaviour: "Reveals colour under UV",
+    bestAt: "Dusk, events, and hidden accents",
     variants: [
       {
         label: "Room light",
@@ -110,6 +128,10 @@ const finishes: FinishSwatchProps[] = [
   },
   {
     name: "Copper Silk",
+    summary:
+      "A directional metallic finish that moves from earthen brown to bright copper as the viewing angle changes.",
+    behaviour: "Reflects a warm, travelling sheen",
+    bestAt: "Raked and low evening light",
     variants: [
       {
         label: "Broad sheen",
@@ -133,6 +155,10 @@ const finishes: FinishSwatchProps[] = [
   },
   {
     name: "Matte PLA",
+    summary:
+      "A quieter, opaque surface for stands and outer forms where silhouette and shadow matter more than transmitted glow.",
+    behaviour: "Absorbs glare and holds shadow",
+    bestAt: "Bright rooms and sculptural forms",
     variants: [
       {
         label: "Soft shadow",
@@ -158,21 +184,161 @@ const finishes: FinishSwatchProps[] = [
 
 export default function MaterialsPage() {
   return (
-    <main className="bg-ts-bg px-6 py-20 text-ts-text transition-colors duration-300 sm:px-8 sm:py-28 lg:px-12">
-      <section className="mx-auto max-w-7xl">
-        <div className="max-w-3xl">
-          <h1 className="text-4xl font-semibold tracking-[-0.05em] text-ts-text sm:text-6xl">
-            Material finishes
-          </h1>
-          <p className="mt-5 text-base leading-8 text-ts-muted sm:text-lg">
-            Every form begins with a material decision; these finishes show how each surface holds light.
-          </p>
-        </div>
+    <main className="bg-ts-bg text-ts-text transition-colors duration-300">
+      <section className="relative overflow-hidden px-6 pb-20 pt-20 sm:px-8 sm:pb-28 sm:pt-28 lg:px-12">
+        <div
+          className="absolute -right-24 top-8 h-96 w-96 rounded-full bg-ts-accent/10 blur-3xl"
+          aria-hidden="true"
+        />
+        <div className="relative mx-auto grid max-w-7xl gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
+          <div className="max-w-4xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.34em] text-ts-accent">
+              Material studies
+            </p>
+            <h1 className="mt-6 text-5xl font-semibold tracking-[-0.055em] text-ts-text sm:text-6xl lg:text-7xl">
+              Material finishes are another way of shaping light.
+            </h1>
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-ts-muted sm:text-xl sm:leading-9">
+              Every form begins with a material decision; these finishes show how each surface
+              holds, reflects, transmits, or remembers light.
+            </p>
+            <Link
+              href="#finish-studies"
+              className="group mt-9 inline-flex items-center gap-3 rounded-full bg-ts-accent px-6 py-3 text-sm font-semibold text-ts-bg shadow-[0_16px_45px_rgba(0,0,0,0.13)] transition duration-300 hover:-translate-y-0.5 hover:bg-ts-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts-accent motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+            >
+              Explore the finishes
+              <ArrowDown className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5 motion-reduce:transition-none" />
+            </Link>
+          </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {finishes.map((finish) => (
-            <FinishSwatch key={finish.name} {...finish} />
-          ))}
+          <div className="relative min-h-72 overflow-hidden rounded-[2.25rem] border border-ts-accent/20 bg-[radial-gradient(circle_at_48%_42%,rgba(255,225,153,0.8),rgba(216,172,113,0.28)_34%,transparent_63%),linear-gradient(145deg,rgba(255,252,241,0.88),rgba(183,132,78,0.3))] shadow-[0_30px_100px_rgba(0,0,0,0.14)] sm:min-h-96">
+            <div className="absolute inset-x-[22%] bottom-[12%] h-[68%] rounded-b-[48%] rounded-t-[18%] border border-white/40 bg-white/10 shadow-[inset_0_18px_55px_rgba(255,255,255,0.3),inset_0_-28px_65px_rgba(91,55,24,0.16),0_30px_75px_rgba(0,0,0,0.2)] backdrop-blur-[1px]" />
+            <div className="absolute inset-x-[32%] bottom-[20%] h-[48%] rounded-b-[48%] rounded-t-[18%] border-x border-white/25 bg-black/5" />
+            <div className="absolute left-1/2 top-[18%] h-[60%] w-px -translate-x-1/2 bg-white/45" />
+            <div className="absolute left-1/2 top-[14%] h-[12%] w-[16%] -translate-x-1/2 rounded-full border border-white/40 bg-white/25" />
+            <div className="absolute bottom-5 left-5 rounded-full border border-white/35 bg-black/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white backdrop-blur">
+              Light through matter
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-ts-accent/15 bg-ts-surface/35 px-6 py-12 sm:px-8 lg:px-12">
+        <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-3">
+          {[
+            {
+              icon: SunMedium,
+              label: "Transmission",
+              text: "How much light passes through the wall, and how softly it arrives.",
+            },
+            {
+              icon: Layers3,
+              label: "Surface",
+              text: "How ribs, layers, sheen, and opacity make the object visible.",
+            },
+            {
+              icon: MoonStar,
+              label: "Time",
+              text: "How the finish changes between daylight, dusk, UV, and darkness.",
+            },
+          ].map((quality) => {
+            const Icon = quality.icon;
+
+            return (
+              <div key={quality.label} className="flex gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-ts-accent/25 bg-ts-bg/65">
+                  <Icon className="h-5 w-5 text-ts-accent" />
+                </div>
+                <div>
+                  <h2 className="text-base font-semibold text-ts-text">{quality.label}</h2>
+                  <p className="mt-2 text-sm leading-6 text-ts-muted">{quality.text}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section id="finish-studies" className="scroll-mt-20 px-6 py-20 sm:px-8 sm:py-28 lg:px-12">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-12 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-3xl">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-ts-accent">
+                Six material directions
+              </p>
+              <h2 className="mt-5 text-4xl font-semibold tracking-[-0.045em] text-ts-text sm:text-5xl">
+                The same form can tell a different story.
+              </h2>
+            </div>
+            <p className="max-w-md text-sm leading-7 text-ts-muted">
+              Move through each study to compare how the finish behaves as the light source, angle,
+              or room changes.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            {finishes.map((finish) => (
+              <FinishSwatch key={finish.name} {...finish} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-6 pb-20 sm:px-8 sm:pb-28 lg:px-12">
+        <div className="mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] border border-ts-accent/20 bg-ts-surface/70 shadow-[0_28px_95px_rgba(0,0,0,0.12)]">
+          <div className="border-b border-ts-accent/15 px-6 py-10 sm:px-10 lg:px-14">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-ts-accent">
+              Continue the material story
+            </p>
+            <h2 className="mt-5 max-w-3xl text-4xl font-semibold tracking-[-0.045em] text-ts-text sm:text-5xl">
+              See what the material becomes.
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-3">
+            {[
+              {
+                href: "/products",
+                eyebrow: "Collection",
+                title: "Choose a finished form",
+                text: "See these material directions applied to current shades, diffusers, and sets.",
+              },
+              {
+                href: "/process",
+                eyebrow: "Process",
+                title: "Follow the studio work",
+                text: "Move from material choice into printing, finishing, checking, and packing.",
+              },
+              {
+                href: "/#chapter-dawn",
+                eyebrow: "Light journey",
+                title: "Return to the changing room",
+                text: "Follow the homepage study from dawn through evening and into the apparatus.",
+              },
+            ].map((path, index) => (
+              <Link
+                key={path.href}
+                href={path.href}
+                className={`group flex min-h-64 flex-col justify-between p-7 transition-colors hover:bg-ts-bg/65 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ts-accent sm:p-9 ${
+                  index > 0 ? "border-t border-ts-accent/15 md:border-l md:border-t-0" : ""
+                }`}
+              >
+                <div>
+                  <p className="text-[0.68rem] font-semibold uppercase tracking-[0.25em] text-ts-accent">
+                    {path.eyebrow}
+                  </p>
+                  <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-ts-text">
+                    {path.title}
+                  </h3>
+                  <p className="mt-4 text-sm leading-7 text-ts-muted">{path.text}</p>
+                </div>
+                <span className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-ts-text">
+                  Continue
+                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none" />
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
     </main>

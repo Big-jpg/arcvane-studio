@@ -98,6 +98,21 @@ test.describe("ArcVane public smoke coverage", () => {
     await expect(page.getByRole("heading", { name: /Material finishes/i })).toBeVisible();
     await expect(page.getByText(/Every form begins with a material decision/i)).toBeVisible();
     await expect(page.locator("article")).toHaveCount(6);
+    await expect(
+      page.getByRole("button", { name: /Show Back light view for Translucent PLA/i }),
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: /Choose a finished form/i })).toHaveAttribute(
+      "href",
+      "/products",
+    );
+    await expect(page.getByRole("link", { name: /Follow the studio work/i })).toHaveAttribute(
+      "href",
+      "/process",
+    );
+    await expect(page.getByRole("link", { name: /Return to the changing room/i })).toHaveAttribute(
+      "href",
+      "/#chapter-dawn",
+    );
   });
 
   test("process page loads through the canonical process route", async ({ page }) => {
