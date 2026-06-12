@@ -56,6 +56,47 @@ test.describe("ArcVane public smoke coverage", () => {
     await expect.poll(() => page.evaluate(() => document.documentElement.dataset.time)).toBe("evening");
   });
 
+  test("mobile chapters prioritize imagery and concise copy", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+
+    const dawnChapter = page.locator("#chapter-dawn");
+
+    await expect(
+      dawnChapter
+        .getByText("Softens first light into a quiet, structured glow.")
+        .filter({ visible: true }),
+    ).toHaveCount(1);
+    await expect(
+      dawnChapter
+        .getByText(/Some rooms need presence before brightness/i)
+        .filter({ visible: true }),
+    ).toHaveCount(0);
+    await expect(
+      dawnChapter.getByText(/Bedrooms · reading corners/i).filter({ visible: true }),
+    ).toHaveCount(1);
+    await expect(
+      dawnChapter
+        .getByRole("img", { name: /Dawn ArcVane shade study/i })
+        .filter({ visible: true }),
+    ).toHaveCount(1);
+  });
+
+  test("collection introduction adapts for mobile", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/products");
+
+    await expect(
+      page.getByText("Shades, diffusers, and stands designed for changing domestic light."),
+    ).toBeVisible();
+    await expect(page.getByText("Modular forms")).toBeVisible();
+    await expect(page.getByText("Material-led")).toBeVisible();
+    await expect(page.getByText("Small-run")).toBeVisible();
+    await expect(
+      page.getByText(/A decorative component system, not a complete electrical lamp/i),
+    ).toBeHidden();
+  });
+
   test("reduced motion keeps homepage assembly visible without sequential reveal", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.setViewportSize({ width: 1280, height: 900 });

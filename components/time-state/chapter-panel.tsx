@@ -13,11 +13,28 @@ type ChapterPanelProps = {
 export function ChapterPanel({ chapter, index }: ChapterPanelProps) {
   const isReversed = index % 2 === 1;
 
+  const chapterImage = (
+    <>
+      <div className="absolute inset-8 rounded-full bg-ts-accent/15 blur-3xl" aria-hidden="true" />
+      <div className="relative overflow-hidden rounded-[2rem] border border-ts-accent/20 bg-ts-surface/75 p-4 shadow-[0_24px_80px_rgba(0,0,0,0.14)] transition-colors duration-300 sm:p-6 lg:rounded-[2.25rem] lg:p-7 lg:shadow-[0_30px_100px_rgba(0,0,0,0.18)]">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-[1.5rem] bg-ts-bg/70 lg:aspect-[4/5] lg:rounded-[1.75rem]">
+          <ProductImage
+            src={chapter.image}
+            alt={`${chapter.title} ArcVane shade study`}
+            fill
+            sizes="(min-width: 1024px) 46vw, 100vw"
+            className="object-cover transition duration-700 hover:scale-[1.03] motion-reduce:transition-none motion-reduce:hover:scale-100"
+          />
+        </div>
+      </div>
+    </>
+  );
+
   return (
     <section
       id={`chapter-${chapter.key}`}
       data-time-chapter={chapter.key}
-      className="scroll-mt-28 bg-ts-bg px-6 py-24 text-ts-text transition-colors duration-300 sm:px-8 lg:px-12 lg:py-32"
+      className="scroll-mt-24 bg-ts-bg px-5 py-16 text-ts-text transition-colors duration-300 sm:px-8 sm:py-24 lg:scroll-mt-28 lg:px-12 lg:py-32"
       aria-labelledby={`${chapter.key}-chapter-title`}
     >
       <div
@@ -25,7 +42,7 @@ export function ChapterPanel({ chapter, index }: ChapterPanelProps) {
           isReversed ? "lg:[&>*:first-child]:order-2" : ""
         }`}
       >
-        <div className="space-y-8">
+        <div className="space-y-6 lg:space-y-8">
           <div className="space-y-4">
             <p className="text-xs font-semibold uppercase tracking-[0.34em] text-ts-accent">
               {chapter.title}
@@ -38,16 +55,25 @@ export function ChapterPanel({ chapter, index }: ChapterPanelProps) {
             </h2>
           </div>
 
-          <p className="max-w-2xl text-lg leading-8 text-ts-muted sm:text-xl sm:leading-9">
+          <div className="relative lg:hidden">{chapterImage}</div>
+
+          <p className="text-base leading-7 text-ts-muted sm:hidden">{chapter.mobileDescription}</p>
+
+          <p className="hidden max-w-2xl text-lg leading-8 text-ts-muted sm:block sm:text-xl sm:leading-9">
             {chapter.description}
           </p>
 
-          <div className="rounded-[2rem] border border-ts-accent/20 bg-ts-surface/70 p-6 shadow-[0_24px_80px_rgba(0,0,0,0.08)] backdrop-blur transition-colors duration-300">
+          <div className="hidden rounded-[2rem] border border-ts-accent/20 bg-ts-surface/70 p-6 shadow-[0_24px_80px_rgba(0,0,0,0.08)] backdrop-blur transition-colors duration-300 sm:block">
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-ts-accent">
               Best for
             </p>
             <p className="mt-3 text-base leading-7 text-ts-muted">{chapter.bestFor}</p>
           </div>
+
+          <p className="inline-flex rounded-full border border-ts-accent/20 bg-ts-surface/65 px-4 py-2 text-xs font-semibold text-ts-muted sm:hidden">
+            <span className="mr-2 uppercase tracking-[0.18em] text-ts-accent">Best for</span>
+            {chapter.mobileBestFor}
+          </p>
 
           <div className="flex flex-col items-start gap-3">
             <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-ts-muted">
@@ -68,20 +94,7 @@ export function ChapterPanel({ chapter, index }: ChapterPanelProps) {
           </div>
         </div>
 
-        <div className="relative">
-          <div className="absolute inset-8 rounded-full bg-ts-accent/15 blur-3xl" aria-hidden="true" />
-          <div className="relative overflow-hidden rounded-[2.25rem] border border-ts-accent/20 bg-ts-surface/75 p-5 shadow-[0_30px_100px_rgba(0,0,0,0.18)] transition-colors duration-300 sm:p-7">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] bg-ts-bg/70">
-              <ProductImage
-                src={chapter.image}
-                alt={`${chapter.title} ArcVane shade study`}
-                fill
-                sizes="(min-width: 1024px) 46vw, 100vw"
-                className="object-cover transition duration-700 hover:scale-[1.03] motion-reduce:transition-none motion-reduce:hover:scale-100"
-              />
-            </div>
-          </div>
-        </div>
+        <div className="relative hidden lg:block">{chapterImage}</div>
       </div>
     </section>
   );

@@ -70,29 +70,45 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
 
   return (
     <>
-      <section className="bg-ts-bg py-20 text-ts-text transition-colors duration-300 sm:py-28">
+      <section className="bg-ts-bg py-14 text-ts-text transition-colors duration-300 sm:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-ts-accent">
               Lighting collection
             </p>
 
-            <h1 className="mt-5 text-4xl font-semibold tracking-tight text-ts-text sm:text-6xl">
+            <h1 className="mt-4 text-4xl font-semibold tracking-tight text-ts-text sm:mt-5 sm:text-6xl">
               Objects for shaping domestic light.
             </h1>
 
-            <p className="mt-6 max-w-2xl text-base leading-8 text-ts-muted sm:text-lg">
-              A decorative component system, not a complete electrical lamp: shades, diffusers, stands,
-              adapters, and finishes designed to change with the room from dawn to evening.
+            <p className="mt-5 text-base leading-7 text-ts-muted sm:hidden">
+              Shades, diffusers, and stands designed for changing domestic light.
+            </p>
+
+            <p className="mt-6 hidden max-w-2xl text-base leading-8 text-ts-muted sm:block sm:text-lg">
+              A decorative component system, not a complete electrical lamp: shades, diffusers,
+              stands, adapters, and finishes designed to change with the room from dawn to evening.
             </p>
           </div>
 
-          <div className="mt-12 grid grid-cols-1 gap-4 border-y border-ts-accent/20 py-6 text-sm text-ts-muted sm:grid-cols-3">
+          <div className="mt-7 flex flex-wrap gap-2 sm:hidden" aria-label="Collection qualities">
+            {["Modular forms", "Material-led", "Small-run"].map((quality) => (
+              <span
+                key={quality}
+                className="rounded-full border border-ts-accent/25 bg-ts-surface/55 px-3 py-1.5 text-xs font-semibold text-ts-muted"
+              >
+                {quality}
+              </span>
+            ))}
+          </div>
+
+          <div className="mt-12 hidden grid-cols-1 gap-4 border-y border-ts-accent/20 py-6 text-sm text-ts-muted sm:grid sm:grid-cols-3">
             <p>
               <span className="block text-xs font-semibold uppercase tracking-[0.22em] text-ts-muted">
                 Apparatus
               </span>
-              ArcVane shades, diffusers, stands, and adapters; E27 electrical parts are sourced separately.
+              ArcVane shades, diffusers, stands, and adapters; E27 electrical parts are sourced
+              separately.
             </p>
 
             <p>
@@ -143,9 +159,9 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         </div>
       </section>
 
-      <section className="bg-ts-bg py-16 text-ts-text transition-colors duration-300 sm:py-24">
+      <section className="bg-ts-bg py-12 text-ts-text transition-colors duration-300 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-10 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+          <div className="mb-8 flex flex-col justify-between gap-6 sm:mb-10 sm:flex-row sm:items-end">
             <div className="max-w-2xl">
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-ts-muted">
                 {activeCategory ?? "Full collection"}
@@ -160,9 +176,10 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               </h2>
             </div>
 
-            <p className="max-w-md text-sm leading-7 text-ts-muted">
+            <p className="hidden max-w-md text-sm leading-7 text-ts-muted sm:block">
               Each listing belongs to the same modular decorative system. Finish, opacity, and
-              reflected colour may shift with material, customer-supplied LED temperature, and time of day.
+              reflected colour may shift with material, customer-supplied LED temperature, and time
+              of day.
             </p>
           </div>
 
@@ -177,7 +194,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             <div className="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
               {visibleProducts.map((product) => (
                 <Link key={product.id} href={`/products/${product.handle}`} className="group block">
-                  <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] border border-ts-accent/20 bg-ts-surface/70 shadow-sm ">
+                  <div className="relative aspect-square overflow-hidden rounded-[1.75rem] border border-ts-accent/20 bg-ts-surface/70 shadow-sm sm:aspect-[4/5]">
                     <ProductImage
                       src={product.images[0]}
                       alt={product.title}
@@ -204,7 +221,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                     </p>
                   </div>
 
-                  <p className="mt-3 line-clamp-3 text-sm leading-7 text-ts-muted">
+                  <p className="mt-3 line-clamp-2 text-sm leading-7 text-ts-muted sm:line-clamp-3">
                     {product.behaviourNote ?? product.description}
                   </p>
 
