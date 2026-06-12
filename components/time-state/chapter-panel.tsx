@@ -49,12 +49,23 @@ export function ChapterPanel({ chapter, index }: ChapterPanelProps) {
             <p className="mt-3 text-base leading-7 text-ts-muted">{chapter.bestFor}</p>
           </div>
 
-          <Link
-            href={chapter.cta.href}
-            className="inline-flex items-center justify-center rounded-full border border-ts-accent/40 bg-ts-accent px-6 py-3 text-sm font-semibold text-ts-bg shadow-[0_16px_40px_rgba(0,0,0,0.14)] transition duration-300 hover:-translate-y-0.5 hover:bg-ts-text hover:text-ts-bg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts-accent motion-reduce:transition-none motion-reduce:hover:translate-y-0"
-          >
-            {chapter.cta.label}
-          </Link>
+          <div className="flex flex-col items-start gap-3">
+            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-ts-muted">
+              {chapter.cta.cue}
+            </p>
+            <Link
+              href={chapter.cta.href}
+              className="group inline-flex items-center justify-center gap-3 rounded-full border border-ts-accent/40 bg-ts-accent px-6 py-3 text-sm font-semibold text-ts-bg shadow-[0_16px_40px_rgba(0,0,0,0.14)] transition duration-300 hover:-translate-y-0.5 hover:bg-ts-text hover:text-ts-bg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts-accent motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+            >
+              {chapter.cta.label}
+              <span
+                aria-hidden="true"
+                className="transition-transform duration-300 group-hover:translate-y-0.5 motion-reduce:transition-none"
+              >
+                ↓
+              </span>
+            </Link>
+          </div>
         </div>
 
         <div className="relative">

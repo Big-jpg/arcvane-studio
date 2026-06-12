@@ -121,9 +121,10 @@ export function ApparatusScrollSequence() {
 
   return (
     <section
+      id="apparatus"
       ref={sectionRef}
       aria-labelledby="apparatus-heading"
-      className="relative min-h-[460vh] bg-ts-bg px-6 text-ts-text sm:px-8 lg:px-12"
+      className="relative min-h-[460vh] scroll-mt-20 bg-ts-bg px-6 text-ts-text sm:px-8 lg:px-12"
     >
       <div className="sticky top-16 flex min-h-[calc(100vh-4rem)] items-center py-14 sm:top-20 lg:py-20">
         <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">

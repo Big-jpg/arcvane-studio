@@ -6,7 +6,7 @@ export interface TimeChapter {
   subtitle: string;
   description: string;
   bestFor: string;
-  cta: { label: string; href: string };
+  cta: { label: string; href: string; cue: string };
   image?: string;
 }
 
@@ -18,7 +18,11 @@ export const timeChapters: TimeChapter[] = [
     description:
       "Some rooms need presence before brightness. ArcVane shades are designed to soften the first light of the day, giving structure to a space without overwhelming it.",
     bestFor: "bedrooms, reading corners, quiet morning spaces.",
-    cta: { label: "See soft diffusion shades", href: "/products" },
+    cta: {
+      label: "Continue into midday",
+      href: "#chapter-midday",
+      cue: "Next light · 2 of 4",
+    },
     image: "/products/product-01.png",
   },
   {
@@ -28,7 +32,11 @@ export const timeChapters: TimeChapter[] = [
     description:
       "In daylight, the shade becomes a sculptural object: printed geometry, layered material, and the visible relationship between a customer-supplied LED bulb, diffuser, and shell.",
     bestFor: "shelves, desks, sideboards, display lighting.",
-    cta: { label: "View materials", href: "/materials" },
+    cta: {
+      label: "Follow the light to dusk",
+      href: "#chapter-dusk",
+      cue: "Next light · 3 of 4",
+    },
     image: "/products/product-02.png",
   },
   {
@@ -38,7 +46,11 @@ export const timeChapters: TimeChapter[] = [
     description:
       "As natural light falls away, the shade begins to define the room. Edges warm, surfaces flatten, and the object becomes part of the transition from day to evening.",
     bestFor: "living rooms, dining areas, transitional spaces.",
-    cta: { label: "Explore warm light fields", href: "/products" },
+    cta: {
+      label: "Enter the evening",
+      href: "#chapter-evening",
+      cue: "Next light · 4 of 4",
+    },
     image: "/products/product-03.png",
   },
   {
@@ -48,7 +60,11 @@ export const timeChapters: TimeChapter[] = [
     description:
       "Evening light should not feel clinical. ArcVane shades are designed to hold glow close to the object, giving the room a quieter centre.",
     bestFor: "bedside tables, children's rooms, low-light spaces.",
-    cta: { label: "View evening shades", href: "/products" },
+    cta: {
+      label: "See how it comes together",
+      href: "#apparatus",
+      cue: "The apparatus · scroll to assemble",
+    },
     image: "/products/product-04.png",
   },
 ];

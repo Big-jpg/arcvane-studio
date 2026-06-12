@@ -62,19 +62,22 @@ export default async function HomePage() {
               ArcVane creates modular decorative lighting components for homes that value atmosphere,
               material, and restraint.
             </p>
-            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <div className="flex flex-col items-center justify-center gap-4">
               <Link
                 href="#chapter-dawn"
-                className="inline-flex items-center justify-center rounded-full bg-ts-accent px-7 py-3 text-sm font-semibold text-ts-bg shadow-[0_18px_50px_rgba(0,0,0,0.16)] transition duration-300 hover:-translate-y-0.5 hover:bg-ts-text hover:text-ts-bg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts-accent motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                className="group inline-flex items-center justify-center gap-3 rounded-full bg-ts-accent px-7 py-3 text-sm font-semibold text-ts-bg shadow-[0_18px_50px_rgba(0,0,0,0.16)] transition duration-300 hover:-translate-y-0.5 hover:bg-ts-text hover:text-ts-bg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts-accent motion-reduce:transition-none motion-reduce:hover:translate-y-0"
               >
-                Explore the light
+                Follow the light
+                <span
+                  aria-hidden="true"
+                  className="transition-transform duration-300 group-hover:translate-y-0.5 motion-reduce:transition-none"
+                >
+                  ↓
+                </span>
               </Link>
-              <Link
-                href="/products"
-                className="inline-flex items-center justify-center rounded-full border border-ts-accent/40 px-7 py-3 text-sm font-semibold text-ts-text transition duration-300 hover:-translate-y-0.5 hover:border-ts-text hover:bg-ts-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts-accent motion-reduce:transition-none motion-reduce:hover:translate-y-0"
-              >
-                View shades
-              </Link>
+              <p className="text-xs font-semibold uppercase tracking-[0.26em] text-ts-muted">
+                Four moments · one continuous study
+              </p>
             </div>
           </div>
 
