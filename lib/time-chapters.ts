@@ -67,9 +67,9 @@ export const timeChapters: TimeChapter[] = [
     bestFor: "bedside tables, children's rooms, low-light spaces.",
     mobileBestFor: "Bedside · low-light spaces",
     cta: {
-      label: "See how it comes together",
-      href: "#apparatus",
-      cue: "The apparatus · scroll to assemble",
+      label: "See the collection",
+      href: "#collection",
+      cue: "Collection · find your shade",
     },
     image: "/products/product-04.png",
   },

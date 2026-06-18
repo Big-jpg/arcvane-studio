@@ -4,10 +4,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { ProductImage } from "@/components/product-image";
-import { ApparatusScrollSequence } from "@/components/time-state/apparatus-scroll-sequence";
 import { ChapterPanel } from "@/components/time-state/chapter-panel";
 import { HomeTimeStateObserver } from "@/components/time-state/home-time-state-observer";
-import { StartEveningButton } from "@/components/time-state/start-evening-button";
 import { getProducts } from "@/lib/catalogue";
 import { timeChapters } from "@/lib/time-chapters";
 import type { Product } from "@/lib/types";
@@ -29,17 +27,6 @@ function formatTimeState(timeState?: Product["timeState"]) {
     .split(" / ")
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(" / ");
-}
-
-function formatPrice(product: Product) {
-  try {
-    return new Intl.NumberFormat("en-AU", {
-      style: "currency",
-      currency: product.currency || "AUD",
-    }).format(product.price);
-  } catch {
-    return `$${product.price.toFixed(2)}`;
-  }
 }
 
 export default async function HomePage() {
@@ -98,50 +85,6 @@ export default async function HomePage() {
         <ChapterPanel key={chapter.key} chapter={chapter} index={index} />
       ))}
 
-      <ApparatusScrollSequence />
-
-      <section
-        id="materials"
-        className="scroll-mt-20 bg-ts-bg px-6 py-24 text-ts-text transition-colors duration-300 sm:px-8 lg:px-12 lg:py-32"
-      >
-        <div className="mx-auto max-w-3xl space-y-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.34em] text-ts-accent">
-            MATERIALS
-          </p>
-          <h2 className="text-4xl font-medium tracking-[-0.04em] sm:text-5xl">
-            Each material changes the light in its own way.
-          </h2>
-          <p className="text-lg leading-8 text-ts-muted sm:text-xl sm:leading-9">
-            Photoluminescent. UV-reactive. Copper silk. Each finish changes how light behaves.
-          </p>
-          <div className="flex flex-col items-start gap-4">
-            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-ts-muted">
-              Next · see the light take form
-            </p>
-            <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-              <Link
-                href="#collection"
-                className="group inline-flex items-center justify-center gap-3 rounded-full bg-ts-accent px-6 py-3 text-sm font-semibold text-ts-bg shadow-[0_16px_40px_rgba(0,0,0,0.14)] transition duration-300 hover:-translate-y-0.5 hover:bg-ts-text hover:text-ts-bg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts-accent motion-reduce:transition-none motion-reduce:hover:translate-y-0"
-              >
-                Continue to the collection
-                <span
-                  aria-hidden="true"
-                  className="transition-transform duration-300 group-hover:translate-y-0.5 motion-reduce:transition-none"
-                >
-                  ↓
-                </span>
-              </Link>
-              <Link
-                href="/materials"
-                className="inline-flex w-fit text-sm font-semibold text-ts-accent underline-offset-8 transition duration-300 hover:text-ts-text hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts-accent motion-reduce:transition-none"
-              >
-                Explore materials in detail →
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section
         id="collection"
         className="scroll-mt-20 bg-ts-bg px-6 py-24 text-ts-text transition-colors duration-300 sm:px-8 lg:px-12 lg:py-32"
@@ -167,9 +110,10 @@ export default async function HomePage() {
           {previewProducts.length > 0 ? (
             <div className="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {previewProducts.map((product) => (
-                  <article
+                  <Link
                     key={product.id}
-                    className="overflow-hidden rounded-[2.25rem] border border-ts-accent/20 bg-ts-surface shadow-[0_24px_80px_rgba(0,0,0,0.10)]"
+                    href={`/products/${product.handle}`}
+                    className="group overflow-hidden rounded-[2.25rem] border border-ts-accent/20 bg-ts-surface shadow-[0_24px_80px_rgba(0,0,0,0.10)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_32px_100px_rgba(0,0,0,0.16)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts-accent motion-reduce:transition-none motion-reduce:hover:translate-y-0"
                   >
                     <div className="relative aspect-[4/3] bg-ts-bg/60">
                       <ProductImage
@@ -177,7 +121,7 @@ export default async function HomePage() {
                         alt={product.title}
                         fill
                         sizes="(min-width: 1280px) 31vw, (min-width: 768px) 47vw, 100vw"
-                        className="object-cover transition duration-700 hover:scale-[1.03] motion-reduce:transition-none motion-reduce:hover:scale-100"
+                        className="object-cover transition duration-700 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                       />
                     </div>
                     <div className="space-y-5 p-6 sm:p-7">
@@ -190,17 +134,8 @@ export default async function HomePage() {
                         </h3>
                       </div>
                       <p className="text-sm leading-7 text-ts-muted">{product.behaviourNote ?? product.description}</p>
-                      <div className="flex items-center justify-between gap-4 border-t border-ts-accent/20 pt-5">
-                        <p className="text-base font-semibold text-ts-text">{formatPrice(product)}</p>
-                        <Link
-                          href={`/products/${product.handle}`}
-                          className="inline-flex items-center justify-center rounded-full bg-ts-text px-5 py-2.5 text-sm font-semibold text-ts-bg transition duration-300 hover:-translate-y-0.5 hover:bg-ts-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts-accent motion-reduce:transition-none motion-reduce:hover:translate-y-0"
-                        >
-                          View
-                        </Link>
-                      </div>
                     </div>
-                  </article>
+                  </Link>
                 ))}
             </div>
           ) : (
@@ -209,24 +144,6 @@ export default async function HomePage() {
               current shade availability.
             </div>
           )}
-
-          <div className="mt-14 flex flex-col items-center gap-3 text-center">
-            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-ts-muted">
-              One final thought
-            </p>
-            <Link
-              href="#begin-with-atmosphere"
-              className="group inline-flex items-center justify-center gap-3 rounded-full border border-ts-accent/35 px-6 py-3 text-sm font-semibold text-ts-text transition duration-300 hover:-translate-y-0.5 hover:border-ts-text hover:bg-ts-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts-accent motion-reduce:transition-none motion-reduce:hover:translate-y-0"
-            >
-              Continue with the light
-              <span
-                aria-hidden="true"
-                className="transition-transform duration-300 group-hover:translate-y-0.5 motion-reduce:transition-none"
-              >
-                ↓
-              </span>
-            </Link>
-          </div>
         </div>
       </section>
 
@@ -246,7 +163,6 @@ export default async function HomePage() {
             >
               Find your shade
             </Link>
-            <StartEveningButton />
           </div>
         </div>
       </section>
