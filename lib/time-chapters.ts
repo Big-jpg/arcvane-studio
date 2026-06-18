@@ -17,9 +17,8 @@ export const timeChapters: TimeChapter[] = [
     key: "dawn",
     title: "Dawn",
     subtitle: "Light that enters softly.",
-    description:
-      "Some rooms need presence before brightness. ArcVane shades are designed to soften the first light of the day, giving structure to a space without overwhelming it.",
-    mobileDescription: "Softens first light into a quiet, structured glow.",
+    description: "Softens first light into quiet structure.",
+    mobileDescription: "Softens first light into quiet structure.",
     bestFor: "bedrooms, reading corners, quiet morning spaces.",
     mobileBestFor: "Bedrooms · reading corners",
     cta: {
@@ -33,9 +32,8 @@ export const timeChapters: TimeChapter[] = [
     key: "midday",
     title: "Midday",
     subtitle: "The object, clearly seen.",
-    description:
-      "In daylight, the shade becomes a sculptural object: printed geometry, layered material, and the visible relationship between a customer-supplied LED bulb, diffuser, and shell.",
-    mobileDescription: "Printed geometry and layered material become part of the room.",
+    description: "Printed geometry becomes part of the room.",
+    mobileDescription: "Printed geometry becomes part of the room.",
     bestFor: "shelves, desks, sideboards, display lighting.",
     mobileBestFor: "Desks · shelves · sideboards",
     cta: {
@@ -49,9 +47,8 @@ export const timeChapters: TimeChapter[] = [
     key: "dusk",
     title: "Dusk",
     subtitle: "A room changes before the light does.",
-    description:
-      "As natural light falls away, the shade begins to define the room. Edges warm, surfaces flatten, and the object becomes part of the transition from day to evening.",
-    mobileDescription: "Warm edges carry the room from daylight into evening.",
+    description: "Edges warm as the room transitions.",
+    mobileDescription: "Edges warm as the room transitions.",
     bestFor: "living rooms, dining areas, transitional spaces.",
     mobileBestFor: "Living · dining · transition",
     cta: {
@@ -65,9 +62,8 @@ export const timeChapters: TimeChapter[] = [
     key: "evening",
     title: "Evening",
     subtitle: "Held light, softened edges.",
-    description:
-      "Evening light should not feel clinical. ArcVane shades are designed to hold glow close to the object, giving the room a quieter centre.",
-    mobileDescription: "Holds a gentle glow close, creating a quieter centre.",
+    description: "Holds glow close. A quieter centre.",
+    mobileDescription: "Holds glow close. A quieter centre.",
     bestFor: "bedside tables, children's rooms, low-light spaces.",
     mobileBestFor: "Bedside · low-light spaces",
     cta: {
