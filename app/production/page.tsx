@@ -57,8 +57,7 @@ export default function ProductionPage() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-8 text-ts-muted sm:text-lg">
-            ArcVane pieces are made through a compact studio workflow: print, finish, check, pack,
-            dispatch. No offshore catalogue. No sprawling options matrix.
+            Print, finish, check, pack, dispatch. One studio, small runs.
           </p>
         </div>
       </section>
@@ -94,11 +93,6 @@ export default function ProductionPage() {
                 <h2 className="mt-5 text-3xl font-semibold tracking-tight text-ts-text">
                   A simple order path.
                 </h2>
-
-                <p className="mt-5 text-sm leading-7 text-ts-muted">
-                  Most orders follow the same rhythm: make or finish the piece, check the supplied
-                  component fit, pack it properly, then send it out.
-                </p>
               </div>
 
               <dl className="divide-y divide-ts-accent/15 rounded-2xl border border-ts-accent/20 bg-ts-bg/55">
@@ -124,15 +118,7 @@ export default function ProductionPage() {
             </h2>
 
             <div className="mt-5 max-w-3xl space-y-4 text-sm leading-7 text-ts-muted">
-              <p>
-                Layer texture, small tonal shifts, and subtle diffusion differences are expected.
-                Each piece should match the listing, but not feel anonymous or injection-moulded.
-              </p>
-
-              <p>
-                For finish, component fit, or delivery questions, contact the studio before ordering. The
-                current focus is a curated collection of decorative components and compatible shade systems.
-              </p>
+              <p>Layer texture and tonal shifts are expected — each piece is printed, not moulded.</p>
             </div>
 
             <Link

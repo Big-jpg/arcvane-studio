@@ -75,20 +75,7 @@ export default function AboutPage() {
           <section className="mt-12 rounded-[2rem] border border-ts-accent/20 bg-ts-surface/70 p-6 sm:p-10">
             <div className="max-w-3xl space-y-5 text-sm leading-7 text-ts-muted">
               <p>
-                ArcVane works from coastal references into decorative lighting
-                components: shell-like diffusion, matte stands, mechanical adapters, and
-                forms that sit calmly in domestic rooms.
-              </p>
-
-              <p>
-                PLA is used because it suits the work. Clear PLA softens light
-                like frosted shell or sea glass. Matte PLA gives bases and
-                stands a quieter, handled surface.
-              </p>
-
-              <p>
-                The collection is intentionally narrow: shades, shade
-                sets, stands, diffusers, and accessories shaped for customer-supplied E27 components.
+                Coastal forms, quiet diffusion, small runs. Shades and stands for customer-supplied E27 components.
               </p>
             </div>
 

@@ -91,7 +91,7 @@ function getComponentScopeNotice(supplyModel: ProductSupplyModel): {
 
   return {
     title: "Decorative component, not electrical assembly",
-    body: "This listing covers the ArcVane physical components only. Bulbs, electrical sockets, cords, plugs, lamp holders, complete lamp bases, and other electrical assemblies are sourced separately by the customer unless explicitly stated.",
+    body: "Decorative component only. Electrical parts (bulb, socket, cord, plug) sourced separately.",
   };
 }
 
@@ -274,11 +274,6 @@ export function ProductDetail({ product }: { product: Product }) {
                   })}
                 </div>
               ) : null}
-              <p className="mt-4 text-xs leading-6 text-ts-muted">
-                Finish tone photography is paired as quiet and illuminated views. Colour,
-                translucency, and surface rhythm may shift with customer-supplied LED temperature,
-                room light, and small-batch finishing.
-              </p>
             </div>
 
             <div className="flex flex-col">
@@ -335,10 +330,6 @@ export function ProductDetail({ product }: { product: Product }) {
                       </button>
                     ))}
                   </div>
-                  <p className="mt-3 text-xs leading-6 text-ts-muted">
-                    Material finishes are selected as studio directions, not exact industrial colour
-                    matches. Small differences between batches are expected.
-                  </p>
                   {selectedToneImages && !selectedToneImages.complete ? (
                     <p className="mt-2 text-xs leading-6 text-ts-accent">
                       This finish is missing one of its paired views, so the available product
@@ -350,17 +341,12 @@ export function ProductDetail({ product }: { product: Product }) {
 
               <ProductFulfilmentDetails product={product} componentScope={componentScope} />
 
-              <p className="mt-6 text-xs leading-6 text-ts-muted/70">
-                Small-batch finishing is part of the object. Fine layer rhythm, variable translucency,
-                and subtle tone changes are natural texture, not defects.
-              </p>
-
               <button
                 type="button"
                 disabled={!canAdd}
                 onClick={handleAddToCart}
                 className={cn(
-                  "mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-4 text-sm font-semibold transition-all",
+                  "mt-8 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-8 py-4 text-sm font-semibold uppercase tracking-[0.2em] transition-all motion-reduce:transition-none",
                   canAdd
                     ? "bg-ts-text text-ts-bg hover:bg-ts-accent"
                     : "cursor-not-allowed bg-ts-text/15 text-ts-text/40",
@@ -369,11 +355,6 @@ export function ProductDetail({ product }: { product: Product }) {
                 <ShoppingBag className="h-4 w-4" />
                 Add to selection
               </button>
-
-              <p className="mt-4 text-center text-xs leading-6 text-ts-muted/60">
-                Added pieces appear in your selection for review before checkout. Fit, finish, and
-                low-heat LED acknowledgement are confirmed before ordering.
-              </p>
             </div>
           </div>
         </div>
