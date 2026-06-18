@@ -58,10 +58,7 @@ export default async function HomePage() {
             <h1 className="text-5xl font-medium tracking-[-0.055em] text-ts-text sm:text-6xl lg:text-8xl">
               Light, shaped for the room it enters.
             </h1>
-            <p className="mx-auto max-w-2xl text-lg leading-8 text-ts-muted sm:text-xl sm:leading-9">
-              ArcVane creates modular decorative lighting components for homes that value atmosphere,
-              material, and restraint.
-            </p>
+
             <div className="flex flex-col items-center justify-center gap-4">
               <Link
                 href="#chapter-dawn"
@@ -75,9 +72,7 @@ export default async function HomePage() {
                   ↓
                 </span>
               </Link>
-              <p className="text-xs font-semibold uppercase tracking-[0.26em] text-ts-muted">
-                Four moments · one continuous study
-              </p>
+
             </div>
           </div>
 
@@ -117,14 +112,7 @@ export default async function HomePage() {
             Each material changes the light in its own way.
           </h2>
           <p className="text-lg leading-8 text-ts-muted sm:text-xl sm:leading-9">
-            We do not choose materials for cost or convenience. {" "}
-            <em className="text-ts-accent not-italic">Photoluminescent minerals</em>
-            {" "}store and return light; {" "}
-            <em className="text-ts-accent not-italic">UV-reactive pigments</em>
-            {" "}reveal hidden colour at dusk; {" "}
-            <em className="text-ts-accent not-italic">Copper silk</em> reads warmer and
-            more geological under low light. Every finish is a deliberate decision about
-            how light behaves in your room.
+            Photoluminescent. UV-reactive. Copper silk. Each finish changes how light behaves.
           </p>
           <div className="flex flex-col items-start gap-4">
             <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-ts-muted">
@@ -247,9 +235,7 @@ export default async function HomePage() {
         className="scroll-mt-20 bg-ts-bg px-6 py-24 text-ts-text transition-colors duration-300 sm:px-8 lg:px-12 lg:py-32"
       >
         <div className="mx-auto max-w-5xl rounded-[2.5rem] border border-ts-accent/20 bg-ts-surface/70 px-6 py-14 text-center shadow-[0_28px_95px_rgba(0,0,0,0.14)] transition-colors duration-300 sm:px-10 lg:px-16 lg:py-20">
-          <p className="text-xs font-semibold uppercase tracking-[0.34em] text-ts-accent">
-            Begin with atmosphere
-          </p>
+
           <h2 className="mx-auto mt-6 max-w-3xl text-4xl font-medium tracking-[-0.045em] sm:text-5xl lg:text-6xl">
             Choose the light first. The object follows.
           </h2>

@@ -140,8 +140,7 @@ export function ApparatusScrollSequence() {
               Decorative parts, electrically separate.
             </h2>
             <p className="max-w-md text-base leading-7 text-ts-muted sm:text-lg sm:leading-8">
-              ArcVane supplies the physical shade, stand, diffuser, and mechanical adapter parts where
-              listed. The lamp holder, bulb, socket, cord, plug, and wiring remain separate.
+              ArcVane supplies the decorative parts. Electrical components remain separate.
             </p>
             <div className="flex flex-wrap gap-2 pt-2" aria-label="Decorative component assembly progress">
               {steps.map((step, index) => (
@@ -156,9 +155,6 @@ export function ApparatusScrollSequence() {
               ))}
             </div>
             <div className="flex flex-col items-start gap-3 pt-2">
-              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-ts-muted">
-                A longer scroll study · 7 parts
-              </p>
               <Link
                 href="#materials"
                 className="group inline-flex items-center gap-3 rounded-full border border-ts-accent/35 px-5 py-2.5 text-sm font-semibold text-ts-text transition duration-300 hover:-translate-y-0.5 hover:border-ts-text hover:bg-ts-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts-accent motion-reduce:transition-none motion-reduce:hover:translate-y-0"
