@@ -270,10 +270,7 @@ export default function MaterialsPage() {
                 The same form can tell a different story.
               </h2>
             </div>
-            <p className="max-w-md text-sm leading-7 text-ts-muted">
-              Move through each study to compare how the finish behaves as the light source, angle,
-              or room changes.
-            </p>
+
           </div>
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -301,19 +298,19 @@ export default function MaterialsPage() {
                 href: "/products",
                 eyebrow: "Collection",
                 title: "Choose a finished form",
-                text: "See these material directions applied to current shades, diffusers, and sets.",
+                text: "",
               },
               {
                 href: "/process",
                 eyebrow: "Process",
                 title: "Follow the studio work",
-                text: "Move from material choice into printing, finishing, checking, and packing.",
+                text: "",
               },
               {
                 href: "/#chapter-dawn",
                 eyebrow: "Light journey",
                 title: "Return to the changing room",
-                text: "Follow the homepage study from dawn through evening and into the apparatus.",
+                text: "",
               },
             ].map((path, index) => (
               <Link
@@ -330,7 +327,7 @@ export default function MaterialsPage() {
                   <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-ts-text">
                     {path.title}
                   </h3>
-                  <p className="mt-4 text-sm leading-7 text-ts-muted">{path.text}</p>
+                  {path.text && <p className="mt-4 text-sm leading-7 text-ts-muted">{path.text}</p>}
                 </div>
                 <span className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-ts-text">
                   Continue

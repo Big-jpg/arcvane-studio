@@ -80,50 +80,6 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             <h1 className="mt-4 text-4xl font-semibold tracking-tight text-ts-text sm:mt-5 sm:text-6xl">
               Objects for shaping domestic light.
             </h1>
-
-            <p className="mt-5 text-base leading-7 text-ts-muted sm:hidden">
-              Shades, diffusers, and stands designed for changing domestic light.
-            </p>
-
-            <p className="mt-6 hidden max-w-2xl text-base leading-8 text-ts-muted sm:block sm:text-lg">
-              A decorative component system, not a complete electrical lamp: shades, diffusers,
-              stands, adapters, and finishes designed to change with the room from dawn to evening.
-            </p>
-          </div>
-
-          <div className="mt-7 flex flex-wrap gap-2 sm:hidden" aria-label="Collection qualities">
-            {["Modular forms", "Material-led", "Small-run"].map((quality) => (
-              <span
-                key={quality}
-                className="rounded-full border border-ts-accent/25 bg-ts-surface/55 px-3 py-1.5 text-xs font-semibold text-ts-muted"
-              >
-                {quality}
-              </span>
-            ))}
-          </div>
-
-          <div className="mt-12 hidden grid-cols-1 gap-4 border-y border-ts-accent/20 py-6 text-sm text-ts-muted sm:grid sm:grid-cols-3">
-            <p>
-              <span className="block text-xs font-semibold uppercase tracking-[0.22em] text-ts-muted">
-                Apparatus
-              </span>
-              ArcVane shades, diffusers, stands, and adapters; E27 electrical parts are sourced
-              separately.
-            </p>
-
-            <p>
-              <span className="block text-xs font-semibold uppercase tracking-[0.22em] text-ts-muted">
-                Materials
-              </span>
-              Photoluminescent minerals, UV-reactive pigments, and copper silk finishes.
-            </p>
-
-            <p>
-              <span className="block text-xs font-semibold uppercase tracking-[0.22em] text-ts-muted">
-                Production
-              </span>
-              Atelier-scale batches, made with restraint rather than volume.
-            </p>
           </div>
         </div>
       </section>
@@ -176,11 +132,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               </h2>
             </div>
 
-            <p className="hidden max-w-md text-sm leading-7 text-ts-muted sm:block">
-              Each listing belongs to the same modular decorative system. Finish, opacity, and
-              reflected colour may shift with material, customer-supplied LED temperature, and time
-              of day.
-            </p>
+
           </div>
 
           {visibleProducts.length === 0 ? (
