@@ -2,6 +2,7 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
+import { getFinishTonality } from "@/lib/finish-tonality";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle2, ShoppingBag } from "lucide-react";
 import type { AdapterType, Product, ProductSupplyModel } from "@/lib/types";
@@ -128,6 +129,13 @@ export function ProductDetail({ product }: { product: Product }) {
   const scopeNotice = getComponentScopeNotice(supplyModel);
   const canAdd = selectedColour.length > 0;
 
+  // Ambient tonality: derive radial gradient from selected material finish
+  const finishTonality = useMemo(() => getFinishTonality(selectedColour), [selectedColour]);
+  const ambientGradient = useMemo(() => {
+    if (!finishTonality) return "none";
+    return `radial-gradient(ellipse 120% 100% at 30% 35%, ${finishTonality.colourInner} 0%, ${finishTonality.colour} 40%, transparent 75%)`;
+  }, [finishTonality]);
+
   const sendBuyerEvent = useCallback(
     (eventType: "cart_created", payload: Record<string, unknown>) => {
       void fetch("/api/buyer-events", {
@@ -202,7 +210,16 @@ export function ProductDetail({ product }: { product: Product }) {
         </div>
       </div>
 
-      <section className="bg-ts-bg py-10 text-ts-text transition-colors duration-300 sm:py-16">
+      <section className="relative bg-ts-bg py-10 text-ts-text transition-colors duration-300 sm:py-16">
+        {/* Ambient tonality overlay — additive radial wash from product image area */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 motion-reduce:!transition-none"
+          style={{
+            background: ambientGradient,
+            transition: "background 800ms ease",
+          }}
+        />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1.08fr)_minmax(380px,0.92fr)] lg:gap-16">
             <div>
