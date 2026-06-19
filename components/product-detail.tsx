@@ -18,6 +18,7 @@ import {
 import { Toast } from "@/components/toast";
 import { ProductImage } from "@/components/product-image";
 import { ProductFulfilmentDetails } from "@/components/product-fulfilment-details";
+import { CompleteYourSetup } from "@/components/complete-your-setup";
 
 function getPrimaryAdapter(product: Product): AdapterType {
   return product.adapters.includes("E27") ? "E27" : (product.adapters[0] ?? "E27");
@@ -359,6 +360,15 @@ export function ProductDetail({ product }: { product: Product }) {
           </div>
         </div>
       </section>
+
+      {/* Show accessory upsell for shade/lighting products with E27 fitting */}
+      {product.category !== "Accessories" && product.adapters.includes("E27") && (
+        <section className="bg-ts-bg pb-16">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <CompleteYourSetup />
+          </div>
+        </section>
+      )}
 
       <Toast
         message={`${product.title} added to selection`}
