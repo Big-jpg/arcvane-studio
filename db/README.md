@@ -19,6 +19,8 @@ Migrations are plain SQL files in `db/migrations/` and must be run in order.
 psql $DATABASE_URL -f db/migrations/001_initial_schema.sql
 psql $DATABASE_URL -f db/migrations/002_bom_tables.sql
 psql $DATABASE_URL -f db/migrations/003_products_table.sql
+psql $DATABASE_URL -f db/migrations/004_accessories.sql
+psql $DATABASE_URL -f db/migrations/005_catalogue_v2.sql
 ```
 
 ## Installing Stored Procedures
@@ -31,6 +33,7 @@ psql $DATABASE_URL -f db/procedures/auth_procedures.sql
 psql $DATABASE_URL -f db/procedures/pickup_procedures.sql
 psql $DATABASE_URL -f db/procedures/bom_procedures.sql
 psql $DATABASE_URL -f db/procedures/product_procedures.sql
+psql $DATABASE_URL -f db/procedures/catalogue_v2_procedures.sql
 ```
 
 To re-run procedures (e.g. after editing): all functions use `CREATE OR REPLACE FUNCTION`, so re-running is safe and idempotent.
@@ -50,11 +53,12 @@ psql $DATABASE_URL -f db/migrations/001_initial_schema.sql \
   && psql $DATABASE_URL -f db/procedures/product_procedures.sql
 ```
 
-The package scripts mirror this order:
+The package scripts use a migration ledger and install procedures transactionally:
 
 ```bash
 pnpm db:migrate
 pnpm db:procedures
+pnpm db:validate
 ```
 
 Do not run setup commands against production until `DATABASE_URL` has been checked and a provider-level backup or export has been taken.
@@ -77,6 +81,9 @@ Do not run setup commands against production until `DATABASE_URL` has been check
 | `bom_components`         | Admin-lite bill-of-materials components    |
 | `bom_lines`              | Product-to-component bill-of-material rows |
 | `admin_products`         | Admin-lite product catalogue rows          |
+| `product_variants`       | Purchasable finish/SKU/inventory records   |
+| `product_media`          | Normalized Vercel Blob image metadata      |
+| `schema_migrations`      | Applied migration ledger                   |
 
 ## Operational Data Notes
 
@@ -127,26 +134,26 @@ Provider-managed schemas such as Neon `neon_auth` are not owned by this applicat
 
 ### BOM Procedures (`bom_procedures.sql`)
 
-| Function                       | Description                                               |
-| ------------------------------ | --------------------------------------------------------- |
-| `upsert_bom_component(...)`    | Creates or updates a BOM component.                       |
-| `delete_bom_component(...)`    | Deletes an unused BOM component.                          |
-| `list_bom_components(...)`     | Returns BOM components for admin-lite views.              |
-| `upsert_bom_line(...)`         | Creates or updates a product BOM line.                    |
-| `delete_bom_line(...)`         | Deletes a product BOM line.                               |
-| `get_product_bom(...)`         | Returns component-expanded BOM lines for a product.       |
+| Function                    | Description                                         |
+| --------------------------- | --------------------------------------------------- |
+| `upsert_bom_component(...)` | Creates or updates a BOM component.                 |
+| `delete_bom_component(...)` | Deletes an unused BOM component.                    |
+| `list_bom_components(...)`  | Returns BOM components for admin-lite views.        |
+| `upsert_bom_line(...)`      | Creates or updates a product BOM line.              |
+| `delete_bom_line(...)`      | Deletes a product BOM line.                         |
+| `get_product_bom(...)`      | Returns component-expanded BOM lines for a product. |
 
 ### Product Procedures (`product_procedures.sql`)
 
-| Function                           | Description                                              |
-| ---------------------------------- | -------------------------------------------------------- |
-| `list_admin_products(...)`         | Returns admin-lite product catalogue rows.               |
-| `get_admin_product(...)`           | Retrieves a product by id.                               |
-| `get_admin_product_by_handle(...)` | Retrieves a product by URL handle.                       |
-| `upsert_admin_product(...)`        | Creates or updates an admin-lite catalogue product.      |
-| `append_admin_product_image(...)`  | Adds an image URL to a product image list.               |
-| `delete_admin_product(...)`        | Deletes an admin-lite catalogue product.                 |
-| `toggle_admin_product_stock(...)`  | Updates product stock visibility for admin-lite flows.   |
+| Function                           | Description                                            |
+| ---------------------------------- | ------------------------------------------------------ |
+| `list_admin_products(...)`         | Returns admin-lite product catalogue rows.             |
+| `get_admin_product(...)`           | Retrieves a product by id.                             |
+| `get_admin_product_by_handle(...)` | Retrieves a product by URL handle.                     |
+| `upsert_admin_product(...)`        | Creates or updates an admin-lite catalogue product.    |
+| `append_admin_product_image(...)`  | Adds an image URL to a product image list.             |
+| `delete_admin_product(...)`        | Deletes an admin-lite catalogue product.               |
+| `toggle_admin_product_stock(...)`  | Updates product stock visibility for admin-lite flows. |
 
 ## Metadata Fields (Future-Ready)
 

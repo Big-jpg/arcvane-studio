@@ -1,10 +1,11 @@
 // lib/product-options.ts
 // Shared product catalogue option lists and deterministic form helpers.
 
-import type { AdapterType, ProductCategory } from "./types";
+import type { AdapterType, ProductCategory, ProductTimeState } from "./types";
 
 export const PRODUCT_CATEGORIES: ProductCategory[] = [
   "Lighting Objects",
+  "Table Lamps",
   "Shade Sets",
   "Single Shades",
   "Coastal Forms",
@@ -22,6 +23,14 @@ export const COLOUR_OPTIONS = [
 ] as const;
 
 export const ADAPTER_OPTIONS: AdapterType[] = ["E27", "B22", "Other / not sure"];
+export const PRODUCT_TIME_STATES: ProductTimeState[] = [
+  "dawn",
+  "midday",
+  "dusk",
+  "evening",
+  "dawn / midday",
+  "dusk / evening",
+];
 
 // Backwards-compatible export used by admin-lite and server validation code.
 export const ADAPTER_TYPES = ADAPTER_OPTIONS;

@@ -6,6 +6,7 @@ import {
   getAdminDashboardOverview,
   getCustomDesignRequestsAdmin,
   getRecentOrdersAdmin,
+  getSalesSummary,
 } from "@/server/db/contracts";
 
 export const dynamic = "force-dynamic";
@@ -32,13 +33,26 @@ function statusLabel(status: string): string {
 }
 
 export default async function AdminDashboardPage() {
-  const [overview, recentOrders, customRequests] = await Promise.all([
+  const [overview, recentOrders, customRequests, sales] = await Promise.all([
     getAdminDashboardOverview(),
     getRecentOrdersAdmin(5, 0),
     getCustomDesignRequestsAdmin(5, 0, null),
+    getSalesSummary(),
   ]);
 
   const cards = [
+    {
+      label: "Net sales",
+      value: formatCurrency(Number(sales?.net_amount ?? 0), "AUD"),
+      description: "Paid sales less recorded refunds in the last 30 days.",
+      href: "/admin/orders",
+    },
+    {
+      label: "Units sold",
+      value: Number(sales?.units_sold ?? 0),
+      description: "Catalogue units sold in the last 30 days.",
+      href: "/admin/orders",
+    },
     {
       label: "Recent orders",
       value: Number(overview?.recent_orders_count ?? 0),
@@ -61,7 +75,7 @@ export default async function AdminDashboardPage() {
 
   return (
     <div className="space-y-10">
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
         {cards.map((card) => (
           <Link
             key={card.label}
@@ -71,11 +85,32 @@ export default async function AdminDashboardPage() {
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-charcoal/50">
               {card.label}
             </p>
-            <p className="mt-4 font-serif text-5xl font-semibold text-charcoal">{card.value}</p>
+            <p className="mt-4 font-serif text-4xl font-semibold text-charcoal">{card.value}</p>
             <p className="mt-3 text-sm leading-6 text-charcoal/65">{card.description}</p>
           </Link>
         ))}
       </div>
+
+      {sales?.products.length ? (
+        <section className="rounded-2xl border border-charcoal/10 bg-white p-6 shadow-sm">
+          <h2 className="font-serif text-2xl font-semibold text-charcoal">
+            Product sales · 30 days
+          </h2>
+          <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            {sales.products.map((product) => (
+              <div
+                key={product.catalogue_product_id ?? product.handle ?? product.title}
+                className="rounded-xl border border-charcoal/10 bg-ivory/40 p-4"
+              >
+                <p className="font-semibold text-charcoal">{product.title}</p>
+                <p className="mt-2 text-sm text-charcoal/60">
+                  {product.units} units · {formatCurrency(product.gross_amount, "AUD")}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="rounded-2xl border border-charcoal/10 bg-white p-6 shadow-sm">

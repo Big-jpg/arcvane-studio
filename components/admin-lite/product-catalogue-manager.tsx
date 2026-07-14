@@ -9,6 +9,7 @@ import { getCatalogueReadiness, type CatalogueReadiness } from "@/lib/catalogue-
 import {
   ADAPTER_TYPES,
   PRODUCT_CATEGORIES,
+  PRODUCT_TIME_STATES,
   createProductIdSeed,
   slugifyProductHandle,
 } from "@/lib/product-options";
@@ -19,7 +20,14 @@ import {
   toneImageRequirement,
   type ToneImagePair,
 } from "@/lib/product-tone-images";
-import type { AdapterType, Product, ProductCategory } from "@/lib/types";
+import type {
+  AdapterType,
+  Product,
+  ProductCategory,
+  ProductLightingState,
+  ProductStatus,
+  ProductTimeState,
+} from "@/lib/types";
 
 type CatalogueSource = "shopify" | "database" | "mock";
 
@@ -42,7 +50,10 @@ type ProductFormState = {
   images: string;
   adapters: AdapterType[];
   inStock: boolean;
+  status: ProductStatus;
   designFamily: string;
+  timeState: ProductTimeState | "";
+  behaviourNote: string;
 };
 
 type ProductApiResponse = {
@@ -115,7 +126,10 @@ const emptyProductForm: ProductFormState = {
   images: "",
   adapters: [],
   inStock: true,
+  status: "draft",
   designFamily: "",
+  timeState: "",
+  behaviourNote: "",
 };
 
 function formatCurrency(amount: number, currency: string): string {
@@ -151,7 +165,10 @@ function productToForm(product: EditableProduct): ProductFormState {
     images: commaJoin(product.images),
     adapters: product.adapters,
     inStock: product.inStock,
+    status: product.status ?? (product.inStock ? "active" : "draft"),
     designFamily: product.designFamily ?? "",
+    timeState: product.timeState ?? "",
+    behaviourNote: product.behaviourNote ?? "",
   };
 }
 
@@ -175,10 +192,6 @@ function sourceLabel(source: CatalogueSource): string {
   if (source === "database") return "Neon catalogue";
   if (source === "shopify") return "Shopify override";
   return "mock fallback";
-}
-
-function removeImage(imagesCsv: string, image: string): string {
-  return commaJoin(commaSplit(imagesCsv).filter((candidate) => candidate !== image));
 }
 
 function toneImagePairsForForm(form: ProductFormState): ToneImagePair[] {
@@ -333,7 +346,7 @@ export function ProductCatalogueManager({
     stepIsComplete("identity", form) &&
     stepIsComplete("commerce", form) &&
     stepIsComplete("object", form) &&
-    (!form.inStock || readiness.publishReady);
+    (form.status !== "active" || readiness.publishReady);
 
   function resetForm() {
     setForm(emptyProductForm);
@@ -406,7 +419,7 @@ export function ProductCatalogueManager({
 
     if (!canSaveProduct) {
       setMessage(
-        `Complete the required product fields before saving. In-stock products must be publish-ready: ${readiness.issues.join(" ") || "no readiness issues found"}`,
+        `Complete the required product fields before saving. Active products must be publish-ready: ${readiness.issues.join(" ") || "no readiness issues found"}`,
       );
       return;
     }
@@ -431,7 +444,10 @@ export function ProductCatalogueManager({
               images: commaSplit(form.images),
               adapters: form.adapters,
               inStock: form.inStock,
+              status: form.status,
               designFamily: form.designFamily || null,
+              timeState: form.timeState || null,
+              behaviourNote: form.behaviourNote || null,
             }),
           }),
         );
@@ -459,7 +475,11 @@ export function ProductCatalogueManager({
       return;
     }
 
-    if (!confirm(`Delete ${product.title}? This cannot be undone.`)) {
+    if (
+      !confirm(
+        `Archive ${product.title}? Existing order snapshots and media files will be preserved.`,
+      )
+    ) {
       return;
     }
 
@@ -470,7 +490,7 @@ export function ProductCatalogueManager({
             method: "DELETE",
           }),
         );
-        setMessage("Product deleted.");
+        setMessage("Product archived.");
         if (form.id === product.id) resetForm();
         router.refresh();
       } catch (error) {
@@ -504,7 +524,7 @@ export function ProductCatalogueManager({
     });
   }
 
-  function uploadImage(file: File | null) {
+  function uploadImage(file: File | null, finish: string, lightingState: ProductLightingState) {
     setMessage(null);
 
     if (!file) return;
@@ -523,6 +543,9 @@ export function ProductCatalogueManager({
 
     const body = new FormData();
     body.set("file", file);
+    body.set("finish", finish);
+    body.set("lightingState", lightingState);
+    body.set("altText", `${form.title} in ${finish}, ${lightingState}`);
 
     startTransition(async () => {
       try {
@@ -557,6 +580,26 @@ export function ProductCatalogueManager({
         router.refresh();
       } catch (error) {
         setMessage(error instanceof Error ? error.message : "Image upload failed.");
+      }
+    });
+  }
+
+  function removeMedia(image: string) {
+    setMessage(null);
+    startTransition(async () => {
+      try {
+        const payload = await parseJsonResponse<ImageUploadApiResponse>(
+          await fetch(`/api/admin/products/${encodeURIComponent(form.id)}/image`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ url: image }),
+          }),
+        );
+        if (payload.product) setForm(productToForm(payload.product));
+        setMessage("Image archived. The Blob file remains available to historical orders.");
+        router.refresh();
+      } catch (error) {
+        setMessage(error instanceof Error ? error.message : "Image archive failed.");
       }
     });
   }
@@ -856,6 +899,29 @@ export function ProductCatalogueManager({
                   </label>
                 </div>
 
+                <label className="block text-sm font-semibold text-charcoal">
+                  Publishing status
+                  <select
+                    value={form.status}
+                    onChange={(event) =>
+                      setForm((current) => ({
+                        ...current,
+                        status: event.target.value as ProductStatus,
+                      }))
+                    }
+                    disabled={!databaseAvailable || isPending}
+                    className="mt-1 min-h-11 w-full rounded-lg border border-charcoal/15 bg-white px-3 text-sm font-normal text-charcoal outline-none transition focus:border-amber disabled:opacity-60"
+                  >
+                    <option value="draft">Draft — admin only</option>
+                    <option value="active">Active — public catalogue</option>
+                    <option value="archived">Archived — retained, not public</option>
+                  </select>
+                  <span className="mt-1 block text-xs font-normal text-charcoal/50">
+                    Publishing and inventory are separate. Active products must pass every readiness
+                    check.
+                  </span>
+                </label>
+
                 <label className="flex items-center justify-between rounded-xl border border-charcoal/10 px-3 py-3 text-sm font-semibold text-charcoal">
                   In stock
                   <input
@@ -943,6 +1009,41 @@ export function ProductCatalogueManager({
 
             {currentStep.id === "system" ? (
               <div className="grid gap-4">
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <label className="block text-sm font-semibold text-charcoal">
+                    Best light state
+                    <select
+                      value={form.timeState}
+                      onChange={(event) =>
+                        setForm((current) => ({
+                          ...current,
+                          timeState: event.target.value as ProductTimeState | "",
+                        }))
+                      }
+                      disabled={!databaseAvailable || isPending}
+                      className="mt-1 min-h-11 w-full rounded-lg border border-charcoal/15 bg-white px-3 text-sm font-normal text-charcoal outline-none transition focus:border-amber disabled:opacity-60"
+                    >
+                      <option value="">Not specified</option>
+                      {PRODUCT_TIME_STATES.map((state) => (
+                        <option key={state} value={state}>
+                          {state}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className="block text-sm font-semibold text-charcoal">
+                    Light behaviour note
+                    <input
+                      value={form.behaviourNote}
+                      onChange={(event) =>
+                        setForm((current) => ({ ...current, behaviourNote: event.target.value }))
+                      }
+                      disabled={!databaseAvailable || isPending}
+                      className="mt-1 min-h-11 w-full rounded-lg border border-charcoal/15 bg-white px-3 text-sm font-normal text-charcoal outline-none transition focus:border-amber disabled:opacity-60"
+                      placeholder="How the material shapes or softens light"
+                    />
+                  </label>
+                </div>
                 <fieldset className="rounded-xl border border-charcoal/10 p-3">
                   <legend className="px-1 text-sm font-semibold text-charcoal">Adapters</legend>
                   <div className="grid gap-2 sm:grid-cols-2">
@@ -983,15 +1084,7 @@ export function ProductCatalogueManager({
                 imagePairsComplete={imagePairsComplete}
                 databaseAvailable={databaseAvailable}
                 isPending={isPending}
-                onImageValueChange={(value) =>
-                  setForm((current) => ({ ...current, images: value }))
-                }
-                onRemoveImage={(image) =>
-                  setForm((current) => ({
-                    ...current,
-                    images: removeImage(current.images, image),
-                  }))
-                }
+                onRemoveImage={removeMedia}
                 onUploadImage={uploadImage}
               />
             ) : null}
@@ -1213,7 +1306,6 @@ function ProductImagePairsEditor({
   imagePairsComplete,
   databaseAvailable,
   isPending,
-  onImageValueChange,
   onRemoveImage,
   onUploadImage,
 }: {
@@ -1226,40 +1318,75 @@ function ProductImagePairsEditor({
   imagePairsComplete: boolean;
   databaseAvailable: boolean;
   isPending: boolean;
-  onImageValueChange: (value: string) => void;
   onRemoveImage: (image: string) => void;
-  onUploadImage: (file: File | null) => void;
+  onUploadImage: (file: File | null, finish: string, lightingState: ProductLightingState) => void;
 }) {
+  const [uploadFinish, setUploadFinish] = useState("");
+  const [uploadLightingState, setUploadLightingState] = useState<ProductLightingState>("unlit");
+  const selectedFinish = tones.includes(uploadFinish) ? uploadFinish : (tones[0] ?? "");
+
   return (
     <div className="grid gap-3">
       <label className="block text-sm font-semibold text-charcoal">
-        Image paths / URLs
+        Normalized media URLs
         <textarea
           value={imageValue}
-          onChange={(event) => onImageValueChange(event.target.value)}
-          disabled={!databaseAvailable || isPending}
+          readOnly
+          disabled={!databaseAvailable}
           className="mt-1 min-h-24 w-full rounded-lg border border-charcoal/15 bg-white px-3 py-2 text-sm font-normal text-charcoal outline-none transition focus:border-amber disabled:opacity-60"
-          placeholder="Tone 1 no-light image, Tone 1 illuminated image, Tone 2 no-light image, Tone 2 illuminated image"
-          required
+          placeholder="Upload media below; URLs are managed by Catalogue V2."
         />
         <span className="mt-1 block text-xs font-normal leading-5 text-charcoal/45">
-          Images are paired by finish tone. Current requirement: {imageRequirement} image
+          Media is stored as explicit finish/state records. Current requirement: {imageRequirement}{" "}
+          image
           {imageRequirement === 1 ? "" : "s"} for {tones.length} tone
           {tones.length === 1 ? "" : "s"}.
         </span>
       </label>
 
       <div className="rounded-xl border border-charcoal/10 bg-ivory/40 p-3">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div className="grid gap-2 sm:grid-cols-[1fr_1fr_auto] sm:items-end">
+          <label className="text-xs font-semibold text-charcoal">
+            Finish
+            <select
+              value={selectedFinish}
+              onChange={(event) => setUploadFinish(event.target.value)}
+              disabled={tones.length === 0 || isPending}
+              className="mt-1 min-h-9 w-full rounded-lg border border-charcoal/15 bg-white px-2 text-xs font-normal"
+            >
+              {tones.map((tone) => (
+                <option key={tone} value={tone}>
+                  {tone}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="text-xs font-semibold text-charcoal">
+            Lighting state
+            <select
+              value={uploadLightingState}
+              onChange={(event) =>
+                setUploadLightingState(event.target.value as ProductLightingState)
+              }
+              disabled={isPending}
+              className="mt-1 min-h-9 w-full rounded-lg border border-charcoal/15 bg-white px-2 text-xs font-normal"
+            >
+              <option value="unlit">No light</option>
+              <option value="illuminated">Illuminated</option>
+            </select>
+          </label>
           <p className="text-sm font-semibold text-charcoal">Image management</p>
           <label className="rounded-full border border-charcoal/15 px-3 py-1.5 text-xs font-semibold text-charcoal transition hover:border-amber">
-            Upload image
+            Upload / replace
             <input
               type="file"
               accept="image/png,image/jpeg,image/webp"
               className="sr-only"
-              disabled={!databaseAvailable || isPending || !formId}
-              onChange={(event) => onUploadImage(event.target.files?.[0] ?? null)}
+              disabled={!databaseAvailable || isPending || !formId || !selectedFinish}
+              onChange={(event) => {
+                onUploadImage(event.target.files?.[0] ?? null, selectedFinish, uploadLightingState);
+                event.currentTarget.value = "";
+              }}
             />
           </label>
         </div>

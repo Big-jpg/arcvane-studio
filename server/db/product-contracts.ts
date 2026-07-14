@@ -1,11 +1,24 @@
-// server/db/product-contracts.ts
-// ArcVane Studio — typed product catalogue database contract layer.
-// Application code calls stored procedures only; no inline table writes are performed here.
+// ArcVane Studio — Catalogue V2 typed database contracts.
 
-import type { AdapterType, Product, ProductCategory } from "@/lib/types";
+import type {
+  AdapterType,
+  Product,
+  ProductCategory,
+  ProductComponentScope,
+  ProductLightingState,
+  ProductMedia,
+  ProductMediaRole,
+  ProductMetadata,
+  ProductStatus,
+  ProductTimeState,
+  ProductVariant,
+} from "@/lib/types";
 import { queryOne, queryRows } from "./client";
 
 export interface AdminProductRecord extends Product {
+  status: ProductStatus;
+  variants: ProductVariant[];
+  media: ProductMedia[];
   createdAt: string;
   updatedAt: string;
 }
@@ -21,13 +34,50 @@ export interface UpsertAdminProductParams {
   material: string;
   dimensions: string;
   colours: string[];
-  images: string[];
+  images?: string[];
   adapters: AdapterType[];
   inStock: boolean;
   designFamily?: string | null;
+  status?: ProductStatus;
+  timeState?: ProductTimeState | null;
+  behaviourNote?: string | null;
+  componentScope?: ProductComponentScope | null;
+  metadata?: ProductMetadata | null;
 }
 
-interface AdminProductRow {
+type RawVariant = {
+  id: string;
+  product_id: string;
+  sku: string | null;
+  title: string;
+  finish: string;
+  price: string | number | null;
+  currency: string;
+  adapters: string[] | null;
+  in_stock: boolean;
+  inventory_quantity: number | null;
+  sort_order: number;
+};
+
+type RawMedia = {
+  id: string;
+  product_id: string;
+  variant_id: string | null;
+  blob_url: string;
+  blob_path: string | null;
+  alt_text: string;
+  role: ProductMediaRole;
+  lighting_state: ProductLightingState | null;
+  sort_order: number;
+  is_primary: boolean;
+  width: number | null;
+  height: number | null;
+  byte_size: string | number | null;
+  mime_type: string | null;
+  checksum_sha256: string | null;
+};
+
+type RawProduct = {
   id: string;
   handle: string;
   title: string;
@@ -37,76 +87,157 @@ interface AdminProductRow {
   description: string;
   material: string;
   dimensions: string;
-  colours: string[] | null;
-  images: string[] | null;
   adapters: string[] | null;
   in_stock: boolean;
   design_family: string | null;
+  status: ProductStatus;
+  time_state: ProductTimeState | null;
+  behaviour_note: string | null;
+  component_scope: ProductComponentScope | null;
+  metadata: ProductMetadata | null;
+  variants: RawVariant[] | null;
+  media: RawMedia[] | null;
   created_at: string;
   updated_at: string;
-}
+};
+
+export type AddProductMediaParams = {
+  productId: string;
+  variantId: string | null;
+  blobUrl: string;
+  blobPath: string | null;
+  altText: string;
+  role: ProductMediaRole;
+  lightingState: ProductLightingState | null;
+  sortOrder: number;
+  isPrimary: boolean;
+  width?: number | null;
+  height?: number | null;
+  byteSize?: number | null;
+  mimeType?: string | null;
+  checksumSha256?: string | null;
+};
 
 export function isProductDatabaseUnavailableError(error: unknown): boolean {
-  const code = typeof error === "object" && error !== null && "code" in error ? String(error.code) : null;
-  return code === "42P01" || code === "42883";
+  const code =
+    typeof error === "object" && error !== null && "code" in error ? String(error.code) : null;
+  return code === "42P01" || code === "42883" || code === "42703";
 }
 
-function toNumber(value: string | number): number {
-  return typeof value === "number" ? value : Number(value);
+function numberOrNull(value: string | number | null): number | null {
+  return value == null ? null : typeof value === "number" ? value : Number(value);
 }
 
-function mapAdminProduct(row: AdminProductRow): AdminProductRecord {
+function mapVariant(row: RawVariant): ProductVariant {
+  return {
+    id: row.id,
+    productId: row.product_id,
+    sku: row.sku,
+    title: row.title,
+    finish: row.finish,
+    price: numberOrNull(row.price),
+    currency: row.currency,
+    adapters: (row.adapters ?? []) as AdapterType[],
+    inStock: row.in_stock,
+    inventoryQuantity: row.inventory_quantity,
+    sortOrder: row.sort_order,
+  };
+}
+
+function mapMedia(row: RawMedia): ProductMedia {
+  return {
+    id: row.id,
+    productId: row.product_id,
+    variantId: row.variant_id,
+    blobUrl: row.blob_url,
+    blobPath: row.blob_path,
+    altText: row.alt_text,
+    role: row.role,
+    lightingState: row.lighting_state,
+    sortOrder: row.sort_order,
+    isPrimary: row.is_primary,
+    width: row.width,
+    height: row.height,
+    byteSize: numberOrNull(row.byte_size),
+    mimeType: row.mime_type,
+    checksumSha256: row.checksum_sha256,
+  };
+}
+
+function mapProduct(row: RawProduct): AdminProductRecord {
+  const variants = (row.variants ?? []).map(mapVariant);
+  const media = (row.media ?? []).map(mapMedia);
   return {
     id: row.id,
     handle: row.handle,
     title: row.title,
-    price: toNumber(row.price),
+    price: Number(row.price),
     currency: row.currency,
     category: row.category as ProductCategory,
     description: row.description,
+    timeState: row.time_state ?? undefined,
+    behaviourNote: row.behaviour_note ?? undefined,
     material: row.material,
     dimensions: row.dimensions,
-    colours: row.colours ?? [],
-    images: row.images ?? [],
+    colours: variants.map((variant) => variant.finish),
+    images: media.map((item) => item.blobUrl),
+    variants,
+    media,
     adapters: (row.adapters ?? []) as AdapterType[],
+    componentScope: row.component_scope,
     inStock: row.in_stock,
+    status: row.status,
     shopifyProductId: null,
     shopifyVariantId: null,
     designFamily: row.design_family,
     compatibleAdapters: row.adapters ?? [],
     productionNotes: null,
-    metadata: null,
+    metadata: row.metadata,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
 }
 
+async function productRows(includeNonActive: boolean): Promise<AdminProductRecord[]> {
+  const rows = await queryRows<{ product: RawProduct }>(
+    `SELECT list_catalogue_products_v2($1) AS product`,
+    [includeNonActive],
+  );
+  return rows.map((row) => mapProduct(row.product));
+}
+
 export async function listAdminProducts(): Promise<AdminProductRecord[]> {
-  const rows = await queryRows<AdminProductRow>(`SELECT * FROM list_admin_products()`);
-  return rows.map(mapAdminProduct);
+  return productRows(true);
+}
+
+export async function listPublicProducts(): Promise<AdminProductRecord[]> {
+  return productRows(false);
 }
 
 export async function getAdminProduct(id: string): Promise<AdminProductRecord | null> {
-  const row = await queryOne<AdminProductRow>(`SELECT * FROM get_admin_product($1)`, [id]);
-  return row ? mapAdminProduct(row) : null;
+  const row = await queryOne<{ product: RawProduct | null }>(
+    `SELECT get_catalogue_product_v2($1) AS product`,
+    [id],
+  );
+  return row?.product ? mapProduct(row.product) : null;
 }
 
 export async function getAdminProductByHandle(handle: string): Promise<AdminProductRecord | null> {
-  const row = await queryOne<AdminProductRow>(`SELECT * FROM get_admin_product_by_handle($1)`, [handle]);
-  return row ? mapAdminProduct(row) : null;
+  const row = await queryOne<{ product: RawProduct | null }>(
+    `SELECT get_catalogue_product_by_handle_v2($1) AS product`,
+    [handle],
+  );
+  return row?.product ? mapProduct(row.product) : null;
 }
 
 export async function upsertAdminProduct(
   params: UpsertAdminProductParams,
 ): Promise<AdminProductRecord | null> {
-  // Ensure arrays are never undefined/null — pg serializes [] as NULL which
-  // the stored procedure handles via COALESCE, but we normalise here defensively.
-  const colours = params.colours.length > 0 ? params.colours : [];
-  const images = params.images.length > 0 ? params.images : [];
-  const adapters = params.adapters.length > 0 ? params.adapters : [];
-
-  const row = await queryOne<AdminProductRow>(
-    `SELECT * FROM upsert_admin_product($1, $2, $3, $4, $5, $6, $7, $8, $9, $10::text[], $11::text[], $12::text[], $13, $14)`,
+  const row = await queryOne<{ product: RawProduct | null }>(
+    `SELECT upsert_catalogue_product_v2(
+      $1, $2, $3, $4, $5, $6, $7, $8, $9, $10::text[], $11::text[], $12,
+      $13, $14, $15, $16, $17::jsonb, $18::jsonb
+    ) AS product`,
     [
       params.id,
       params.handle,
@@ -117,44 +248,92 @@ export async function upsertAdminProduct(
       params.description,
       params.material,
       params.dimensions,
-      colours.length > 0 ? colours : null,
-      images.length > 0 ? images : null,
-      adapters.length > 0 ? adapters : null,
+      params.colours,
+      params.adapters,
       params.inStock,
       params.designFamily ?? null,
+      params.status ?? (params.inStock ? "active" : "draft"),
+      params.timeState ?? null,
+      params.behaviourNote ?? null,
+      JSON.stringify(params.componentScope ?? null),
+      JSON.stringify(params.metadata ?? {}),
     ],
   );
-
-  return row ? mapAdminProduct(row) : null;
+  return row?.product ? mapProduct(row.product) : null;
 }
 
+export async function addProductMedia(params: AddProductMediaParams): Promise<ProductMedia | null> {
+  const row = await queryOne<{ media: RawMedia | null }>(
+    `SELECT add_product_media(
+      $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14
+    ) AS media`,
+    [
+      params.productId,
+      params.variantId,
+      params.blobUrl,
+      params.blobPath,
+      params.altText,
+      params.role,
+      params.lightingState,
+      params.sortOrder,
+      params.isPrimary,
+      params.width ?? null,
+      params.height ?? null,
+      params.byteSize ?? null,
+      params.mimeType ?? null,
+      params.checksumSha256 ?? null,
+    ],
+  );
+  return row?.media ? mapMedia(row.media) : null;
+}
+
+export async function archiveProductMedia(mediaId: string): Promise<boolean> {
+  const row = await queryOne<{ archived: boolean }>(
+    `SELECT archive_product_media($1::uuid) AS archived`,
+    [mediaId],
+  );
+  return row?.archived ?? false;
+}
+
+// Compatibility wrappers retained while the admin routes migrate to explicit media records.
 export async function appendAdminProductImage(
   id: string,
   imageUrl: string,
 ): Promise<AdminProductRecord | null> {
-  const row = await queryOne<AdminProductRow>(
-    `SELECT * FROM append_admin_product_image($1, $2)`,
-    [id, imageUrl],
-  );
-
-  return row ? mapAdminProduct(row) : null;
+  const product = await getAdminProduct(id);
+  if (!product) return null;
+  await addProductMedia({
+    productId: id,
+    variantId: product.variants[0]?.id ?? null,
+    blobUrl: imageUrl,
+    blobPath: null,
+    altText: `${product.title} product image`,
+    role: product.media.length === 0 ? "hero" : "gallery",
+    lightingState: null,
+    sortOrder: (product.media.at(-1)?.sortOrder ?? 0) + 10,
+    isPrimary: product.media.length === 0,
+  });
+  return getAdminProduct(id);
 }
 
 export async function deleteAdminProduct(id: string): Promise<boolean> {
-  const row = await queryOne<{ delete_admin_product: boolean }>(
-    `SELECT delete_admin_product($1)`,
+  const row = await queryOne<{ archived: boolean }>(
+    `SELECT archive_catalogue_product($1) AS archived`,
     [id],
   );
-  return row?.delete_admin_product ?? false;
+  return row?.archived ?? false;
 }
 
 export async function toggleAdminProductStock(
   id: string,
   inStock: boolean,
 ): Promise<AdminProductRecord | null> {
-  const row = await queryOne<AdminProductRow>(`SELECT * FROM toggle_admin_product_stock($1, $2)`, [
-    id,
+  const product = await getAdminProduct(id);
+  if (!product) return null;
+  return upsertAdminProduct({
+    ...product,
+    colours: product.variants.map((variant) => variant.finish),
     inStock,
-  ]);
-  return row ? mapAdminProduct(row) : null;
+    status: product.status,
+  });
 }

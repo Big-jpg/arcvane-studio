@@ -88,6 +88,10 @@ function buildLineItemMetadata(
     line_item_index: String(index),
     product_id: metadataValue(item.productId),
     variant_id: metadataValue(item.variantId),
+    catalogue_product_id: metadataValue(item.productId),
+    catalogue_variant_id: metadataValue(item.variantId),
+    shopify_product_id: metadataValue(item.catalogueProduct.shopifyProductId),
+    shopify_variant_id: metadataValue(item.catalogueProduct.shopifyVariantId),
     handle: metadataValue(item.handle),
     selected_adapter: metadataValue(item.selectedAdapter),
     bulb_type_confirmed: metadataValue(item.bulbTypeConfirmed),
@@ -103,7 +107,7 @@ function buildLineItemMetadata(
 function buildSessionMetadata(items: VerifiedCartItem[]): Stripe.MetadataParam {
   return {
     source: "ArcVane_studio",
-    checkout_payload_version: "phase_6_v1",
+    checkout_payload_version: "catalogue_v2",
     item_count: String(items.length),
     selected_adapters: uniqueJoined(items.map((item) => item.selectedAdapter)),
     materials: uniqueJoined(items.map((item) => item.material)),

@@ -33,6 +33,11 @@ export interface OrderWithItems extends Order {
 
 export interface OrderItem {
   id: string;
+  catalogue_product_id: string | null;
+  catalogue_variant_id: string | null;
+  product_media_id: string | null;
+  product_handle: string | null;
+  sku: string | null;
   shopify_product_id: string | null;
   shopify_variant_id: string | null;
   title: string;
@@ -188,6 +193,11 @@ export async function createOrderFromStripeSession(
 
 export interface CreateOrderItemParams {
   order_id: string;
+  catalogue_product_id: string | null;
+  catalogue_variant_id: string | null;
+  product_media_id: string | null;
+  product_handle: string | null;
+  sku: string | null;
   shopify_product_id: string | null;
   shopify_variant_id: string | null;
   title: string;
@@ -212,10 +222,18 @@ export interface CreateOrderItemParams {
  *   production_queue_status, filament_material, filament_colour, print_profile
  */
 export async function createOrderItem(params: CreateOrderItemParams): Promise<string | null> {
-  const result = await queryOne<{ create_order_item: string }>(
-    `SELECT create_order_item($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`,
+  const result = await queryOne<{ create_order_item_v2: string }>(
+    `SELECT create_order_item_v2(
+      $1, $2, $3, $4::uuid, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14,
+      $15, $16, $17, $18, $19, $20, $21::jsonb
+    )`,
     [
       params.order_id,
+      params.catalogue_product_id,
+      params.catalogue_variant_id,
+      params.product_media_id,
+      params.product_handle,
+      params.sku,
       params.shopify_product_id,
       params.shopify_variant_id,
       params.title,
@@ -233,7 +251,49 @@ export async function createOrderItem(params: CreateOrderItemParams): Promise<st
       JSON.stringify(params.metadata ?? {}),
     ],
   );
-  return result?.create_order_item ?? null;
+  return result?.create_order_item_v2 ?? null;
+}
+
+export interface SalesProductSummary {
+  catalogue_product_id: string | null;
+  handle: string | null;
+  title: string;
+  image_url: string | null;
+  units: number;
+  gross_amount: number;
+}
+
+export interface SalesSummary {
+  order_count: number;
+  units_sold: number;
+  gross_amount: number;
+  refunded_amount: number;
+  net_amount: number;
+  average_order_value: number;
+  products: SalesProductSummary[];
+}
+
+export async function markOrderPaymentState(
+  paymentIntentId: string,
+  status: string,
+): Promise<boolean> {
+  const row = await queryOne<{ updated: boolean }>(
+    `SELECT mark_order_payment_state($1, $2) AS updated`,
+    [paymentIntentId, status],
+  );
+  return row?.updated ?? false;
+}
+
+export async function recordOrderRefund(
+  paymentIntentId: string,
+  amount: number,
+  fullyRefunded: boolean,
+): Promise<boolean> {
+  const row = await queryOne<{ updated: boolean }>(
+    `SELECT record_order_refund($1, $2, $3) AS updated`,
+    [paymentIntentId, amount, fullyRefunded],
+  );
+  return row?.updated ?? false;
 }
 
 // =============================================================================
@@ -421,6 +481,13 @@ export async function recordBuyerEvent(params: RecordBuyerEventParams): Promise<
  */
 export async function getAdminDashboardOverview(): Promise<AdminDashboardOverview | null> {
   return queryOne<AdminDashboardOverview>(`SELECT * FROM get_admin_dashboard_overview()`);
+}
+
+export async function getSalesSummary(): Promise<SalesSummary | null> {
+  const row = await queryOne<{ summary: SalesSummary | null }>(
+    `SELECT get_sales_summary() AS summary`,
+  );
+  return row?.summary ?? null;
 }
 
 /**

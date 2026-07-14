@@ -4,6 +4,8 @@
 import "server-only";
 
 import { getProducts } from "@/lib/catalogue";
+import { ACCESSORY_BULBS } from "@/lib/accessories";
+import { accessoryAsProduct, listAccessories } from "@/server/db/accessory-contracts";
 import { ADAPTER_OPTIONS } from "@/lib/product-options";
 import type { AdapterType, Product } from "@/lib/types";
 
@@ -86,18 +88,6 @@ function optionalString(value: unknown): string | null {
   return trimmed.length > 0 ? trimmed : null;
 }
 
-function optionalStringWithFallback(primary: unknown, fallback: unknown): string | null {
-  return optionalString(primary) ?? optionalString(fallback);
-}
-
-function normaliseMetadata(value: unknown): Record<string, unknown> {
-  if (!value || typeof value !== "object" || Array.isArray(value)) return {};
-
-  return Object.fromEntries(
-    Object.entries(value).filter(([key]) => typeof key === "string" && key.length > 0),
-  );
-}
-
 function emptyResult(errors: ValidationError[], statusCurrency = "AUD"): CartValidationResult {
   return {
     valid: false,
@@ -132,7 +122,11 @@ export async function validateCartForCheckout(
     });
   }
 
-  const catalogue = await getProducts();
+  const [products, accessories] = await Promise.all([
+    getProducts(),
+    listAccessories().catch(() => ACCESSORY_BULBS),
+  ]);
+  const catalogue = [...products, ...accessories.map(accessoryAsProduct)];
   const catalogueByHandle = new Map(catalogue.map((product) => [product.handle, product]));
 
   const verifiedItems: VerifiedCartItem[] = [];
@@ -197,7 +191,22 @@ export async function validateCartForCheckout(
       continue;
     }
 
-    if (!catalogueProduct.inStock) {
+    const requestedVariantId = optionalString(item.variantId);
+    const requestedFinish = optionalString(item.colour) ?? optionalString(item.variantTitle);
+    const catalogueVariant = catalogueProduct.variants?.find((variant) =>
+      requestedVariantId ? variant.id === requestedVariantId : variant.finish === requestedFinish,
+    );
+
+    if (catalogueProduct.variants?.length && !catalogueVariant) {
+      errors.push({
+        handle,
+        field: "variantId",
+        message: `Select a valid finish for "${catalogueProduct.title}".`,
+      });
+      continue;
+    }
+
+    if (!catalogueProduct.inStock || catalogueVariant?.inStock === false) {
       errors.push({
         handle,
         field: "inStock",
@@ -206,7 +215,7 @@ export async function validateCartForCheckout(
     }
 
     currency = catalogueProduct.currency;
-    const cataloguePrice = catalogueProduct.price;
+    const cataloguePrice = catalogueVariant?.price ?? catalogueProduct.price;
     const clientPrice = item.unitPrice;
 
     if (typeof clientPrice !== "number" || clientPrice < 0) {
@@ -228,13 +237,13 @@ export async function validateCartForCheckout(
     }
 
     if (
-      catalogueProduct.adapters.length > 0 &&
-      !catalogueProduct.adapters.includes(item.selectedAdapter)
+      (catalogueVariant?.adapters.length ?? catalogueProduct.adapters.length) > 0 &&
+      !(catalogueVariant?.adapters ?? catalogueProduct.adapters).includes(item.selectedAdapter)
     ) {
       errors.push({
         handle,
         field: "selectedAdapter",
-        message: `Adapter "${item.selectedAdapter}" is not compatible with this product. Compatible: ${catalogueProduct.adapters.join(", ")}.`,
+        message: `Adapter "${item.selectedAdapter}" is not compatible with this product. Compatible: ${(catalogueVariant?.adapters ?? catalogueProduct.adapters).join(", ")}.`,
       });
     }
 
@@ -243,13 +252,22 @@ export async function validateCartForCheckout(
     verifiedSubtotal += cataloguePrice * item.quantity;
     claimedSubtotal += (typeof clientPrice === "number" ? clientPrice : 0) * item.quantity;
 
+    const canonicalMedia =
+      catalogueProduct.media?.find(
+        (media) =>
+          media.variantId === catalogueVariant?.id && media.lightingState === "illuminated",
+      ) ??
+      catalogueProduct.media?.find((media) => media.variantId === catalogueVariant?.id) ??
+      catalogueProduct.media?.find((media) => media.isPrimary) ??
+      catalogueProduct.media?.[0];
+
     verifiedItems.push({
-      productId: optionalString(item.productId) ?? catalogueProduct.id,
-      variantId: optionalStringWithFallback(item.variantId, catalogueProduct.shopifyVariantId),
+      productId: catalogueProduct.id,
+      variantId: catalogueVariant?.id ?? catalogueProduct.shopifyVariantId ?? null,
       handle: item.handle,
-      title: optionalString(item.title) ?? catalogueProduct.title,
-      variantTitle: optionalString(item.variantTitle),
-      imageUrl: optionalString(item.imageUrl) ?? catalogueProduct.images[0] ?? null,
+      title: catalogueProduct.title,
+      variantTitle: catalogueVariant?.title ?? null,
+      imageUrl: canonicalMedia?.blobUrl ?? catalogueProduct.images[0] ?? null,
       unitPrice: cataloguePrice,
       unitAmount,
       totalAmount,
@@ -259,9 +277,13 @@ export async function validateCartForCheckout(
       bulbTypeConfirmed: input.ledAcknowledged === true || item.bulbTypeConfirmed === true,
       fixtureNotes,
       customisationNotes: optionalString(item.customisationNotes),
-      material: optionalString(item.material) ?? catalogueProduct.material,
-      colour: optionalString(item.colour),
-      metadata: normaliseMetadata(item.metadata),
+      material: catalogueProduct.material,
+      colour: catalogueVariant?.finish ?? requestedFinish,
+      metadata: {
+        ...(catalogueProduct.metadata ?? {}),
+        product_media_id: canonicalMedia?.id ?? null,
+        sku: catalogueVariant?.sku ?? null,
+      },
       catalogueProduct,
     });
   }

@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getProductByHandle } from "@/lib/catalogue";
 import { ProductDetail } from "@/components/product-detail";
+import { ACCESSORY_BULBS } from "@/lib/accessories";
+import { listAccessories } from "@/server/db/accessory-contracts";
 
 interface Props {
   params: Promise<{ handle: string }>;
@@ -47,8 +49,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProductPage({ params }: Props) {
   const { handle } = await params;
-  const product = await getProductByHandle(handle);
+  const [product, accessories] = await Promise.all([
+    getProductByHandle(handle),
+    listAccessories().catch(() => ACCESSORY_BULBS),
+  ]);
   if (!product) notFound();
 
-  return <ProductDetail product={product} />;
+  return <ProductDetail product={product} accessories={accessories} />;
 }

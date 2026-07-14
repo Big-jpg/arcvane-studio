@@ -4,6 +4,7 @@ export type AdapterType = "E27" | "B22" | "Other / not sure";
 
 export type ProductCategory =
   | "Lighting Objects"
+  | "Table Lamps"
   | "Shade Sets"
   | "Single Shades"
   | "Coastal Forms"
@@ -17,6 +18,42 @@ export type ProductTimeState =
   | "evening"
   | "dawn / midday"
   | "dusk / evening";
+
+export type ProductStatus = "draft" | "active" | "archived";
+export type ProductMediaRole = "hero" | "gallery" | "detail" | "lifestyle";
+export type ProductLightingState = "unlit" | "illuminated";
+
+export interface ProductVariant {
+  id: string;
+  productId: string;
+  sku: string | null;
+  title: string;
+  finish: string;
+  price: number | null;
+  currency: string;
+  adapters: AdapterType[];
+  inStock: boolean;
+  inventoryQuantity: number | null;
+  sortOrder: number;
+}
+
+export interface ProductMedia {
+  id: string;
+  productId: string;
+  variantId: string | null;
+  blobUrl: string;
+  blobPath: string | null;
+  altText: string;
+  role: ProductMediaRole;
+  lightingState: ProductLightingState | null;
+  sortOrder: number;
+  isPrimary: boolean;
+  width: number | null;
+  height: number | null;
+  byteSize: number | null;
+  mimeType: string | null;
+  checksumSha256: string | null;
+}
 
 /**
  * Future-ready metadata fields from the branding doc.
@@ -71,11 +108,16 @@ export interface Product {
   dimensions: string;
   colours: string[];
   images: string[];
+  /** Normalized purchasable finishes. colours is derived from these for legacy components. */
+  variants?: ProductVariant[];
+  /** Normalized media records. images is derived from these for legacy components. */
+  media?: ProductMedia[];
   /** Compatible adapter types for this product. E27 is the primary/default system. */
   adapters: AdapterType[];
   /** Explicit separation between ArcVane physical components and customer-supplied electrical components. */
   componentScope?: ProductComponentScope | null;
   inStock: boolean;
+  status?: ProductStatus;
 
   // --- Shopify-specific identifiers (preserved for downstream use) ---
 

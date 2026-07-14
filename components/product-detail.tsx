@@ -19,6 +19,7 @@ import { Toast } from "@/components/toast";
 import { ProductImage } from "@/components/product-image";
 import { ProductFulfilmentDetails } from "@/components/product-fulfilment-details";
 import { CompleteYourSetup } from "@/components/complete-your-setup";
+import type { AccessoryProduct } from "@/lib/accessories";
 
 function getPrimaryAdapter(product: Product): AdapterType {
   return product.adapters.includes("E27") ? "E27" : (product.adapters[0] ?? "E27");
@@ -107,7 +108,13 @@ function formatTimeState(timeState?: Product["timeState"]): string | null {
     .join(" / ");
 }
 
-export function ProductDetail({ product }: { product: Product }) {
+export function ProductDetail({
+  product,
+  accessories,
+}: {
+  product: Product;
+  accessories: AccessoryProduct[];
+}) {
   const [selectedColour, setSelectedColour] = useState<string>(product.colours[0] ?? "");
   const [selectedImageMode, setSelectedImageMode] = useState<ToneImageMode>("illuminated");
   const [toastVisible, setToastVisible] = useState(false);
@@ -121,6 +128,10 @@ export function ProductDetail({ product }: { product: Product }) {
   const selectedToneImages = useMemo(
     () => toneImagePairs.find((pair) => pair.tone === selectedColour) ?? toneImagePairs[0] ?? null,
     [selectedColour, toneImagePairs],
+  );
+  const selectedVariant = useMemo(
+    () => product.variants?.find((variant) => variant.finish === selectedColour) ?? null,
+    [product.variants, selectedColour],
   );
   const fallbackImage = product.images[0] ?? "";
   const selectedImage = toneImageForMode(selectedToneImages, selectedImageMode, fallbackImage);
@@ -153,12 +164,12 @@ export function ProductDetail({ product }: { product: Product }) {
 
     const item: CartItem = {
       productId: product.id,
-      variantId: product.shopifyVariantId ?? null,
+      variantId: selectedVariant?.id ?? product.shopifyVariantId ?? null,
       handle: product.handle,
       title: product.title,
       variantTitle: selectedColour,
       imageUrl: selectedImage,
-      unitPrice: product.price,
+      unitPrice: selectedVariant?.price ?? product.price,
       currency: product.currency,
       quantity: 1,
       selectedAdapter: primaryAdapter,
@@ -193,6 +204,7 @@ export function ProductDetail({ product }: { product: Product }) {
     primaryAdapter,
     product,
     selectedColour,
+    selectedVariant,
     selectedImage,
     sendBuyerEvent,
   ]);
@@ -365,7 +377,7 @@ export function ProductDetail({ product }: { product: Product }) {
       {product.category !== "Accessories" && product.adapters.includes("E27") && (
         <section className="bg-ts-bg pb-16">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <CompleteYourSetup />
+            <CompleteYourSetup accessories={accessories} />
           </div>
         </section>
       )}

@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PickupStatusControl } from "@/components/admin/status-controls";
+import { ProductImage } from "@/components/product-image";
 import { getOrderById } from "@/server/db/contracts";
 
 export const dynamic = "force-dynamic";
@@ -103,11 +104,25 @@ export default async function AdminOrderDetailPage({
                 className="rounded-2xl border border-charcoal/10 bg-ivory/40 p-5"
               >
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                  <div>
-                    <h4 className="text-lg font-semibold text-charcoal">{item.title}</h4>
-                    <p className="mt-1 text-sm text-charcoal/60">
-                      {item.variant_title ?? "Default variant"} · Qty {item.quantity}
-                    </p>
+                  <div className="flex min-w-0 gap-4">
+                    <div className="relative size-24 shrink-0 overflow-hidden rounded-xl border border-charcoal/10 bg-white">
+                      <ProductImage
+                        src={item.image_url}
+                        alt={`${item.title} order snapshot`}
+                        fill
+                        className="object-contain p-2"
+                        sizes="96px"
+                      />
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-semibold text-charcoal">{item.title}</h4>
+                      <p className="mt-1 text-sm text-charcoal/60">
+                        {item.variant_title ?? "Default variant"} · Qty {item.quantity}
+                      </p>
+                      {item.sku ? (
+                        <p className="mt-1 text-xs text-charcoal/45">SKU {item.sku}</p>
+                      ) : null}
+                    </div>
                   </div>
                   <p className="text-sm font-semibold text-charcoal">
                     {formatCurrency(item.total_amount, order.currency)}

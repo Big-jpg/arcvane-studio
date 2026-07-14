@@ -16,7 +16,7 @@ This README reflects the Phase 10 handoff state: testing, deployment preparation
 | Cart           | Client-side cart state with server-side checkout validation                             |
 | Checkout       | Stripe Checkout session creation through API route handlers                             |
 | Authentication | Auth.js / NextAuth v5 with protected admin allowlist                                    |
-| Database       | PostgreSQL through raw SQL and stored procedures; no ORM                                |
+| Database       | PostgreSQL through versioned SQL migrations and stored procedures; no ORM               |
 | Testing        | Playwright smoke tests for public storefront route and content coverage                 |
 | Deployment     | Vercel-compatible with explicit environment and production checklists                   |
 
@@ -43,7 +43,7 @@ ArcVane/
 | --------------------- | ---------------------- | --------------------------------------------------------------------------- |
 | Application framework | Next.js                | App Router, route handlers, dynamic metadata, sitemap and robots generation |
 | Language              | TypeScript             | TS/TSX across application and tests                                         |
-| UI                    | React and Tailwind CSS | Mobile-first storefront with existing ArcVane brand styling preserved     |
+| UI                    | React and Tailwind CSS | Mobile-first storefront with existing ArcVane brand styling preserved       |
 | Database              | PostgreSQL             | Raw SQL and stored procedures only                                          |
 | Catalogue             | Shopify Storefront API | Product data is fetched from Shopify when configured                        |
 | Payments              | Stripe Checkout        | Session creation occurs server-side after validation                        |
@@ -80,18 +80,19 @@ The complete template is maintained in `.env.example`. Production values must be
 
 ## Scripts
 
-| Command              | Purpose                                                  |
-| -------------------- | -------------------------------------------------------- |
-| `pnpm dev`           | Start the local Next.js development server.              |
-| `pnpm build`         | Create a production build.                               |
-| `pnpm start`         | Start the compiled production server.                    |
-| `pnpm lint`          | Run ESLint.                                              |
-| `pnpm format`        | Format the repository with Prettier.                     |
-| `pnpm format:check`  | Check formatting without writing changes.                |
-| `pnpm test:smoke`    | Run Playwright smoke tests.                              |
-| `pnpm db:migrate`    | Apply the initial SQL schema to `DATABASE_URL`.          |
-| `pnpm db:procedures` | Apply stored procedures and functions to `DATABASE_URL`. |
-| `pnpm db:setup`      | Run schema migration and stored-procedure installation.  |
+| Command              | Purpose                                                                        |
+| -------------------- | ------------------------------------------------------------------------------ |
+| `pnpm dev`           | Start the local Next.js development server.                                    |
+| `pnpm build`         | Create a production build.                                                     |
+| `pnpm start`         | Start the compiled production server.                                          |
+| `pnpm lint`          | Run ESLint.                                                                    |
+| `pnpm format`        | Format the repository with Prettier.                                           |
+| `pnpm format:check`  | Check formatting without writing changes.                                      |
+| `pnpm test:smoke`    | Run Playwright smoke tests.                                                    |
+| `pnpm db:migrate`    | Apply pending versioned migrations with a migration ledger.                    |
+| `pnpm db:procedures` | Apply stored procedures and functions to `DATABASE_URL`.                       |
+| `pnpm db:setup`      | Run schema migration and stored-procedure installation.                        |
+| `pnpm db:validate`   | Validate Catalogue V2 against `DATABASE_URL` inside a rolled-back transaction. |
 
 ## Smoke tests
 
@@ -124,7 +125,9 @@ pnpm db:migrate
 pnpm db:procedures
 ```
 
-For production, take a managed database backup or snapshot before running schema or procedure changes. Application rollback through Vercel does not automatically roll back database state.
+For production, take a managed database backup or snapshot before running schema or procedure changes. Application rollback through Vercel does not automatically roll back database state. `db:migrate` records applied files in `schema_migrations` and refuses to continue if an applied migration changes.
+
+Catalogue V2 stores finish variants in `product_variants` and image metadata in `product_media`. Image binaries belong in Vercel Blob; Neon stores immutable URLs, roles, finish/state assignments, accessibility text, dimensions, size, and checksums. Historical order items keep both nullable catalogue references and immutable product/image/price snapshots.
 
 ## Checkout and validation model
 
