@@ -37,6 +37,8 @@ export default defineConfig({
           NEXTAUTH_SECRET: "playwright-smoke-test-secret",
           NEXTAUTH_URL: baseURL,
           NEXT_PUBLIC_SITE_URL: baseURL,
+          CATALOGUE_SOURCE: "mock",
+          ENABLE_MOCK_CATALOGUE_FALLBACK: "true",
         },
       },
 });

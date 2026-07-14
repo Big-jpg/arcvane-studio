@@ -6,11 +6,7 @@ import { Plus, Check, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 import type { CartItem } from "@/lib/cart-types";
-import {
-  ACCESSORY_BULBS,
-  CORN_BULB_DIFFERENTIATORS,
-  type AccessoryProduct,
-} from "@/lib/accessories";
+import { CORN_BULB_DIFFERENTIATORS, type AccessoryProduct } from "@/lib/accessories";
 
 function AccessoryCard({
   accessory,
@@ -82,9 +78,7 @@ function AccessoryCard({
           disabled={added}
           className={cn(
             "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-all",
-            added
-              ? "bg-ts-accent/10 text-ts-accent"
-              : "bg-ts-text text-ts-bg hover:bg-ts-accent",
+            added ? "bg-ts-accent/10 text-ts-accent" : "bg-ts-text text-ts-bg hover:bg-ts-accent",
           )}
         >
           {added ? (
@@ -102,7 +96,7 @@ function AccessoryCard({
   );
 }
 
-export function CompleteYourSetup() {
+export function CompleteYourSetup({ accessories }: { accessories: AccessoryProduct[] }) {
   const { addItem } = useCart();
   const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
 
@@ -138,9 +132,7 @@ export function CompleteYourSetup() {
       <div className="flex items-start gap-3">
         <Zap className="mt-0.5 h-5 w-5 shrink-0 text-ts-accent" />
         <div>
-          <h2 className="text-lg font-semibold tracking-tight text-ts-text">
-            Complete your setup
-          </h2>
+          <h2 className="text-lg font-semibold tracking-tight text-ts-text">Complete your setup</h2>
           <p className="mt-1 text-sm text-ts-muted">
             E27 corn bulbs designed for even diffusion through patterned shades. Sold at cost.
           </p>
@@ -149,7 +141,7 @@ export function CompleteYourSetup() {
 
       {/* Bulb cards */}
       <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {ACCESSORY_BULBS.map((bulb) => (
+        {accessories.map((bulb) => (
           <AccessoryCard
             key={bulb.id}
             accessory={bulb}

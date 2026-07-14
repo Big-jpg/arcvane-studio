@@ -1,6 +1,6 @@
 import { products as mockProducts } from "@/lib/mock-products";
 import type { Product } from "@/lib/types";
-import { listAdminProducts } from "@/server/db/product-contracts";
+import { listAdminProducts, listPublicProducts } from "@/server/db/product-contracts";
 
 export type CatalogueSource = "database" | "shopify" | "mock";
 
@@ -63,7 +63,7 @@ async function loadDatabaseProducts(): Promise<DatabaseProductState> {
   try {
     return {
       available: true,
-      products: await listAdminProducts(),
+      products: await listPublicProducts(),
     };
   } catch {
     return {
@@ -223,6 +223,9 @@ export async function getCatalogueState(): Promise<CatalogueState> {
 }
 
 export async function getAdminCatalogueProducts(): Promise<Product[]> {
-  const database = await loadDatabaseProducts();
-  return database.available ? database.products : mockProducts;
+  try {
+    return await listAdminProducts();
+  } catch {
+    return mockProducts;
+  }
 }

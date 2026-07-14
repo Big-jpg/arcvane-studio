@@ -6,7 +6,9 @@ import Stripe from "stripe";
 import {
   createOrderFromStripeSession,
   createOrderItem,
+  markOrderPaymentState,
   markStripeEventProcessed,
+  recordOrderRefund,
   recordStripeEvent,
 } from "@/server/db/contracts";
 import { onOrderCreated, onPaymentConfirmed } from "@/server/hooks/buyer-events";
@@ -130,6 +132,7 @@ async function persistCheckoutSessionOrder(session: Stripe.Checkout.Session): Pr
 
   for (const [index, lineItem] of lineItems.data.entries()) {
     const metadata = productMetadataFromLineItem(lineItem);
+    const itemMetadata = parseMetadataJson(metadata, "item_metadata");
     const selectedAdapter = metadataString(metadata, "selected_adapter");
 
     if (!selectedAdapter) {
@@ -140,8 +143,14 @@ async function persistCheckoutSessionOrder(session: Stripe.Checkout.Session): Pr
 
     await createOrderItem({
       order_id: order.id,
-      shopify_product_id: metadataString(metadata, "product_id"),
-      shopify_variant_id: metadataString(metadata, "variant_id"),
+      catalogue_product_id: metadataString(metadata, "catalogue_product_id"),
+      catalogue_variant_id: metadataString(metadata, "catalogue_variant_id"),
+      product_media_id:
+        typeof itemMetadata.product_media_id === "string" ? itemMetadata.product_media_id : null,
+      product_handle: metadataString(metadata, "handle"),
+      sku: typeof itemMetadata.sku === "string" ? itemMetadata.sku : null,
+      shopify_product_id: metadataString(metadata, "shopify_product_id"),
+      shopify_variant_id: metadataString(metadata, "shopify_variant_id"),
       title: lineItemTitle(lineItem),
       variant_title: null,
       quantity: lineItem.quantity ?? 1,
@@ -155,7 +164,7 @@ async function persistCheckoutSessionOrder(session: Stripe.Checkout.Session): Pr
       material: metadataString(metadata, "material"),
       colour: metadataString(metadata, "colour"),
       metadata: {
-        ...parseMetadataJson(metadata, "item_metadata"),
+        ...itemMetadata,
         stripe_line_item_id: lineItem.id,
         stripe_price_id: lineItem.price?.id ?? null,
         stripe_product_id:
@@ -232,13 +241,30 @@ export async function POST(request: NextRequest): Promise<NextResponse<WebhookRe
     return NextResponse.json({ received: true, duplicate: true, processed: true });
   }
 
-  if (event.type !== "checkout.session.completed") {
-    await markStripeEventProcessed(event.id);
-    return NextResponse.json({ received: true, ignored: true, processed: true });
-  }
-
   try {
-    await persistCheckoutSessionOrder(event.data.object as Stripe.Checkout.Session);
+    if (
+      event.type === "checkout.session.completed" ||
+      event.type === "checkout.session.async_payment_succeeded"
+    ) {
+      const session = event.data.object as Stripe.Checkout.Session;
+      await persistCheckoutSessionOrder(session);
+      const paymentIntentId = stripeObjectId(session.payment_intent);
+      if (paymentIntentId && session.payment_status === "paid")
+        await markOrderPaymentState(paymentIntentId, "paid");
+    } else if (event.type === "checkout.session.async_payment_failed") {
+      const session = event.data.object as Stripe.Checkout.Session;
+      const paymentIntentId = stripeObjectId(session.payment_intent);
+      if (paymentIntentId) await markOrderPaymentState(paymentIntentId, "payment_failed");
+    } else if (event.type === "charge.refunded") {
+      const charge = event.data.object as Stripe.Charge;
+      const paymentIntentId = stripeObjectId(charge.payment_intent);
+      if (paymentIntentId) {
+        await recordOrderRefund(paymentIntentId, charge.amount_refunded, charge.refunded);
+      }
+    } else {
+      await markStripeEventProcessed(event.id);
+      return NextResponse.json({ received: true, ignored: true, processed: true });
+    }
     await markStripeEventProcessed(event.id);
   } catch (error) {
     return NextResponse.json(

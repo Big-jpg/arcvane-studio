@@ -39,21 +39,29 @@ test.describe("ArcVane public smoke coverage", () => {
       page.getByRole("heading", { name: "Light, shaped for the room it enters." }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: /A lighting system, not a single object/i }),
+      page.getByRole("heading", { name: /Shades selected by light behaviour/i }),
     ).toBeVisible();
-    await expect(page.getByRole("link", { name: /Explore the light/i })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Follow the light", exact: true })).toBeVisible();
 
     await page.locator("#chapter-dawn").scrollIntoViewIfNeeded();
-    await expect.poll(() => page.evaluate(() => document.documentElement.dataset.time)).toBe("dawn");
+    await expect
+      .poll(() => page.evaluate(() => document.documentElement.dataset.time))
+      .toBe("dawn");
 
     await page.locator("#chapter-midday").scrollIntoViewIfNeeded();
-    await expect.poll(() => page.evaluate(() => document.documentElement.dataset.time)).toBe("midday");
+    await expect
+      .poll(() => page.evaluate(() => document.documentElement.dataset.time))
+      .toBe("midday");
 
     await page.locator("#chapter-dusk").scrollIntoViewIfNeeded();
-    await expect.poll(() => page.evaluate(() => document.documentElement.dataset.time)).toBe("dusk");
+    await expect
+      .poll(() => page.evaluate(() => document.documentElement.dataset.time))
+      .toBe("dusk");
 
     await page.locator("#chapter-evening").scrollIntoViewIfNeeded();
-    await expect.poll(() => page.evaluate(() => document.documentElement.dataset.time)).toBe("evening");
+    await expect
+      .poll(() => page.evaluate(() => document.documentElement.dataset.time))
+      .toBe("evening");
   });
 
   test("mobile chapters prioritize imagery and concise copy", async ({ page }) => {
@@ -63,9 +71,7 @@ test.describe("ArcVane public smoke coverage", () => {
     const dawnChapter = page.locator("#chapter-dawn");
 
     await expect(
-      dawnChapter
-        .getByText("Softens first light into a quiet, structured glow.")
-        .filter({ visible: true }),
+      dawnChapter.getByText("Softens first light into quiet structure.").filter({ visible: true }),
     ).toHaveCount(1);
     await expect(
       dawnChapter
@@ -76,9 +82,7 @@ test.describe("ArcVane public smoke coverage", () => {
       dawnChapter.getByText(/Bedrooms · reading corners/i).filter({ visible: true }),
     ).toHaveCount(1);
     await expect(
-      dawnChapter
-        .getByRole("img", { name: /Dawn ArcVane shade study/i })
-        .filter({ visible: true }),
+      dawnChapter.getByRole("img", { name: /Dawn ArcVane shade study/i }).filter({ visible: true }),
     ).toHaveCount(1);
   });
 
@@ -87,27 +91,20 @@ test.describe("ArcVane public smoke coverage", () => {
     await page.goto("/products");
 
     await expect(
-      page.getByText("Shades, diffusers, and stands designed for changing domestic light."),
+      page.getByRole("heading", { name: "Objects for shaping domestic light." }),
     ).toBeVisible();
-    await expect(page.getByText("Modular forms")).toBeVisible();
-    await expect(page.getByText("Material-led")).toBeVisible();
-    await expect(page.getByText("Small-run")).toBeVisible();
-    await expect(
-      page.getByText(/A decorative component system, not a complete electrical lamp/i),
-    ).toBeHidden();
+    await expect(page.getByRole("link", { name: "All objects" })).toBeVisible();
+    await expect(page.getByText(/Lighting objects, diffusers, and shade systems/i)).toBeVisible();
   });
 
-  test("reduced motion keeps homepage assembly visible without sequential reveal", async ({ page }) => {
+  test("reduced motion keeps the homepage hero visible", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/");
 
     await expect(
-      page.getByRole("img", { name: /Scroll-led drawing of the ArcVane tripod stand/i }),
+      page.getByRole("img", { name: /ArcVane modular shade in a quiet domestic light field/i }),
     ).toBeVisible();
-    await expect
-      .poll(() => page.locator('svg[aria-label^="Scroll-led drawing"] .opacity-0').count())
-      .toBe(0);
   });
 
   test("collection page loads product cards with time-state labels", async ({ page }) => {
@@ -123,14 +120,17 @@ test.describe("ArcVane public smoke coverage", () => {
     await expect(page.getByText(/Dusk \/ Evening/i).first()).toBeVisible();
   });
 
-  test("product detail page loads finish selector, object details, and cart action", async ({ page }) => {
+  test("product detail page loads finish selector, object details, and cart action", async ({
+    page,
+  }) => {
     await page.goto("/products/shell-fan");
 
     await expect(page.getByRole("heading", { name: "Shell Fan" })).toBeVisible();
     await expect(page.getByText(/Best in Dawn \/ Midday/i)).toBeVisible();
     await expect(page.getByText("Material finish", { exact: true })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Object details" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "In the box and setup" })).toBeVisible();
     await expect(page.getByRole("button", { name: /Add to selection/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Complete your setup/i })).toBeVisible();
   });
 
   test("materials page loads the swatch grid", async ({ page }) => {
@@ -164,7 +164,7 @@ test.describe("ArcVane public smoke coverage", () => {
         name: /Made slowly, packed simply, released in small runs/i,
       }),
     ).toBeVisible();
-    await expect(page.getByText(/No offshore catalogue\. No sprawling options matrix/i)).toBeVisible();
+    await expect(page.getByText(/Print, finish, check, pack, dispatch/i)).toBeVisible();
   });
 
   test("about page loads", async ({ page }) => {
@@ -176,8 +176,32 @@ test.describe("ArcVane public smoke coverage", () => {
       }),
     ).toBeVisible();
     await expect(
-      page.getByText(/ArcVane makes compact lighting pieces shaped by shell/i),
+      page.getByText(/ArcVane makes compact decorative lighting pieces shaped by shell/i),
     ).toBeVisible();
+  });
+
+  test("database-backed bulb accessories pass server cart validation", async ({ request }) => {
+    const response = await request.post("/api/cart/validate", {
+      data: {
+        ledAcknowledged: true,
+        items: [
+          {
+            productId: "tampered-client-id",
+            handle: "led-corn-bulb-e27-2700k",
+            title: "Tampered title",
+            imageUrl: "https://example.invalid/tampered.jpg",
+            unitPrice: 9,
+            currency: "AUD",
+            quantity: 1,
+            selectedAdapter: "E27",
+            bulbTypeConfirmed: true,
+            colour: "Warm White",
+          },
+        ],
+      },
+    });
+    expect(response.ok()).toBe(true);
+    await expect(response.json()).resolves.toMatchObject({ valid: true, verifiedSubtotal: 9 });
   });
 
   test("contact page loads", async ({ page }) => {
@@ -201,16 +225,22 @@ test.describe("ArcVane public smoke coverage", () => {
     await page.goto("/cart");
 
     await expect(page.getByRole("heading", { name: "Your Selection", exact: true })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Your selection is empty", exact: true })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Your selection is empty", exact: true }),
+    ).toBeVisible();
   });
 
   test("admin-lite routes do not inherit the storefront data-time attribute", async ({ page }) => {
     await page.goto("/admin-lite");
 
-    await expect.poll(() => page.evaluate(() => document.documentElement.dataset.time ?? null)).toBeNull();
+    await expect
+      .poll(() => page.evaluate(() => document.documentElement.dataset.time ?? null))
+      .toBeNull();
   });
 
-  test("sitemap uses the canonical process route and omits demoted public routes", async ({ request }) => {
+  test("sitemap uses the canonical process route and omits demoted public routes", async ({
+    request,
+  }) => {
     const response = await request.get("/sitemap.xml");
     expect(response.ok()).toBe(true);
 

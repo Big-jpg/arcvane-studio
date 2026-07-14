@@ -5,8 +5,13 @@ import { randomUUID } from "node:crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { checkAdminAuth } from "@/lib/admin-auth";
 import { getCatalogueReadiness, isProductCategory } from "@/lib/catalogue-readiness";
-import { ADAPTER_TYPES, PRODUCT_CATEGORIES, slugifyProductHandle } from "@/lib/product-options";
-import type { AdapterType } from "@/lib/types";
+import {
+  ADAPTER_TYPES,
+  PRODUCT_CATEGORIES,
+  PRODUCT_TIME_STATES,
+  slugifyProductHandle,
+} from "@/lib/product-options";
+import type { AdapterType, ProductStatus, ProductTimeState } from "@/lib/types";
 import {
   isProductDatabaseUnavailableError,
   listAdminProducts,
@@ -185,6 +190,16 @@ export async function POST(request: NextRequest): Promise<NextResponse<ProductsR
   const adapters = validateAdapters(stringArrayField(record, "adapters"));
   const inStock = booleanField(record, "inStock") ?? true;
   const designFamily = optionalStringField(record, "designFamily");
+  const requestedStatus = optionalStringField(record, "status") ?? "draft";
+  const status: ProductStatus | null = ["draft", "active", "archived"].includes(requestedStatus)
+    ? (requestedStatus as ProductStatus)
+    : null;
+  const requestedTimeState = optionalStringField(record, "timeState");
+  const timeState: ProductTimeState | null =
+    requestedTimeState && PRODUCT_TIME_STATES.includes(requestedTimeState as ProductTimeState)
+      ? (requestedTimeState as ProductTimeState)
+      : null;
+  const behaviourNote = optionalStringField(record, "behaviourNote");
 
   if (!title) {
     return NextResponse.json({ ok: false, error: "Product title is required." }, { status: 422 });
@@ -215,7 +230,21 @@ export async function POST(request: NextRequest): Promise<NextResponse<ProductsR
     );
   }
 
-  if (inStock) {
+  if (!status) {
+    return NextResponse.json(
+      { ok: false, error: "Product status must be draft, active, or archived." },
+      { status: 422 },
+    );
+  }
+
+  if (requestedTimeState && !timeState) {
+    return NextResponse.json(
+      { ok: false, error: `Time state must be one of: ${PRODUCT_TIME_STATES.join(", ")}.` },
+      { status: 422 },
+    );
+  }
+
+  if (status === "active") {
     const readiness = getCatalogueReadiness({
       title,
       handle,
@@ -253,6 +282,9 @@ export async function POST(request: NextRequest): Promise<NextResponse<ProductsR
       adapters,
       inStock,
       designFamily,
+      status,
+      timeState,
+      behaviourNote,
     });
 
     if (!product) {
